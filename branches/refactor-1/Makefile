@@ -9,7 +9,7 @@ com_obj = problem_basic.o residual_norm.o boundary.o $(inter_obj)
 sor_l_obj = successive_overrelaxation.o laplace.o $(com_obj)
 gs_l_obj = gauss_seidel.o laplace.o $(com_obj)
 gs_sho_obj = gauss_seidel.o simple_harmonic_oscillator.o interface_sho.o \
- $(com_obj)
+ solution_norm.o $(com_obj)
 dir_algorithm = ./algorithm/
 dir_problem = ./problem/
 dir_interface = ./interface/
@@ -57,6 +57,9 @@ gauss_seidel.o: gauss_seidel.cpp gauss_seidel.h goal.h problem.h
 	g++ -c $(CPPFLAGS) $< -o $@
 
 residual_norm.o: residual_norm.cpp residual_norm.h goal.h problem.h
+	g++ -c $(CPPFLAGS) $< -o $@
+
+solution_norm.o: solution_norm.cpp solution_norm.h goal.h problem.h
 	g++ -c $(CPPFLAGS) $< -o $@
 
 boundary.o : boundary.cpp boundary.h
