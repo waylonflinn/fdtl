@@ -21,11 +21,11 @@ simple_harmonic_oscillator::simple_harmonic_oscillator(
     meig(ssx*eigenvalue)
         
 {
-  double norm_av = -1/(2.0*(x.second-x.first)+2.0*(x.second-x.first));
+  double norm_av = 1/((x.second-x.first)*(y.second-y.first));
 
-  vector<double> neg(gy-1, norm_av);
-  vector<double> pos(gy-1, -norm_av);
+  //vector<double> neg(gy-1, -norm_av);
+  vector<double> pos(gy-1, norm_av);
 
-  sol = vector< vector<double> >(((*this).gx - 1)/2, neg);
-  sol.insert(sol.end(), gx/2, pos);
+  sol = vector< vector<double> >((*this).gx - 1, pos);
+  //sol.insert(sol.end(), gx/2, pos);
 }

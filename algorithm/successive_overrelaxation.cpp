@@ -19,6 +19,7 @@ int successive_overrelaxation::solve (problem& prob, goal& g)
   int is = 1, os = 1;	// inner and outer starting point trackers
 
   while(!g(prob) && (count < (*this).cutoff)){
+    ++count;
     for(oe = 0; oe < 2; ++oe){	// odd and even passes
       for(i = 1; i < I; i++){
 	is = os;
@@ -38,7 +39,6 @@ int successive_overrelaxation::solve (problem& prob, goal& g)
 	       1.0/(1.0 - 0.5*rad*rad) :
 	       1.0/(1.0 - 0.25*rad*rad*param));
     }
-    ++count;
   }
   return count;
 }
