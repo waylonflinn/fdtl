@@ -7,6 +7,7 @@
 #ifndef PDE_PROBLEM_BASIC
 #define PDE_PROBLEM_BASIC
 
+#include <ostream>
 #include <vector>
 #include <utility>
 #include "problem.h"
@@ -14,6 +15,8 @@
 
 using std::vector;
 using std::pair;
+using std::ostream;
+using std::endl;
 
 class problem_basic : public problem
 {
@@ -43,6 +46,8 @@ public:
   const boundary& bottom() const { return bt; }
   const boundary& left() const { return lf; }
 
+  ostream& put(ostream& s) const;
+
 protected:
   vector< vector<double> > sol;	// the solution
   int gx, gy;	// grid points in the first (i) and second (j) variables, resp
@@ -55,5 +60,7 @@ protected:
   double ast;		// assymetric term -2*(1+rss)
 
 };
+
+ostream& operator<<(ostream& s, const problem_basic& prob);
 
 #endif	// PDE_PROBLEM_BASIC

@@ -38,7 +38,6 @@ main(int argc, char* argv[])
 
   int I = sho.I();
   int J = sho.J();
-  int i,j;
   double norm0, norm1, ratio;	// initial norm, final norm, ratio
   double s_norm0;
   int iter;
@@ -56,11 +55,5 @@ main(int argc, char* argv[])
   cout << "# sol norm:\t" << s_norm0 << endl;
 
   cout.precision(PRECISION);
-  for(j = J; j >= 0; --j){
-    for(i = 0; i <= I; ++i){
-      cout << sho.at(i, j) << " ";
-    }
-    cout << endl;
-  }
-
+  cout << sho << endl;
 }

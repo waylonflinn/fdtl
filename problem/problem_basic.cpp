@@ -73,3 +73,20 @@ double problem_basic::at(int i, int j) const
   else						// interior
     return sol[i-1][j-1];
 }
+
+ostream& problem_basic::put(ostream& s) const
+{
+  int i,j;
+
+  for(j = gy; j >= 0; --j){
+    for(i = 0; i <= gx; ++i){
+      s << at(i, j) << " ";
+    }
+    s << endl;
+  }
+
+  return s;
+}
+
+ostream& operator<<(ostream& s, const problem_basic& prob)
+{ return prob.put(s); }
