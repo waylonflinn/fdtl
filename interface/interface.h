@@ -19,6 +19,8 @@ using std::istream;
 using std::ofstream;
 using std::ifstream;
 
+struct help_exception{};
+
 class interface
 {
  public:
@@ -37,6 +39,7 @@ class interface
   static const option OPT_N;
   static const option OPT_X;
   static const option OPT_Y;
+  static const option OPT_D;
 
   // constructors
   interface(string id, int argc, char* argv[]);
@@ -52,10 +55,8 @@ class interface
   const boundary& bottom() const { return bt; }
   const boundary& left() const { return lf; }
 
+  bool header() { return hdr; }
   ostream& output() const { return cout; }
-
-  // operators
-  //interface& operator=(const interface& inter);
 
  protected:
   // constants
@@ -64,7 +65,6 @@ class interface
   static const argument ARR_X[];
   static const argument ARR_Y[];
   static const option ARR_OPT[];
-  static const int ARR_OPT_S = 5;
 
   // variables
   command_line cl;
@@ -76,6 +76,7 @@ class interface
   boundary rt;
   boundary bt;
   boundary lf;
+  bool hdr;
 
   // methods
   int make_grid(char, int);
