@@ -9,19 +9,19 @@ using std::vector;
 class boundary
 {
 public:
+  // constants
   const static int DIRICHLET = 0;
   const static int NEUMANN = 1;
+
+  // methods
+  int type() const { return _type; }	// type of boundary conditions
+  const double& value(int i);
+  const double& operator[](int i);
 
   // constructors
   boundary(int type,
 	   vector<double>::iterator start,
 	   vector<double>::iterator end);
-
-  const double& value(int i);
-
-  int type() const { return _type; }	// type of boundary conditions
-
-  const double& operator[](int i);
 
 private:
   int _type;
