@@ -1,3 +1,6 @@
+#ifndef PDE_INTERFACE
+#define PDE_INTERFACE
+
 #include <cerrno>
 #include <cctype>
 #include <cstdlib>
@@ -8,6 +11,7 @@
 #include <utility>
 #include "command_line.h"
 #include "boundary.h"
+#include "option_set.h"
 
 using std::cout;
 using std::cin;
@@ -31,16 +35,6 @@ class interface
   static const pair<double, double> DEF_X;
   static const pair<double, double> DEF_Y;
 
-  /* these constants represent the command line for this interface */
-  static const string NAME;	// name of the program
-  static const argument INPUT;	// input file
-  static const option OPT_I;
-  static const option OPT_J;
-  static const option OPT_N;
-  static const option OPT_X;
-  static const option OPT_Y;
-  static const option OPT_D;
-
   // constructors
   interface(string id, int argc, char* argv[]);
   interface();
@@ -59,12 +53,6 @@ class interface
   ostream& output() const { return cout; }
 
  protected:
-  // constants
-  static const string FIRST_VAR;
-  static const string SEC_VAR;
-  static const argument ARR_X[];
-  static const argument ARR_Y[];
-  static const option ARR_OPT[];
 
   // variables
   command_line cl;
@@ -84,3 +72,5 @@ class interface
   void make_bound();
 
 };
+
+#endif	// PDE_INTERFACE

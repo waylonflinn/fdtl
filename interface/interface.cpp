@@ -1,18 +1,5 @@
 #include "interface.h"
 
-/// protected constants
-const string interface::NAME = "pde_prog";
-const string interface::FIRST_VAR = "the first variable (x)";
-const string interface::SEC_VAR = "the second variable (y)";
-
-const argument interface::ARR_X[] =
- {argument("x0", "the mininum for " + interface::FIRST_VAR),
-  argument("x1", "the maximum for " + interface::FIRST_VAR)};
-
-const argument interface::ARR_Y[] =
- {argument("y0", "the mininum for " + interface::SEC_VAR),
-  argument("y1", "the maximum for " + interface::SEC_VAR)};
-
 /// public constants
 // defaults
 const int interface::DEF_I = 20;
@@ -20,37 +7,15 @@ const int interface::DEF_J = 20;
 const pair<double, double> interface::DEF_X = pair<double, double>(0.0, 1.0);
 const pair<double, double> interface::DEF_Y = pair<double, double>(0.0, 1.0);
 
-// command line options
-const argument interface::INPUT = 
- argument("file", "a properly formatted file to use for the input (or '-').");
-
-const option interface::OPT_I =
- option('I', argument("n", "the number of points for "+interface::FIRST_VAR));
-
-const option interface::OPT_J =
- option('J', argument("n", "the number of points for "+interface::SEC_VAR));
-
-const option interface::OPT_N =
- option('N', argument("n", "the number of points for both variables"));
-
-const option interface::OPT_X =
-option('x', vector<argument>(interface::ARR_X, interface::ARR_X + 2));
-
-const option interface::OPT_Y =
-option('y', vector<argument>(interface::ARR_Y, interface::ARR_Y + 2));
-
-const option interface::OPT_D =
- option('d', "print only the hea(d)er information for the solution");
-
-const option interface::ARR_OPT[] =
-  {interface::OPT_D, interface::OPT_I, interface::OPT_J, interface::OPT_N,
-   interface::OPT_X, interface::OPT_Y};
-
+/// protected constants
 double str_to_d(string str);
 
 // constructors
 interface::interface(string id, int argc, char* argv[]) :
-  cl(id, vector<option>(ARR_OPT, ARR_OPT + 6), interface::INPUT),
+  cl(id,
+     vector<option>(option_set::ARR_OPT,
+		    option_set::ARR_OPT + option_set::SIZE),
+     option_set::INPUT),
   gx(interface::DEF_I), gy(interface::DEF_J), rx(interface::DEF_X),
   ry(interface::DEF_Y), hdr(false)
 {
@@ -88,7 +53,10 @@ interface::interface(string id, int argc, char* argv[]) :
 }
 
 interface::interface() :
-  cl(interface::NAME, vector<option>(ARR_OPT, ARR_OPT + 4), interface::INPUT),
+  cl(option_set::NAME,
+     vector<option>(option_set::ARR_OPT,
+		    option_set::ARR_OPT + option_set::SIZE),
+     option_set::INPUT),
   gx(interface::DEF_I), gy(interface::DEF_J), rx(interface::DEF_X),
   ry(interface::DEF_Y)
 {}

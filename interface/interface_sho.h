@@ -1,4 +1,8 @@
+#ifndef PDE_INTERFACE_SHO
+#define PDE_INTERFACE_SHO
+
 #include "interface.h"
+#include "option_set_sho.h"
 
 class interface_sho : public interface
 {
@@ -37,3 +41,5 @@ class interface_sho : public interface
   // methods
 
 };
+
+#endif	// PDE_INTERFACE_SHO

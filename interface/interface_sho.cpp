@@ -1,5 +1,6 @@
 #include "interface_sho.h"
 
+
 const double interface_sho::DEF_A = 1;
 
 const double interface_sho::DEF_B = 1;
@@ -11,19 +12,6 @@ pair<double,double>(-4, 4);
 
 const pair<double,double> interface_sho::DEF_Y = interface_sho::DEF_X;
 
-const option interface_sho::OPT_A =
- option('a', argument("w", "the coefficient to "+interface::FIRST_VAR));
-
-const option interface_sho::OPT_B =
- option('b', argument("w", "the coefficient to "+interface::SEC_VAR));
-
-const option interface_sho::OPT_EIG =
- option('e', argument("w", "the eigenvalue"));
-
-const option interface_sho::ARR_OPT_SHO[] =
-  {interface::OPT_I, interface::OPT_J, interface::OPT_X, interface::OPT_Y,
-  interface_sho::OPT_A, interface_sho::OPT_B, interface_sho::OPT_EIG};
-
 double str_to_d(string str);
 
 // constructors
@@ -31,9 +19,13 @@ interface_sho::interface_sho(string id, int argc, char* argv[]) :
        interface(), cx(interface_sho::DEF_A),
        cy(interface_sho::DEF_B), eig(interface_sho::DEF_EIG) 
 {
-  cl = command_line(id, vector<option>(interface_sho::ARR_OPT_SHO,
-				       interface_sho::ARR_OPT_SHO + 7),
-		    interface::INPUT);
+
+  vector<option> option_vec(option_set::ARR_OPT,
+			    option_set::ARR_OPT + option_set::SIZE);
+  option_vec.insert(option_vec.end(),
+		    option_set_sho::ARR_OPT,
+		    option_set_sho::ARR_OPT + option_set_sho::SIZE);
+  cl = command_line(id, option_vec, option_set::INPUT);
 
   try{
     cl.parse(argc, argv);
@@ -44,9 +36,21 @@ interface_sho::interface_sho(string id, int argc, char* argv[]) :
     throw invalid_argument("malformed command line.");
   }
 
+  if(cl['h'].first){
+    cout << "usage: \n" << cl.usage() << endl;
+    throw help_exception();
+  }
+  if(cl['d'].first)
+    hdr = true;
 
-  gx = make_grid('I', interface::DEF_I);
-  gy = make_grid('J', interface::DEF_J);
+  if(cl['N'].first){
+    gx = make_grid('N', interface::DEF_I);
+    gy = make_grid('N', interface::DEF_I);
+  }
+  else{
+    gx = make_grid('I', interface::DEF_I);
+    gy = make_grid('J', interface::DEF_J);
+  }
 
   rx = make_range('x', interface_sho::DEF_X);
   ry = make_range('y', interface_sho::DEF_Y);

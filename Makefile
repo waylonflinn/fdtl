@@ -75,11 +75,11 @@ command_line.o: command_line.cpp command_line.h option.h argument.h
 	g++ -c $(CPPFLAGS) $< -o $@
 
 interface.o: interface.cpp interface.h command_line.h option.h argument.h \
- boundary.h
+ boundary.h option_set.h
 	g++ -c $(CPPFLAGS) $< -o $@
 
 interface_sho.o: interface_sho.cpp interface.cpp interface.h command_line.h \
- option.h argument.h boundary.h
+ option.h argument.h boundary.h option_set.h option_set_sho.h
 	g++ -c $(CPPFLAGS) $< -o $@
 
 clean :

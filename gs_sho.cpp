@@ -24,6 +24,7 @@ main(int argc, char* argv[])
     cerr << e.what() << endl;
     return 1;
   }
+  catch(help_exception){ return 0;}
   catch(...){
     cerr << "something bad happened!" << endl;
     return 1;
