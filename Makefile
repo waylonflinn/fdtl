@@ -6,7 +6,7 @@
 
 inter_obj = argument.o option.o command_line.o interface.o
 com_obj = problem_basic.o residual_norm.o boundary.o $(inter_obj)
-sor_l_obj = successive_overrelaxation.o laplace.o $(com_obj)
+sor_l_obj = successive_overrelaxation.o laplace.o interface_sor.o $(com_obj)
 gs_l_obj = gauss_seidel.o laplace.o $(com_obj)
 gs_sho_obj = gauss_seidel.o simple_harmonic_oscillator.o interface_sho.o \
  solution_norm.o $(com_obj)
@@ -16,7 +16,7 @@ dir_interface = ./interface/
 VPATH = $(dir_algorithm):$(dir_problem):$(dir_interface)
 
 ifeq ($(MAKECMDGOALS),debug)
- CPPFLAGS = -g -I $(dir_algorithm) -I $(dir_problem)
+ CPPFLAGS = -g -I$(dir_algorithm) -I$(dir_problem) -I$(dir_interface)
 else
  CPPFLAGS = -I$(dir_algorithm) -I$(dir_problem) -I$(dir_interface)
 endif
@@ -78,12 +78,15 @@ interface.o: interface.cpp interface.h command_line.h option.h argument.h \
  boundary.h option_set.h
 	g++ -c $(CPPFLAGS) $< -o $@
 
-interface_sho.o: interface_sho.cpp interface.cpp interface.h command_line.h \
- option.h argument.h boundary.h option_set.h option_set_sho.h
+interface_sho.o: interface_sho.cpp interface_sho.h interface.cpp interface.h \
+ command_line.h option.h argument.h boundary.h option_set.h option_set_sho.h
+	g++ -c $(CPPFLAGS) $< -o $@
+
+interface_sor.o: interface_sor.cpp interface_sor.h interface.cpp interface.h \
+ command_line.h option.h argument.h boundary.h option_set.h option_set_sor.h
 	g++ -c $(CPPFLAGS) $< -o $@
 
 clean :
-	rm gs_l *.o
+	rm gs_l sor_l gs_sho *.o
 
-debug : $(sor_l_obj)
-	g++ -o gs_l $(CPPFLAGS) $^
+debug : all
