@@ -17,8 +17,12 @@ sor_sho_obj = successive_overrelaxation.o simple_harmonic_oscillator.o \
  interface_sor_sho.o $(com_obj)
 gs_gpe_obj = gauss_seidel.o gross_pitaevskii.o interface_gpe.o \
  solution_norm.o $(com_obj)
+gs_gpe_cart_obj = gauss_seidel.o gross_pitaevskii_cart.o interface_gpe.o \
+ solution_norm.o $(com_obj)
 mlt_gpe_obj = multigrid.o bilinear_interpolation.o half_weighting.o \
  interface_mlt_gpe.o $(gs_gpe_obj)
+mlt_gpe_cart_obj= multigrid.o bilinear_interpolation.o half_weighting.o \
+ interface_mlt_gpe_cart.o $(gs_gpe_cart_obj)
 dir_algorithm = ./algorithm/
 dir_problem = ./problem/
 dir_interface = ./interface/
@@ -42,6 +46,12 @@ clean :
 debug : all
 
 # executables
+
+eig_cart : eig_cart.o $(mlt_gpe_cart_obj)
+	g++ -o $@ $(CPPFLAGS) $^
+
+eig_cart.o : eig_cart.cpp $(mlt_gpe_cart_obj)
+	g++ -c $(CPPFLAGS) $<
 
 eig : eig.o $(mlt_gpe_obj)
 	g++ -o $@ $(CPPFLAGS) $^
@@ -108,6 +118,10 @@ simple_harmonic_oscillator.o: simple_harmonic_oscillator.cpp \
 	g++ -c $(CPPFLAGS) $< -o $@
 
 gross_pitaevskii.o: gross_pitaevskii.cpp gross_pitaevskii.h \
+  problem_basic.cpp problem_basic.h problem.h boundary.h
+	g++ -c $(CPPFLAGS) $< -o $@
+
+gross_pitaevskii_cart.o: gross_pitaevskii_cart.cpp gross_pitaevskii_cart.h \
   problem_basic.cpp problem_basic.h problem.h boundary.h
 	g++ -c $(CPPFLAGS) $< -o $@
 
@@ -179,4 +193,9 @@ interface_gpe.o: interface_gpe.cpp interface_gpe.h interface.cpp interface.h \
 interface_mlt_gpe.o: interface_mlt_gpe.cpp interface_mlt_gpe.h interface.cpp \
  interface.h  command_line.h option.h argument.h boundary.h option_set.h \
  option_set_gpe.h option_set_mlt.h
+	g++ -c $(CPPFLAGS) $< -o $@
+
+interface_mlt_gpe_cart.o: interface_mlt_gpe_cart.cpp interface_mlt_gpe_cart.h \
+ interface.cpp interface.h  command_line.h option.h argument.h boundary.h \
+ option_set.h option_set_gpe.h option_set_mlt.h
 	g++ -c $(CPPFLAGS) $< -o $@

@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
-#include "interface_mlt_gpe.h"
-#include "gross_pitaevskii.h"
+#include "interface_mlt_gpe_cart.h"
+#include "gross_pitaevskii_cart.h"
 #include "gauss_seidel.h"
 #include "multigrid.h"
 #include "residual_norm.h"
@@ -19,10 +19,10 @@ double eig(double eig1, double norm1, double eig2, double norm2);
 
 main(int argc, char* argv[])
 {
-  interface_mlt_gpe inter;
+  interface_mlt_gpe_cart inter;
 
   try{
-  inter = interface_mlt_gpe("mlt_gpe", argc, argv);
+  inter = interface_mlt_gpe_cart("eig_cart", argc, argv);
   }
   catch(invalid_argument e){
     cerr << e.what() << endl;
@@ -34,20 +34,23 @@ main(int argc, char* argv[])
     return 1;
   }
 
-  double eig1, eig2, eig3;
+  double tf_eig, eig1, eig2, eig3;
   double a, b, parm;
   a = inter.a();
   b = inter.b();
   parm = inter.parameter();
-  if(inter.eigenvalue_present())
+  if(inter.eigenvalue_present()){
+    tf_eig = tf(parm, a, b);
     eig1 = inter.eigenvalue();
+    eig2 = eig1*0.99;
+    }
   else{
-    eig1 = tf(parm, a, b);
-    eig2 = eig1*3;
-    eig1 *= 3.1;
+    tf_eig = tf(parm, a, b);
+    eig2 = tf_eig*1.8;
+    eig1 = tf_eig*1.9;
   }
 
-  gross_pitaevskii gpe(inter.I(), inter.J(), inter.x(), inter.y(),
+  gross_pitaevskii_cart gpe(inter.I(), inter.J(), inter.x(), inter.y(),
 	     inter.top(), inter.right(), inter.bottom(), inter.left(),
 	     a, b, eig1, parm);
   residual_norm norm(gpe, EPS);
@@ -69,24 +72,27 @@ main(int argc, char* argv[])
   ratio = norm1/norm0;
   s_norm1 = solution_norm::norm(gpe);
 
-  gpe = gross_pitaevskii(inter.I(), inter.J(), inter.x(), inter.y(),
+  gpe = gross_pitaevskii_cart(inter.I(), inter.J(), inter.x(), inter.y(),
 	     inter.top(), inter.right(), inter.bottom(), inter.left(),
 	     a, b, eig2, parm);
+  norm = residual_norm(gpe, EPS);
   iter += mlt.solve(gpe, norm);
   s_norm2 = solution_norm::norm(gpe);
 
 
   out << "# iterations:\t" << iter << endl;
   out << "# norm0:\t" << s_norm0 << endl;
+  out << "# tf:\t" << tf_eig << endl;
   out << "# norm1, eig1:\t" << s_norm1 << ", " << eig1 << endl;
   out << "# norm2, eig2:\t" << s_norm2 << ", " << eig2 << endl;
 
   int count = 3;
-  while(((s_norm2-0.5) > EPS)&&count<10){
+  while(((s_norm2-1) > EPS) && count<15){
     eig3 = eig(eig1, s_norm1, eig2, s_norm2);
-    gpe  = gross_pitaevskii(inter.I(), inter.J(), inter.x(), inter.y(),
+    gpe  = gross_pitaevskii_cart(inter.I(), inter.J(), inter.x(), inter.y(),
 			    inter.top(), inter.right(), inter.bottom(), inter.left(),
 			    a, b, eig3, parm);
+    norm = residual_norm(gpe, EPS);
     iter += mlt.solve(gpe, norm);
     s_norm3 = solution_norm::norm(gpe);
     out << "# norm"<<count<<", eig"<<count<<":\t";
@@ -97,8 +103,6 @@ main(int argc, char* argv[])
     eig2 = eig3;
     count++;
   }
-
-  out.precision(6);
 
   out.precision(PRECISION);
 
@@ -113,7 +117,7 @@ double eig(double eig1, double norm1, double eig2, double norm2)
   double a = (eig1-eig2)/(norm1 - norm2);
   double b = eig2 - (a*norm2);
 
-  return (0.5*a)+b;
+  return a+b;
 }
 
 double tf(double k, double a, double b)
