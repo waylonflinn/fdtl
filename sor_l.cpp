@@ -53,6 +53,6 @@ main(int argc, char* argv[])
   out << "# iterations:\t" << iter << endl;
 
   out.precision(PRECISION);
-  out << lp << endl;
+  out << lp;
 
 }
