@@ -31,6 +31,8 @@ public:
 	   vector<double>::iterator start,
 	   vector<double>::iterator end);
 
+  boundary();
+
 private:
   int tp;				// type
   vector<double> val;
