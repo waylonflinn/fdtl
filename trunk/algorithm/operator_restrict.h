@@ -5,6 +5,6 @@
 
 class operator_restrict
 {
-  virtual problem operator()(problem& prob) = 0;
+  virtual void operator()(const problem& fine, problem& coarse) = 0;
 };
 #endif	//PDE_OPERATOR_RESTRICT
