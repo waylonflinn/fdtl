@@ -3,7 +3,6 @@
 #include <algorithm>
 #include <cmath>
 #include "next.cpp"
-#include "problem"
 
 
 using std::cout;
@@ -41,6 +40,23 @@ int main()
   bilinear_interp(V,fine);
   cout << endl;
   print(fine);
+  cout << endl;
+
+  vector<double> fine_int(2*J+1, 0);
+  n = next(1);
+  generate(fine_int.begin()+1, fine_int.end()-1, n);
+  vector<vector<double> > fine_V =
+    vector<vector <double> >(I*2+1, fine_int);
+  vector<vector<double> > coarse =
+    vector<vector <double> >(I+1, vector<double>(J+1, 0));
+  for(int i=1; i < 2*I+1;++i){
+    fine_V[0][i]=0;
+    fine_V[2*J][i]=0;
+  }
+  half_weight(fine,coarse);
+  print(fine_V);
+  cout << endl;
+  print(coarse);
   return 0;
 }
 
@@ -123,10 +139,10 @@ void half_weight(vector<vector<double> >& fine,
 
   vector<vector<double> >::iterator it_coarse(coarse.begin());
   vector<vector<double> >::iterator it_fine(fine.begin());
-  for(fi=3,ci=0;ci < cI; ++ci, fi+=2){
-    for(fj=1,cj=0; cj < cJ; ++cj, fj+=2){
+  for(fi=2,ci=1;ci < cI-1; ++ci, fi+=2){
+    for(fj=2,cj=1; cj < cJ-1; ++cj, fj+=2){
       it_coarse[ci][cj] = 0.5*it_fine[fi][fj]+
-	0.25*(it_fine[fi-1][fj] + it_fine[fi+1][fj] +
+	0.125*(it_fine[fi-1][fj] + it_fine[fi+1][fj] +
 	      it_fine[fi][fj-1] + it_fine[fi][fj+1]);
     }
   }
