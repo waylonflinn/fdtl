@@ -11,6 +11,7 @@ problem_basic::problem_basic(int I,
   : gx(I), gy(J), x(range_x), y(range_y),
     sx((range_x.second-range_x.first)/I),
     sy((range_y.second-range_x.first)/J),
+    ssx(sx*sx), ssy(sy*sy), rss(ssx/ssy),
     tp(top), rt(right), bt(bottom), lf(left)
 {
   int i;

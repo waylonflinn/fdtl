@@ -48,6 +48,7 @@ main(int argc, char* argv[])
   cout << "# final norm:\t" << norm1 << endl;
   cout << "# ratio:\t" << ratio << endl;
   cout << "# iterations:\t" << iter << endl;
+  cout << "# sx^2/sy^2:\t" << lp.c(1,1) << endl;
 
   cout.precision(PRECISION);
   for(j = J; j >= 0; --j){

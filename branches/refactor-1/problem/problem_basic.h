@@ -47,6 +47,8 @@ protected:
   vector< vector<double> > sol;	// the solution
   int gx, gy;	// grid points in the first (i) and second (j) variables, resp
   double sx, sy;	// grid spacing in the first and second variables, resp
+  double ssx, ssy;	// spacings squared; sx*sx, sy*sy
+  double rss;		// ratio of the squared spacings ssx/ssy
   pair<double, double> x, y;	// ranges for first and second vars, resp
   boundary tp, rt, bt, lf;	// boundaries, resp.; top, right, bottom, left
 
