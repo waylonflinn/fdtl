@@ -31,9 +31,12 @@ gs_gpe_cart_obj = gauss_seidel.o gross_pitaevskii_cart.o interface_gpe.o \
 # multigrid on a gross pitaevskii equation
 mlt_gpe_obj = multigrid.o bilinear_interpolation.o half_weighting.o \
  interface_mlt_gpe.o $(gs_gpe_obj)
-# multigrid on a gross pitaevskii equatino in cartesian coordinates
+# multigrid on a gross pitaevskii equation in cartesian coordinates
 mlt_gpe_cart_obj= multigrid.o bilinear_interpolation.o half_weighting.o \
  interface_mlt_gpe_cart.o $(gs_gpe_cart_obj)
+# eigenvalue solver
+eig_obj = multigrid.o bilinear_interpolation.o half_weighting.o \
+ interface_eig.o $(gs_gpe_obj)
 
 ## directories
 dir_algorithm = ./algorithm/
@@ -72,10 +75,10 @@ eig_cart : eig_cart.o $(mlt_gpe_cart_obj)
 eig_cart.o : eig_cart.cpp $(mlt_gpe_cart_obj)
 	g++ -c $(CPPFLAGS) $<
 
-eig : eig.o $(mlt_gpe_obj)
+eig : eig.o $(eig_obj)
 	g++ -o $@ $(CPPFLAGS) $^
 
-eig.o : eig.cpp $(mlt_gpe_obj)
+eig.o : eig.cpp $(eig_obj)
 	g++ -c $(CPPFLAGS) $<
 
 sor_l : sor_l.o $(sor_l_obj)
@@ -228,3 +231,7 @@ interface_mlt_gpe_cart.o: interface_mlt_gpe_cart.cpp interface_mlt_gpe_cart.h \
  interface.cpp interface.h  command_line.h option.h argument.h boundary.h \
  option_set.h option_set_gpe.h option_set_mlt.h
 	g++ -c $(CPPFLAGS) $< -o $@
+
+interface_eig.o: interface_eig.cpp interface_eig.h interface.cpp interface.h \
+ command_line.h option.h argument.h boundary.h option_set.h option_set_eig.h \
+ option_set_mlt.h
