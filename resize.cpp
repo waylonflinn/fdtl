@@ -4,7 +4,7 @@
 #include <utility>
 #include <cmath>
 #include "laplace.h"
-#include "gauss_seidel.h"
+#include "gross_pitaevskii.h"
 #include "residual_norm.h"
 #include "bilinear_interpolation.h"
 #include "half_weighting.h"
@@ -24,8 +24,8 @@ int multi(laplace& lp);
 int main()
 {
   int I,J;
-  I = J = 40;
-  pair<double, double> x(-4,4);
+  I = J = 160;
+  pair<double, double> x(0,4);
   pair<double, double> y(-4,4);
   double arr_bound[] = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
   vector<double> vec_bound(arr_bound, arr_bound + 20);
@@ -33,16 +33,18 @@ int main()
 
   boundary bound_f(boundary::DIRICHLET, J, 0.0);
   //boundary bound_f_odd(boundary::DIRICHLET, vec_bound.begin(), vec_bound.end());
-  boundary bound_f_odd(boundary::DIRICHLET, J, 1.0);
-  laplace fine(I, J, x, y, bound_f, bound_f, bound_f, bound_f_odd);
-  residual_norm norm(fine, EPS);
+  boundary bound_f_odd(boundary::NEUMANN, J, 0.0);
+  //laplace fine(I, J, x, y, bound_f, bound_f, bound_f, bound_f_odd);
+  gross_pitaevskii gpe(I, J, x, y, bound_f, bound_f, bound_f, bound_f_odd,
+		       1.0, 1.0, 2.4, 1.0);
+  residual_norm norm(gpe, EPS);
   gauss_seidel gs(600);
   multigrid mlt(5000, 5, gs);
 
-  double norm_c0 = residual_norm::norm(fine);
-  int iter = mlt.solve(fine, norm);
+  double norm_c0 = residual_norm::norm(gpe);
+  int iter = mlt.solve(gpe, norm);
 
-  double norm_c1 = residual_norm::norm(fine);
+  double norm_c1 = residual_norm::norm(gpe);
   double ratio = norm_c1/norm_c0;
 
   cout.precision(3);
@@ -50,7 +52,7 @@ int main()
   cout << "# iter: " << iter << endl;
   cout << "# ratio: " << ratio << endl;
 
-  cout << fine << endl;
+  cout << gpe << endl;
 
   return 0;
 }

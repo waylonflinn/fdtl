@@ -4,6 +4,7 @@
  */
 
 #include "problem_basic.h"
+#include "problem_resizable.h"
 
 class gross_pitaevskii : public problem_basic
 {
@@ -33,6 +34,10 @@ public:
     { return (meig+ast+(p1x+(p2x*i)+(p3x*i*i))+(p1y+(p2y*j)+(p3y*j*j)) +
 	      mparm*sol[i-1][j-1]*sol[i-1][j-1]);}
   double f(int i, int j) const { return 0;}
+
+  void grow(operator_prolong& op);
+  void shrink(operator_restrict& op);
+  gross_pitaevskii clone();
 
  private:
   double x0;
