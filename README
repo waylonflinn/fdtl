@@ -25,8 +25,9 @@ the basic layout of this project is as follows:
 
 2. How-To
 
-to create a new problem you can derive from the base problem class and
-implement its virtual methods.
+to create a new problem you can derive from on of the base problem classes and
+implement its virtual methods or inherit from an existing functional problem
+class.
 
 to change the user interface (command line options) derive a new class from
 the interface base class or change the existing derived file.
