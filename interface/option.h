@@ -38,7 +38,7 @@ private:
   char let;
   string desc;
   vector<argument> arg_vec;
-  string use;
+  mutable string use;
 };
 
 #endif	//PDE_OPTION

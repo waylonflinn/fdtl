@@ -48,7 +48,7 @@ void command_line::parse(int argc, char* argv[])
   if(argc == 0)
     return;
   if(argc == 1)
-    throw exception_argument("no arguments");
+    throw invalid_argument("no arguments");
 
   vector<string> user_arg(argv + 1, argv + argc);// user supplied arguments
   vector<string>::iterator iter = (user_arg.end() - 1);
@@ -80,5 +80,5 @@ void command_line::parse(int argc, char* argv[])
     }
   }
   if(end_iter != user_arg.begin())
-    throw exception_argument("unknown arguments");
+    throw invalid_argument("unknown arguments");
 }
