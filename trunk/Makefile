@@ -43,6 +43,12 @@ debug : all
 
 # executables
 
+eig : eig.o $(mlt_gpe_obj)
+	g++ -o $@ $(CPPFLAGS) $^
+
+eig.o : eig.cpp $(mlt_gpe_obj)
+	g++ -c $(CPPFLAGS) $<
+
 sor_l : sor_l.o $(sor_l_obj)
 	g++ -o $@ $(CPPFLAGS) $^
 
