@@ -6,8 +6,8 @@
 
 inter_obj = argument.o option.o command_line.o interface.o
 com_obj = problem_basic.o residual_norm.o boundary.o $(inter_obj)
-sor_l_obj = sor_l.o successive_overrelaxation.o laplace.o $(com_obj)
-gs_l_obj = gs_l.o gauss_seidel.o laplace.o $(com_obj)
+sor_l_obj = successive_overrelaxation.o laplace.o $(com_obj)
+gs_l_obj = gauss_seidel.o laplace.o $(com_obj)
 dir_algorithm = ./algorithm/
 dir_problem = ./problem/
 dir_interface = ./interface/
@@ -26,13 +26,13 @@ all : sor_l gs_l
 sor_l : sor_l.o $(sor_l_obj)
 	g++ -o $@ $(CPPFLAGS) $^
 
-sor_l.o : sor_l.cpp
+sor_l.o : sor_l.cpp $(sor_l_obj)
 	g++ -c $(CPPFLAGS) $<
 
-gs_l : $(gs_l_obj)
+gs_l : gs_l.o $(gs_l_obj)
 	g++ -o $@ $(CPPFLAGS) $^
 
-gs_l.o : gs_l.cpp
+gs_l.o : gs_l.cpp $(gs_l_obj)
 	g++ -c $(CPPFLAGS) $<
 
 problem_basic.o : problem_basic.cpp problem_basic.h problem.h boundary.h
