@@ -1,4 +1,7 @@
-This file is at the top of this test repository (copied from the top of the Subversion repository).
+This is the top of the 'pde' subversion repository. This repository contains a
+collection of codes for solving partial differential equations (PDE s). The following
+is a fairly generic description of the top-level structure of subversion repositories
+(stolen from the top of the Subversion repository ['http://svn.collab.net/repos/svn/']).
 
    trunk/ ......... The latest development sources.  When people say
                     "Get the head of trunk", they mean the latest
