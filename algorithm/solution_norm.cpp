@@ -20,25 +20,43 @@ bool solution_norm::operator()(const problem& prob)
 
 double solution_norm::norm(const problem& prob)
 {
-  double area;	// area of an element
+  double line;	// integral along a grid line
   double norm;	// norm of solution, squared
   int I = prob.I();
   int J = prob.J();
-  double sxsy = prob.dx()*prob.dy();
+  double sx, sy;
   int i, j;
 
+  sx = prob.dx();
+  sy = prob.dy();
   norm = 0;
-  for(i = 1; i <= I; ++i){
-    for(j = 1; j <= J; ++j){
-      area =
-	sxsy*(pow(prob.at(i-1,j-1),2)+
-	      pow(prob.at(i,j-1),2)+
-	      pow(prob.at(i-1,j),2)+
-	      pow(prob.at(i,j),2))/4;
+  // calc first line
+  line = 0.5*pow(prob.at(0,0),2);
+  for(j = 1; j < J; ++j)
+    line += pow(prob.at(0,j),2);
+  line += 0.5*pow(prob.at(0,J),2);
+  line *= sy;
+  norm += 0.5*line;
 
-      norm += area;
+  for(i = 1; i <= I; ++i){
+    line = 0.5*pow(prob.at(i,0),2);
+    for(j = 1; j < J; ++j){
+      line += pow(prob.at(i,j),2);
     }
+    line += 0.5*pow(prob.at(i,J),2);
+    line *= sy;
+    norm += line;
   }
+
+  // calc last line
+  line = 0.5*pow(prob.at(I,0),2);
+  for(j = 1; j < J; ++j)
+    line += pow(prob.at(I,j),2);
+  line += 0.5*pow(prob.at(I,J),2);
+  line *= sy;
+  norm += 0.5*line;
+
+  norm *= sx;
 
   return norm;
 }

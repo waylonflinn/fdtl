@@ -1,5 +1,9 @@
 /* a goal that returns true when the square of the norm of the solution is
  * less than some factor, epsilon, away from 1.
+ * the norm calculated is the integral of the sqaure of the solution over the
+ * problem's defined domain.
+ * a multidimensional form of the extended trapezoidal rule is used for the
+ * integration (quadrature).
  */
 #include <cmath>
 #include "goal.h"
