@@ -1,15 +1,45 @@
-1. Directory Structure
+1. Project Structure
 
-the basic layout of this project is as follows:
+1.1 Overview
 
-	algorithm
-		classes implementing the algoritms used to solve the
-		finite-differenced pdes (gauss-seidel, sor, etc)
+the key classes in this project can be divided into three abstract categories:
+	'problem', 'algorithm' and 'goal'.
+	
+a general description of these categories is:
+
+	a 'problem' represents a finite-differenced partial differential equation (pde)
+	and a tentative solution to it.
+	
+	an 'algoritm' represents a method of solving a correctly defined pde.
+	
+	a 'goal' is a test, or predicate, which may be used to determine the
+	tentative solution contained in a problem is satisfactory.
+
+and one of thier relationships might be:
+
+	an 'algorithm' is applied to a fully defined 'problem' until that problem's
+	solution satisfies the 'goal'.
+	
+
+the class hierarchies are intended to mirror this structure.
+
+in addition to classes of these three types there are several classes which serve
+other, supporting roles. these include classes for user interaction (interface) and
+supporting and abstract classes for problem description (boundary).
+
+1.2 Directory Structure
+
+the basic layout of directories is as follows:
 
 	problem
 		classes defining various finite-differenced pdes.
 		These include Laplace's equation and the simple harmonic
 		oscillator
+		
+	algorithm
+		classes implementing the algoritms used to solve the
+		finite-differenced pdes (gauss-seidel, sor, etc) and
+		goals for testing solutions.
 
 	interface
 		classes handling interaction with the user.
@@ -24,6 +54,19 @@ the basic layout of this project is as follows:
 		sample input and output files
 
 2. How-To
+
+2.1 Boundary Conditions
+
+dirichlet (functional value) or neumann (derivative value) boundary conditions for a
+square region may be specified in a file. each side of the region should be given on a
+different line and sides should be specified in the order: top, right, bottom, left.
+a value must be provided for each grid point on the parallel axis (whose numbers are
+specified with the -I and -J options). an optional d or n may appear alone on a line
+to indicate explicitly that the following line contains dirichlet or neumann type
+conditions, respectively. if no such line appears values are assumed to be for a
+dirichlet type condition. sample input files are provided in the 'sample' directory.
+
+2.2 Creating New Problems
 
 to create a new problem you can derive from on of the base problem classes and
 implement its virtual methods or inherit from an existing functional problem
