@@ -21,7 +21,7 @@ public:
   int type() const { return tp; }	// type of boundary conditions
   double at(int i) const; 	// value at i
   double& operator[](int i);	// synonym for value
-
+  int size() const { return val.size(); }
   // constructors
 
   /* create a boundary condition of the given type with the values returned

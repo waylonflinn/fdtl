@@ -7,6 +7,7 @@ class bilinear_interpolation : operator_prolong
 {
  public:
   void operator()(const problem& coarse, problem& fine);
+  void operator()(const boundary& coarse, boundary& fine);
 };
 
 #endif	// PDE_BILINEAR_INTERPOLATION

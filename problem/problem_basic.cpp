@@ -88,14 +88,5 @@ ostream& problem_basic::put(ostream& s) const
   return s;
 }
 
-void problem_basic::grow(operator_prolong& op)
-{
-  problem_basic* prob = new problem_basic((*this));
-}
-
-void problem_basic::shrink(operator_restrict& op)
-{
-}
-
 ostream& operator<<(ostream& s, const problem_basic& prob)
 { return prob.put(s); }

@@ -22,3 +22,18 @@ void half_weighting::operator()(const problem& fine, problem& coarse)
     }
   }
 }
+
+void half_weighting::operator()(const boundary& fine, boundary& coarse)
+{  
+  int ci,fi;
+  int cI,fI;
+  cI = coarse.size();
+  fI = fine.size();
+  if(fI != 2*cI)
+    return;
+
+  for(ci=1,fi=2;ci<cI;++ci,fi+=2)
+    coarse[ci] = 0.25*(fine.at(fi-1)+fine.at(fi+1)) + 0.5*fine.at(fi);
+
+  coarse[0] = fine.at(0);
+}

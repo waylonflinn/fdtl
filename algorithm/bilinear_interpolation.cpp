@@ -35,3 +35,21 @@ void bilinear_interpolation::operator()(const problem& coarse, problem& fine)
     }
   }
 }
+
+void bilinear_interpolation::operator()(const boundary& coarse, boundary& fine)
+{
+  int ci,fi;
+  int cI,fI;
+  cI = coarse.size();
+  fI = fine.size();
+  if(fI != 2*cI)
+    return;
+
+  for(ci=0,fi=1;ci < cI; ++ci,fi+=2)
+    fine[fi] = coarse.at(ci);
+
+  for(fi=2;fi < fI-1; fi+=2)
+    fine[fi] = 0.5*(fine[fi-1]+fine[fi+1]);
+
+  fine[0] = 2*fine[1]-fine[2];	// linear extrapolation
+}
