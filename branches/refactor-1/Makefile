@@ -4,7 +4,7 @@
 # $@ is the target
 # $(<D) is the directory part of the first prerequisite
 
-objects = gs_l.o gauss_seidel.o laplace.o residual_norm.o boundary.o
+objects = gs_l.o gauss_seidel.o problem_basic.o laplace.o residual_norm.o boundary.o
 dir_algorithm = ./algorithm/
 dir_problem = ./problem/
 dir_interface = ./interface/
@@ -23,10 +23,13 @@ gs_l : $(objects)
 gs_l.o : gs_l.cpp
 	g++ -c $(CPPFLAGS) $<
 
-gauss_seidel.o: gauss_seidel.cpp gauss_seidel.h goal.h problem.h
+problem_basic.o : problem_basic.cpp problem_basic.h problem.h boundary.h
 	g++ -c $(CPPFLAGS) $< -o $@
 
-laplace.o : laplace.cpp laplace.h problem.h boundary.h
+laplace.o : laplace.cpp laplace.h problem_basic.h problem.h boundary.h
+	g++ -c $(CPPFLAGS) $< -o $@
+
+gauss_seidel.o: gauss_seidel.cpp gauss_seidel.h goal.h problem.h
 	g++ -c $(CPPFLAGS) $< -o $@
 
 residual_norm.o: residual_norm.cpp residual_norm.h goal.h problem.h
