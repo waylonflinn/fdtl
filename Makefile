@@ -38,7 +38,7 @@ boundary.o : boundary.cpp boundary.h
 .PHONY : clean debug
 
 clean :
-	rm gs_l.exe *.o
+	rm gs_l *.o
 
 debug : $(objects)
 	g++ -o gs_l $(CPPFLAGS) $^
