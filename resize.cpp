@@ -8,6 +8,7 @@
 #include "residual_norm.h"
 #include "bilinear_interpolation.h"
 #include "half_weighting.h"
+#include "multigrid.h"
 
 #define EPS 1.0e-5
 
@@ -35,9 +36,11 @@ int main()
   boundary bound_f_odd(boundary::DIRICHLET, J, 1.0);
   laplace fine(I, J, x, y, bound_f, bound_f, bound_f, bound_f_odd);
   residual_norm norm(fine, EPS);
+  gauss_seidel gs(600);
+  multigrid mlt(5000, 5, gs);
 
   double norm_c0 = residual_norm::norm(fine);
-  int iter = solve(fine, norm);
+  int iter = mlt.solve(fine, norm);
 
   double norm_c1 = residual_norm::norm(fine);
   double ratio = norm_c1/norm_c0;

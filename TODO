@@ -1,0 +1,9 @@
+2004-09-13; convert current inheritance scheme to a template based system to
+improve speed and flexibility.
+
+2004-09-13; make iterator usage more consistent (and widespread).
+
+2004-09-13; implement an improved multigrid algorithm.
+
+2004-09-13; redesign interface code to allow easier interface development,
+perhaps employing an existing interface design system (popt, getopt, etc.).
