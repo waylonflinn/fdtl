@@ -1,4 +1,5 @@
 /* parse a command line and print a usage statement
+ * automatically supply a help option with '-h'
  */
 
 #include <string>
@@ -14,12 +15,15 @@ using std::pair;
 using std::map;
 
 // exceptions
-struct exception_argument {  };
+struct exception_argument { 
+  string desc;
+  exception_argument(string description) : desc(description) {}
+ };
 
 class command_line {
 public:
   // constants
-
+  
   // constructors
   command_line(string name,
 	       const vector<option>& option_vector,
@@ -31,30 +35,32 @@ public:
   { return opt_map[letter]; }
 
 
-  const pair<bool, string>& arg_val() const 
-  { return arg_pair; }
+  const string& arg_val() const 
+  { return arg_string; }
 
   const string& usage();
   void parse(int argc, char* argv[]);
 
 private:
 
+  option help;
   string prog_name;
   vector<option> opt_vec;
   argument arg;
   map<char, pair<bool, vector<string> > > opt_map;
-  pair<bool, string> arg_pair;
+  string arg_string;
   string use;
 };
 
 command_line::command_line(string name,
 			   const vector<option>& option_vector,
 			   const argument& argument)
-  : opt_vec(option_vector), arg(argument), prog_name(name)
+  : opt_vec(option_vector), arg(argument), prog_name(name),
+    help('h', "print a usage summary")
 {
 }
 
-command_line::command_line() : opt_vec(), arg()
+command_line::command_line() : opt_vec(), arg(), help('h', "print a usage summary")
 {
 }
 
@@ -64,6 +70,8 @@ const string& command_line::usage()
     (*this).use = prog_name + " <options> " + "<" + arg.name() + ">";
 
     (*this).use += "\n\twhere <options> is zero or more of:\n";
+
+    (*this).use += (*this).help.usage();
 
     vector<option>::iterator iter;
     for(iter = opt_vec.begin(); iter != opt_vec.end(); iter++){
@@ -82,40 +90,47 @@ const string& command_line::usage()
  */
 void command_line::parse(int argc, char* argv[])
 {
-  if(argc < 1)
+
+  vector<option>::iterator opt_iter = (*this).opt_vec.begin();
+  vector<option>::iterator opt_end_iter = (*this).opt_vec.end();
+  for( ;opt_iter != opt_end_iter; ++opt_iter)
+    (*this).opt_map[(*opt_iter).letter()] =
+	  pair<bool, vector<string> >(false, vector<string>());
+	
+  if(argc == 0)
     return;
+  if(argc == 1)
+    throw exception_argument("no arguments");
 
-  bool found;
   vector<string> user_arg(argv + 1, argv + argc);// user supplied arguments
-
-  vector<option>::iterator opt_iter = opt_vec.begin();
-  vector<option>::iterator opt_end_iter = opt_vec.end();
-  for( ; opt_iter != opt_end_iter; opt_iter++){
-    found = false;
-
-    // go backwards so as not to invalidate the iterators on erasure
-    vector<string>::iterator user_iter = user_arg.end() - 1;
-    while(!found && (user_iter != user_arg.begin() - 1)){
-      if((*opt_iter).match(*user_iter)) {
-	found = true;
-	int count = ((*opt_iter).arg_count() + 1);
-
-	if((user_iter - user_arg.end()) <= count) 
-	  throw exception_argument();
-
-	vector<string>::iterator arg_end_iter = user_iter + count;
-	opt_map[(*opt_iter).letter()] =
-	  pair<bool, vector<string> >(true,
-				      vector<string>(user_iter, arg_end_iter));
-	user_arg.erase(user_iter, arg_end_iter);
-      }
-      user_iter--;
+  vector<string>::iterator iter = (user_arg.end() - 1);
+  for(;iter != (user_arg.begin() - 1); --iter){
+    if((*this).help.match(iter, iter + 1)){
+      (*this).opt_map[help.letter()] =
+	pair<bool, vector<string> >(true, vector<string>());
+      return;
     }
-    if(!found)
-      opt_map[(*opt_iter).letter()] =
-	pair<bool, vector<string> >(false, vector<string>());
   }
   
-  if(user_arg.size() > 0)	// leftovers
-    throw exception_argument();
+  
+  (*this).arg_string = user_arg.back();
+  user_arg.pop_back();
+  bool found;
+  iter = (user_arg.end() - 1);
+  vector<string>::iterator end_iter = user_arg.end();
+  for(;iter != (user_arg.begin() - 1); --iter){
+    found = false;
+    opt_iter = (*this).opt_vec.begin();
+    opt_end_iter = (*this).opt_vec.end();
+    for( ; !found && (opt_iter != opt_end_iter); ++opt_iter){
+      if((*opt_iter).match(iter, end_iter)) {
+	found = true;
+	(*this).opt_map[(*opt_iter).letter()] =
+	  pair<bool, vector<string> >(true, vector<string>(iter + 1, end_iter));
+	end_iter = iter;
+      }
+    }
+  }
+  if(end_iter != user_arg.begin())
+    throw exception_argument("unknown arguments");
 }

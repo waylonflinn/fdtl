@@ -17,70 +17,66 @@ int main(int argc, char* argv[])
   option opt_help('h', "print a usage summary");
 
   // I
-  argument arg_I("n", "the number of points for " + first_var); 
-  option opt_I('I',  arg_I);
+  option opt_I('I',  argument("n", "the number of points for " + first_var));
 
   // J
-  argument arg_J("n", "the number of points for " + sec_var); 
-  option opt_J('J',  arg_J);
+  option opt_J('J', argument("n", "the number of points for " + sec_var));
 
   // output
-  argument arg_out("output", "the file to use for output");
-  option opt_out('o', arg_out);
+  option opt_out('o', argument("output", "the file to use for output"));
 
   // first coefficient option
-  argument arg_fcoef("a", "the coefficient to " + first_var);
-  option opt_fcoef('a',  arg_fcoef);
+  option opt_fcoef('a',  argument("a", "the coefficient to " + first_var));
 
   // second coefficient option
-  argument arg_scoef("b", "the coefficient to " + sec_var);
-  option opt_scoef('b',  arg_scoef);
+  option opt_scoef('b', argument("b", "the coefficient to " + sec_var));
 
   // eigenvalue option
-  argument arg_eig = argument("lam", "the eigenvalue");
-  option opt_eig = option('e', arg_eig);
+  option opt_eig = option('e', argument("lam", "the eigenvalue"));
 
   // min and max r
-  argument arg_min("r0", "the mininum for " + first_var);
-  argument arg_max("r1", "the maximum for " + first_var);
-  vector<argument> arg_vec(1, arg_min);
-  arg_vec.push_back(arg_max);
-  option opt_r('r', arg_vec);
+  argument r_arr[2] = {argument("r0", "the mininum for " + first_var),
+			 argument("r1", "the maximum for " + first_var)};
+  option opt_r('r', vector<argument>(r_arr, r_arr + 2));
  
   // min and max z
-  argument arg_minz("z0", "the mininum for " + sec_var);
-  argument arg_maxz("z1", "the maximum for " + sec_var);
-  vector<argument> arg_vecz(1, arg_minz);
-  arg_vecz.push_back(arg_maxz);
-  option opt_z('z', arg_vecz);
- 
+  argument z_arr[2] = {argument("z0", "the mininum for " + sec_var),
+			 argument("z1", "the maximum for " + sec_var)};
+  option opt_z('z', vector<argument>(z_arr, z_arr + 2));
+
   // interaction parameter
-  argument arg_k("k", "the interaction parameter");
-  option opt_k('k',  arg_k);
+  option opt_k('k',  argument("k", "the interaction parameter"));
 
-  vector<option> opt_vec = vector<option>(1, opt_help);
-  opt_vec.push_back(opt_I);
-  opt_vec.push_back(opt_J);
-  opt_vec.push_back(opt_eig);
-  opt_vec.push_back(opt_fcoef);
-  opt_vec.push_back(opt_scoef);
-  opt_vec.push_back(opt_r);
-  opt_vec.push_back(opt_z);
-  opt_vec.push_back(opt_k);
+  option opt_arr[] = {opt_I, opt_J, opt_out, opt_eig, opt_fcoef, opt_scoef,
+		      opt_r, opt_z, opt_k};
 
-  command_line cl = command_line("interface", opt_vec, arg_file);
-  
+  command_line cl =
+    command_line("interface", vector<option>(opt_arr, opt_arr + 9), arg_file);
+
   try{
     cl.parse(argc, argv);
   }
-  catch(exception_argument){
-    cout << "illegal argument, ";
+  catch(exception_argument e){
+    cout << e.desc << ", ";
     cout << "usage: \n" << cl.usage() << endl;
     return 1;
   }
 
-  cout << cl['k'].first << endl;
-
+  if(cl['h'].first)
+    cout << "usage: \n" << cl.usage() << endl;
+  if(cl['r'].first)
+    cout << "r: " << cl['r'].second[0] << ", " << cl['r'].second[1] << endl;
+  if(cl['z'].first)
+    cout << "z: " << cl['z'].second[0] << ", " << cl['z'].second[1] << endl;
+  if(cl['I'].first)
+    cout << "I: " << cl['I'].second[0] << endl;
+  if(cl['J'].first)
+    cout << "J: " << cl['J'].second[0] << endl;
+  if(cl['e'].first)
+    cout << "e: " << cl['e'].second[0]  << endl;
+  if(cl['k'].first)
+    cout << "k: " << cl['k'].second[0]  << endl;
+  
 
   return 0;
 }
