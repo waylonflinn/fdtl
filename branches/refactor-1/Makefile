@@ -4,8 +4,9 @@
 # $@ is the target
 # $(<D) is the directory part of the first prerequisite
 
-objects = gs_l.o gauss_seidel.o problem_basic.o laplace.o residual_norm.o \
-	boundary.o
+com_obj = problem_basic.o residual_norm.o boundary.o
+sor_l_obj = sor_l.o successive_overrelaxation.o laplace.o $(com_obj)
+gs_l_obj = gs_l.o gauss_seidel.o laplace.o $(com_obj)
 dir_algorithm = ./algorithm/
 dir_problem = ./problem/
 dir_interface = ./interface/
@@ -17,9 +18,18 @@ else
  CPPFLAGS = -I $(dir_algorithm) -I $(dir_problem)
 endif
 
+.PHONY : all clean debug
 
-gs_l : $(objects)
-	g++ -o gs_l $(CPPFLAGS) $^
+all : sor_l gs_l
+
+sor_l : sor_l.o $(sor_l_obj)
+	g++ -o $@ $(CPPFLAGS) $^
+
+sor_l.o : sor_l.cpp
+	g++ -c $(CPPFLAGS) $<
+
+gs_l : $(gs_l_obj)
+	g++ -o $@ $(CPPFLAGS) $^
 
 gs_l.o : gs_l.cpp
 	g++ -c $(CPPFLAGS) $<
@@ -39,10 +49,8 @@ residual_norm.o: residual_norm.cpp residual_norm.h goal.h problem.h
 boundary.o : boundary.cpp boundary.h
 	g++ -c $(CPPFLAGS) $< -o $@
 
-.PHONY : clean debug
-
 clean :
 	rm gs_l *.o
 
-debug : $(objects)
+debug : $(sor_l_obj)
 	g++ -o gs_l $(CPPFLAGS) $^
