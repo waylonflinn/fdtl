@@ -10,10 +10,12 @@
 #include "boundary.h"
 
 using std::cout;
+using std::cin;
 using std::cerr;
 using std::endl;
 using std::vector;
 using std::ostream;
+using std::istream;
 using std::ofstream;
 using std::ifstream;
 

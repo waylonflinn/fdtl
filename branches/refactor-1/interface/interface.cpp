@@ -138,7 +138,13 @@ void interface::make_bound(){
   int i,j;
   int type;
   int begin, end;
-  ifstream fs(cl.arg_val().c_str());
+  istream* p_in;
+  if(cl.arg_val() == "-")
+    p_in = &cin;
+  else
+    p_in = new ifstream(cl.arg_val().c_str());
+  
+  istream& in = *p_in;
   string line;
   vector<double> bound(2*gx+2*gy, 0);
   vector<double>::iterator iter = bound.begin();
@@ -150,13 +156,13 @@ void interface::make_bound(){
   end = 0;
   arr_it[0] = bound.begin();
   for(i = 0; i < 4; ++i){
-    getline(fs, line);
+    getline(in, line);
     if(tolower(line.at(0)) == 'd'){
-      getline(fs,line);
+      getline(in,line);
     }
     else if(tolower(line.at(0)) == 'n'){
       arr_type[i] = boundary::NEUMANN;
-      getline(fs,line);
+      getline(in,line);
     }
     else if(isdigit(line.at(0))){}
     else
@@ -201,6 +207,9 @@ void interface::make_bound(){
   rt = boundary(arr_type[1], arr_it[1], arr_it[2]);
   bt = boundary(arr_type[2], arr_it[2], arr_it[3]);
   lf = boundary(arr_type[3], arr_it[3], arr_it[4]);
+
+  if(!(cl.arg_val() == "-"))
+    delete p_in;
 }
 /* a modern version of strtod.
  * takes a string (basic_string<char>) and interprets it as a number which may
