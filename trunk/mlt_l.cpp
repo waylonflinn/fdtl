@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-#include "interface.h"
+#include "interface_mlt.h"
 #include "laplace.h"
 #include "gauss_seidel.h"
 #include "multigrid.h"
@@ -15,10 +15,10 @@ using std::endl;
 
 main(int argc, char* argv[])
 {
-  interface inter;
+  interface_mlt inter;
 
   try{
-  inter = interface("gs_l", argc, argv);
+  inter = interface_mlt("mlt_l", argc, argv);
   }
   catch(invalid_argument e){
     cerr << e.what() << endl;
@@ -34,7 +34,7 @@ main(int argc, char* argv[])
 	     inter.top(), inter.right(), inter.bottom(), inter.left());
   residual_norm norm(lp, EPS);
   gauss_seidel gs(5000);
-  multigrid mlt(10000, 5, gs);
+  multigrid mlt(10000, inter.S(), gs);
 
   int I = lp.I();
   int J = lp.J();

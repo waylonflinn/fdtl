@@ -10,7 +10,7 @@ com_obj = problem_basic.o solver_basic.o residual_norm.o boundary.o \
 sor_l_obj = successive_overrelaxation.o laplace.o interface_sor.o $(com_obj)
 gs_l_obj = gauss_seidel.o laplace.o $(com_obj)
 mlt_l_obj = multigrid.o bilinear_interpolation.o half_weighting.o \
- gauss_seidel.o laplace.o $(com_obj)
+ gauss_seidel.o laplace.o interface_mlt.o $(com_obj)
 gs_sho_obj = gauss_seidel.o simple_harmonic_oscillator.o interface_sho.o \
  solution_norm.o $(com_obj)
 sor_sho_obj = successive_overrelaxation.o simple_harmonic_oscillator.o \
@@ -154,6 +154,11 @@ interface_sho.o: interface_sho.cpp interface_sho.h interface.cpp interface.h \
 
 interface_sor.o: interface_sor.cpp interface_sor.h interface.cpp interface.h \
  command_line.h option.h argument.h boundary.h option_set.h option_set_sor.h
+	g++ -c $(CPPFLAGS) $< -o $@
+
+interface_mlt.o: interface_mlt.cpp interface_mlt.h interface.cpp \
+  interface.h  command_line.h option.h argument.h boundary.h option_set.h \
+  option_set_mlt.h
 	g++ -c $(CPPFLAGS) $< -o $@
 
 interface_sor_sho.o: interface_sor_sho.cpp interface_sor_sho.h \
