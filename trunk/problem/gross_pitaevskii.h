@@ -1,15 +1,16 @@
-/* a problem resulting from finite differencing of Laplace's equation
- *
+/* a problem representing a finite differencing of the Gross-Pitaevskii
+ * equation (a modified schrodinger equation representing a many body
+ * electrodynamic system) given in cylindrical coordinates.
  */
 
 #include "problem_basic.h"
 
-class simple_harmonic_oscillator : public problem_basic
+class gross_pitaevskii : public problem_basic
 {
 public:
 
   // constructors
-  simple_harmonic_oscillator(
+  gross_pitaevskii(
 	  int I,
 	  int J,
 	  pair<double, double> range_x,
@@ -20,7 +21,8 @@ public:
 	  const boundary& left,
 	  double coeff_x,
 	  double coeff_y,
-	  double eigenvalue);
+	  double eigenvalue,
+	  double parameter);
 
   // methods
   double a(int i, int j) const { return 1;}
@@ -35,8 +37,10 @@ public:
   double cx;
   double cy;
   double eig;
+  double param;
   // intermediates for e(int,int)
   double meig;	// -1*ssx*eig
+  double mparam;
   /* the following terms represent intermediate values in the computation
      of the potential term in the two variable */
   double p1x;	// sx^2*cx*x.first^2

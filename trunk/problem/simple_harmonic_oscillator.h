@@ -1,5 +1,6 @@
-/* a problem resulting from finite differencing of Laplace's equation
- *
+/* a problem representing a finite differencing of the time-independent 
+ * schrodinger equation with a simple harmonic oscillator potential given
+ * in rectangular coordinates.
  */
 
 #include "problem_basic.h"
