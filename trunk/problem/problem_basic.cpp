@@ -94,8 +94,8 @@ problem_basic& problem_basic::operator+=(const problem_basic& prob)
 {
   int i,j;
 
-  for(j = 1; j < (gy-1); ++j){
-    for(i = 1; i < (gx-1); ++i){
+  for(j = 1; j < gy; ++j){
+    for(i = 1; i < gx; ++i){
       (*this).u(i,j) += prob.at(i,j);
     }
   }
@@ -107,8 +107,8 @@ problem_basic& problem_basic::operator-=(const problem_basic& prob)
 {
   int i,j;
 
-  for(j = 1; j < (gy-1); ++j){
-    for(i = 1; i < (gx-1); ++i){
+  for(j = 1; j < gy; ++j){
+    for(i = 1; i < gx; ++i){
       (*this).u(i,j) -= prob.at(i,j);
     }
   }

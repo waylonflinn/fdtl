@@ -7,8 +7,8 @@
 #include "residual_norm.h"
 #include "solution_norm.h"
 
-#define PRECISION	3	// decimal digits to display
-#define EPS		1.0e-5	// ratio of final residual to initial residual
+#define PRECISION	2	// decimal digits to display
+#define EPS		1.0e-3	// ratio of final residual to initial residual
 
 using std::vector;
 using std::cout;
@@ -50,7 +50,7 @@ main(int argc, char* argv[])
 	     a, b, eig, parm);
   residual_norm norm(gpe, EPS);
   solution_norm s_norm(gpe, EPS);
-  gauss_seidel gs(5000);
+  gauss_seidel gs(1000);
   multigrid mlt(10000, inter.S(), gs);
 
   int I = gpe.I();

@@ -10,6 +10,8 @@ class gross_pitaevskii : public problem_basic
 {
 public:
 
+  gross_pitaevskii();
+
   // constructors
   gross_pitaevskii(
 	  int I,

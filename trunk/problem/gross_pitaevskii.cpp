@@ -1,5 +1,7 @@
 #include "gross_pitaevskii.h"
 
+gross_pitaevskii::gross_pitaevskii() {}
+
 gross_pitaevskii::gross_pitaevskii(
 	  int I,
 	  int J,

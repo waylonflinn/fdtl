@@ -35,6 +35,7 @@ double residual_norm::norm(const problem& prob)
       norm += abs(res);
     }
   }
+  norm /= (I*J);
   
   return norm;
 }
