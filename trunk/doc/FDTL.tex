@@ -83,10 +83,21 @@ y = y_{0} + j \Delta y
 \end{equation}
 where $x_0$ and $y_0$ are the lower bounds on the $x$ and $y$ boundaries, respectively, and $\Delta x$ and
 $\Delta y$ are the grid spacings in $x$ and $y$, respectively.
+
+Throughout this section (and the next) I use the $\leftarrow$ symbol to show refinement,
+and the $\triangleleft$ symbol to show that a type is a model of a concept.
+
+Below are syntactic descriptions of each of the major concepts.
+
+\begin{description}
+\item[A $\leftarrow$ B] B is a refinement of A
+\item[B $\triangleleft$ b] b is a model of B
+\end{description}
+
 \subsection{Solution}
 \subsubsection{Static Solution}
 
-\begin{tabular}[!htb]{|l|l|}
+\begin{tabular}[!htb]{|p{5.25 cm}|p{8 cm}|}
 \hline
 Member&	Description\\
 \hline
@@ -96,7 +107,7 @@ double at(int i, int j)&	returns the value at the grid point (i,j)\\
 
 \subsubsection{Static Solution $\leftarrow$ Mutable Solution}
 
-\begin{tabular}[!htb]{|l|l|}
+\begin{tabular}[!htb]{|p{5.25 cm}|p{8 cm}|}
 \hline
 Member&	Description\\
 \hline
@@ -106,7 +117,7 @@ double\& u(int i, int j)&	returns a reference to the value at the grid point (i,
 
 \subsubsection{Mutable Solution $\leftarrow$ Problem}
 
-\begin{tabular}[!htb]{|l|p{7cm}|}
+\begin{tabular}[!htb]{|p{5.25 cm}|p{8 cm}|}
 \hline
 Member&	Description\\
 \hline
@@ -127,7 +138,7 @@ double f(int i, int j)&	Returns the the value of the source term ($f$) at the gr
 \subsection{Solver}
 \subsubsection{Unary Function $\leftarrow$ Solver}
 
-\begin{tabular}[!htb]{|l|p{7cm}|}
+\begin{tabular}[!htb]{|p{5.25 cm}|p{8 cm}|}
 \hline
 Member&	Description\\
 \hline
@@ -138,18 +149,24 @@ int solve(const Problem\& p)&	Solve the finite differenced Problem p\\
 \end{tabular}
 \subsection{Goal}
 \subsubsection{Unary Function $\leftarrow$ Goal}
+This is a purely semantic refinement.
 
 \subsection{Prolongation Operator}
 \subsubsection{Binary Function $\leftarrow$ Prolongation Operator}
+This is a purely semantic refinement.
 
 \subsection{Restriction Operator}
 \subsubsection{Binary Function $\leftarrow$ Restriction Operator}
+This is a purely semantic refinement.
 
 \subsection{Integrator}
 \subsubsection{Unary Function $\leftarrow$ Integrator}
+This is a purely semantic refinement.
 
 \subsection{Transform}
 \subsubsection{Static Solution $\leftarrow$ Transform}
+This is a purely semantic refinement.
+
 \section{Models}
 Solver $\triangleleft$  gauss\_seidel \\
 Solver $\triangleleft$  successive\_overrelaxation \\
@@ -162,15 +179,18 @@ Problem $\triangleleft$  laplace \\
 Problem $\triangleleft$  simple\_harmonic\_oscillator \\
 Problem $\triangleleft$  gross\_pitaevskii \\
 \\
+Restriction Operator $\triangleleft$  half\_weighting \\
+Prolongation Operator $\triangleleft$  bilinear\_interpolation \\
+\\
 Transform $\triangleleft$ gross\_pitaevskii\_energy\\
 
 \section{Appendix A. Categories}
 In addition to the standard terminology from the OO and generic schools I use the term
 \emph{category} to refer to a related set of concepts. More formally, a \emph{category}
 is any (disjoint) set of refinement hierarchies which link
-semantically related concepts. As the typical refinement hierarchy is most easily expressed
-as a graph, the category naturally contains all the concepts in the hierarchy.
-I also sometimes use the name of the category to refer to one of it's constituents. This may seem a bit
+semantically related concepts. A category naturally contains all the concepts in the hierarchies which
+make it up.
+I also sometimes use the name of the category to describe one of it's constituents. This may seem a bit
 confusing at first but is actually quite a natural (and common) linguistic device.
 
 
@@ -178,7 +198,7 @@ As an example consider the term `Iterator' as used in the Silicon Graphics Inc.
 (SGI) documentation of the Standard Template Library (STL). `Iterator', as used there, does
 not refer to an actual concept in the STL, it instead refers to a set of six related concepts.
 It is consistent with both the usage in the SGI documentation and the usage in this document to create
-from these six concepts, and thier refinement hierarchy, a category and to then name this category
+from these six concepts, and thier refinement hierarchy, a \emph{category} and to then name this category
 \emph{Iterator}. This category would then include all concepts in 
 the refinement hierarchy rooted at \emph{Trivial Iterator} and \emph{Output Iterator} and extending to
 the concept \emph{Random Access Iterator}, which is not further refined in the STL. I believe that doing
