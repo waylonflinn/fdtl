@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include <cmath>
 #include "laplace.h"
 #include "successive_overrelaxation.h"
 #include "residual_norm.h"
@@ -14,15 +15,16 @@ using std::endl;
 main(int argc, char* argv[])
 {
   double b_arr[] =
-    {-9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10};
-  vector<double> b(b_arr, b_arr + 20);
+    {-9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
+    9, 8, 7, 6, 5, 4, 3, 2, 1, 0, -1, -2, -3, -4, -5, -6, -7, -8, -9, -10};
+  vector<double> b(b_arr, b_arr + 40);
   boundary bound(boundary::DIRICHLET, b.begin(), b.end());
-  vector<double> nb(20, 0);
+  vector<double> nb(40, 0);
   boundary nbound(boundary::NEUMANN, nb.begin(), nb.end());
 
-  laplace lp(20, 20, 20, 20, bound, bound, bound, bound);
+  laplace lp(40, 40, 40, 40, bound, bound, bound, bound);
   residual_norm norm(lp, EPS);
-  successive_overrelaxation sor(10000, 5);
+  successive_overrelaxation sor(1000, 1-M_PI*M_PI/(2*40*40));
 
   int I = lp.I();
   int J = lp.J();
