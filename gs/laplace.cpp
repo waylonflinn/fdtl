@@ -1,9 +1,12 @@
+#include <vector>
 #include "../problem.cpp"
 #include "../boundary.cpp"
 
 /* a problem resulting from finite differencing of Laplace's equation
  *
  */
+
+using std::vector;
 
 class laplace : public problem
 {
@@ -25,14 +28,8 @@ public:
 	  boundary bottom,
 	  boundary left);
 
-  laplace(laplace& l);		// copy constructor
-
-  ~laplace();			// destructor
-
-  laplace& operator=(const laplace& l);	// copy assignment
-
 private:
-  vector< vector<double> >* _p_solution;	// pointer to the solution
+  vector< vector<double> > _solution;	// pointer to the solution
   int _I, _J;
   boundary _top, _right, _bottom, _left;
 
@@ -64,50 +61,8 @@ laplace::laplace(int I,
   _I = I;
   _J = J;
 
-  _p_solution = new vector< vector<double> >(I, vector<double>(J, average));
-}
-
-laplace::laplace(laplace& l)
-  : _top(l._top), _right(l._right), _bottom(l._bottom), _left(l._left)
-{
-  int i;
-  double average;
-
-  _I = l._I;
-  _J = l._J;
-
-  _p_solution = new vector< vector<double> >(_I, vector<double>(_J, 0));
-
-  for(i = 0; i < _I; ++i){
-    _p_solution[i] = vector<double>(l._p_solution[i].begin(),
-				    l._p_solution[i].end());
-  }
-}
-
-laplace::~laplace()
-{
-  delete _p_solution;
-}
-
-laplace& laplace::operator=(const laplace& l)
-{
-  int i;
-  double average;
-
-  _I = l._I;
-  _J = l._J;
-  _top = l._top;
-  _right = l._right;
-  _bottom = l._bottom;
-  _left = l._left;
-
-  delete _p_solution;
-  _p_solution = new vector< vector<double> >(_I, vector<double>(_J, 0));
-
-  for(i = 0; i < _I; ++i){
-    _p_solution[i] = vector<double>(l._p_solution[i].begin(),
-				    l._p_solution[i].end());
+  _solution = vector< vector<double> >(I, vector<double>(J, average));
 }
 
 double& laplace::u(int i, int j)
-{ return (*_p_solution)[i][j]; }
+{ return _solution[i][j]; }
