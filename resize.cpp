@@ -69,20 +69,14 @@ template<class ProblemResizable> int solve(ProblemResizable& prob, goal& g)
     cout << "# iter: " << iter << endl;
     cout << "# size: " << prob.I() << endl;
     cout << prob;
-    init = true;
   }
   else{
     ProblemResizable orig = prob.clone();
-    if(init)
-      this_iter += smooth(prob, g);      // presmoothing
-    while((cycle < max_cycle) && !g(prob)){
-      prob.shrink(hw);
-      iter = solve(prob, g);		// recurse
-      bi(prob, orig);
-      this_iter += smooth(orig, g);	// postsmoothing
-      prob = orig;
-      ++cycle;
-    }
+    prob.shrink(hw);
+    iter = solve(prob, g);		// recurse
+    bi(prob, orig);
+    this_iter += smooth(orig, g);	// postsmoothing
+    prob = orig;
     iter += this_iter;
     cout << "# iter: " << this_iter << endl;
     cout << "# size: " << prob.I() << endl;
