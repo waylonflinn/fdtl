@@ -7,6 +7,9 @@
  * transformed.
  */ 
 
+#ifndef PDE_JACOBIAN_CYL
+#define PDE_JACOBIAN_CYL
+
 #include <cmath>
 
 template<class StaticSolution>
@@ -38,3 +41,5 @@ double jacobian_cyl<StaticSolution>::at(int i, int j) const
 {
   return sol.at(i,j)*2*M_PI*(sol.x0()+(sol.dx()*i));
 }
+
+#endif	// PDE_JACOBIAN_CYL
