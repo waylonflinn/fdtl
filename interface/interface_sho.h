@@ -8,6 +8,8 @@ class interface_sho : public interface
   static const double DEF_A;
   static const double DEF_B;
   static const double DEF_EIG;
+  static const pair<double,double> DEF_X;
+  static const pair<double,double> DEF_Y;
 
   /* these constants represent the command line for this interface */
   static const option OPT_A;
