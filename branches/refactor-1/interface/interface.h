@@ -57,6 +57,7 @@ class interface
   static const argument ARR_X[];
   static const argument ARR_Y[];
   static const option ARR_OPT[];
+  static const int ARR_OPT_S = 4;
 
   // variables
   command_line cl;

@@ -28,7 +28,7 @@ public:
   double c(int i, int j) const { return rss;}
   double d(int i, int j) const { return rss;}
   double e(int i, int j) const 
-    { return (mcx*i*i*ssx)+(mcy*j*j*ssy)- meig - ast;}
+    { return (p1x+(p2x*i)+(p3x*i*i))+(p1y+(p2y*j)+(p3y*j*j)) + meig + ast;}
   double f(int i, int j) const { return 0;}
 
  private:
@@ -36,8 +36,14 @@ public:
   double cy;
   double eig;
   // intermediates for e(int,int)
-  double mcx;	// ssx*cx
-  double mcy;	// ssx*cy
-  double meig;	// ssx*eig
-
+  double meig;	// -1*ssx*eig
+  /* the following terms represent intermediate values in the computation
+     of the potential term in the two variable */
+  double p1x;	// sx^2*cx*x.first^2
+  double p2x;	// 2*sx^3*cx*x.first
+  double p3x;	// sx^4*cx
+  double p1y;	// sx^2*cy*y.first^2
+  double p2y;	// 2*sx^2*sy*cy*y.first
+  double p3y;	// sx^2*sy^2*cy
+  
 };

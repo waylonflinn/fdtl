@@ -19,6 +19,8 @@ public:
   static double norm(const problem& prob);
 
 private:
+  double init;		// initial norm
   double target;	// initial norm times epsilon
+  double max;		// intial norm times 10
   
 };

@@ -1,12 +1,12 @@
 #include <iostream>
 #include <vector>
-#include "interface.h"
+#include "interface_sho.h"
 #include "simple_harmonic_oscillator.h"
 #include "gauss_seidel.h"
 #include "residual_norm.h"
 
 #define PRECISION	3	// decimal digits to display
-#define EPS		1.0e-5	// ratio of final residual to initial residual
+#define EPS		1.0e-20	// ratio of final residual to initial residual
 
 using std::vector;
 using std::cout;
@@ -14,10 +14,10 @@ using std::endl;
 
 main(int argc, char* argv[])
 {
-  interface inter;
+  interface_sho inter;
 
   try{
-  inter = interface("gs_sho", argc, argv);
+  inter = interface_sho("gs_sho", argc, argv);
   }
   catch(invalid_argument e){
     cerr << e.what() << endl;
@@ -30,9 +30,9 @@ main(int argc, char* argv[])
 
   simple_harmonic_oscillator sho(inter.I(), inter.J(), inter.x(), inter.y(),
 	     inter.top(), inter.right(), inter.bottom(), inter.left(),
-	     1, 1, 1 + 0.5);
+	     inter.a(), inter.b(), inter.eigenvalue());
   residual_norm norm(sho, EPS);
-  gauss_seidel gs(100);
+  gauss_seidel gs(1000);
 
   int I = sho.I();
   int J = sho.J();

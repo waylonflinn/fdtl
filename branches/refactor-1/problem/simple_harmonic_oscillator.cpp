@@ -13,10 +13,14 @@ simple_harmonic_oscillator::simple_harmonic_oscillator(
 	  double coeff_y,
 	  double eigenvalue)
   : problem_basic(I, J, range_x, range_y, top, right, bottom, left),
-    cx(coeff_x), cy(coeff_y), eig(eigenvalue), mcx(ssx*cx), mcy(ssy*cy),
-    meig(ssx*eig)
+    cx(coeff_x), cy(coeff_y), eig(eigenvalue),
+    p1x(ssx*cx*x.first*x.first), p2x(2*ssx*sx*cx*x.first), p3x(ssx*ssx*cx),
+    p1y(ssx*cy*y.first*y.first), p2y(2*ssx*sy*cy*y.first), p3y(ssx*ssy*cy),
+    meig(-1*ssx*eig)
         
 {
+  double norm_av = 1/(2.0*(x.second-x.first)+2.0*(x.second-x.first));
+
   sol = vector< vector<double> >((*this).gx - 1,
-                                 vector<double>((*this).gy - 1, 0.5));
+                                 vector<double>((*this).gy - 1, norm_av));
 }
