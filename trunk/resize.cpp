@@ -16,6 +16,9 @@ using std::endl;
 using std::vector;
 using std::pair;
 
+gauss_seidel smooth(5000);
+bool init = false;
+template<class ProblemResizable> int solve(ProblemResizable& prob, goal& g);
 int multi(laplace& lp);
 int main()
 {
@@ -28,39 +31,64 @@ int main()
   vec_bound.insert(vec_bound.end(),vec_bound.rbegin(),vec_bound.rend());
 
   boundary bound_f(boundary::DIRICHLET, J, 0.0);
-  boundary bound_f_odd(boundary::DIRICHLET, vec_bound.begin(), vec_bound.end());
+  //boundary bound_f_odd(boundary::DIRICHLET, vec_bound.begin(), vec_bound.end());
+  boundary bound_f_odd(boundary::DIRICHLET, J, 1.0);
   laplace fine(I, J, x, y, bound_f, bound_f, bound_f, bound_f_odd);
+  residual_norm norm(fine, EPS);
 
   double norm_c0 = residual_norm::norm(fine);
-  int iter = multi(fine);
+  int iter = solve(fine, norm);
 
   double norm_c1 = residual_norm::norm(fine);
   double ratio = norm_c1/norm_c0;
-
-  /*  
-  boundary bound_c(boundary::DIRICHLET, J/2, 0.0);
-  boundary bound_c_odd(boundary::DIRICHLET, J/2, 1.0);
-  half_weighting hw;
-  hw(bound_f_odd,bound_c_odd);
-  laplace coarse(I/2, J/2, x, y, bound_c, bound_c, bound_c, bound_c_odd);
-
-  hw(fine, coarse);
-  
-  bilinear_interpolation bi;
-  bi(bound_c_odd, bound_f_odd);
-  fine = laplace(I, J, x, y, bound_f, bound_f, bound_f, bound_f_odd);
-  */
 
   cout.precision(3);
 
   cout << "# iter: " << iter << endl;
   cout << "# ratio: " << ratio << endl;
 
-  //cout << coarse << endl;
-
   cout << fine << endl;
 
   return 0;
+}
+
+// recursive templated version
+template<class ProblemResizable> int solve(ProblemResizable& prob, goal& g)
+{
+
+  bilinear_interpolation bi;
+  half_weighting hw;
+  int iter = 0;
+  int this_iter = 0;
+  int cycle = 0;
+  int max_cycle = 3;
+  int min_grid = 5;
+
+  if(prob.I() == min_grid){
+    iter = smooth(prob, g);
+    cout << "# iter: " << iter << endl;
+    cout << "# size: " << prob.I() << endl;
+    cout << prob;
+    init = true;
+  }
+  else{
+    ProblemResizable orig = prob.clone();
+    if(init)
+      this_iter += smooth(prob, g);      // presmoothing
+    while((cycle < max_cycle) && !g(prob)){
+      prob.shrink(hw);
+      iter = solve(prob, g);		// recurse
+      bi(prob, orig);
+      this_iter += smooth(orig, g);	// postsmoothing
+      prob = orig;
+      ++cycle;
+    }
+    iter += this_iter;
+    cout << "# iter: " << this_iter << endl;
+    cout << "# size: " << prob.I() << endl;
+    cout << prob;
+  }
+  return iter;
 }
 
 int multi(laplace& lp)
