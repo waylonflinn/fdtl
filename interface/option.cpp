@@ -13,6 +13,8 @@ public:
   const static string ARG_NAME;	// placeholder for an argument name
   
   // constructors
+  option(const char& letter, const string& description,
+	 const vector<argument>& arg_vec);
   option(const char& letter, const string& description, const argument& arg);
   option(const char& letter, const string& description);
   option();
@@ -30,19 +32,20 @@ private:
 
 const string option::PREFIX = "-";
 
-const string option::ARG_NAME = "%s";
+const string option::ARG_NAME = "%np";	// noun phrase
 
 option::option(const char& letter,
 	       const string& description,
 	       const argument& arg)
   : letter(letter), desc(description), arg_vec(1, arg)
 {
-  // interpret description
-  string::size_type loc = desc.find(option::ARG_NAME);
-  string::size_type len = option::ARG_NAME.size();
-  string arg_name = arg_vec[0].name();
+}
 
-  (*this).desc.replace(loc, len, arg_name);
+option::option(const char& letter,
+	       const string& description,
+	       const vector<argument>& argument_vector)
+  : letter(letter), desc(description), arg_vec(argument_vector)
+{
 }
 
 option::option(const char& letter,
@@ -63,12 +66,26 @@ bool option::match(const string& token)
 
 const string& option::usage()
 {
+  string arg_list;
+  string arg_desc;
 
   if((*this).use.size() == 0){	// first call to function
-    string arg_name = (arg_vec.size() == 0) ? "" : arg_vec[0].name();
 
-    (*this).use = option::PREFIX + (*this).letter + " " + arg_name + "\t" + 
-      (*this).desc;
+    vector<argument>::iterator iter = arg_vec.begin();
+    vector<argument>::iterator end = arg_vec.end();
+    for( ; iter != end; iter++){
+      arg_list += "<" + (*iter).name() + "> ";
+
+      if(iter == arg_vec.begin())
+	arg_desc += "\n\t\twhere " + (*iter).usage();
+      else if(iter == (arg_vec.end() - 1))
+	arg_desc += "\n\t\tand " + (*iter).usage();
+      else
+	arg_desc += ",\n\t\t" + (*iter).usage();
+    }
+
+    (*this).use = "\n\t" + option::PREFIX + (*this).letter + " " +
+      arg_list + "\n\t" + (*this).desc + arg_desc;
   }
 
   return (*this).use;

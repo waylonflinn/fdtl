@@ -9,13 +9,13 @@ using std::string;
 using std::pair;
 using std::map;
 
-class cl {
+class command_line {
 public:
   // constants
 
   // constructors
-  cl(const vector<option>& option_vector, const argument& argument);
-  cl();
+  command_line(const vector<option>& option_vector, const argument& argument);
+  command_line();
 
   // methods
   const pair<bool, vector<string> >& operator[](const char& letter)
@@ -37,29 +37,28 @@ private:
   string use;
 };
 
-cl::cl(const vector<option>& option_vector, const argument& argument)
-  : opt_vec(option_vector), arg(argument), use()
+command_line::command_line(const vector<option>& option_vector, const argument& argument)
+  : opt_vec(option_vector), arg(argument)
 {
 }
 
-cl::cl() : opt_vec(), arg()
+command_line::command_line() : opt_vec(), arg()
 {
 }
 
-const string& cl::usage()
+const string& command_line::usage()
 {
   if((*this).use.size() == 0){
-    (*this).use = prog_name + " <options> " + arg.name();
+    (*this).use = prog_name + " <options> " + "<" + arg.name() + ">";
 
-    (*this).use += "\n\twhere <options> is zero or more of:\n";
+    (*this).use += "\n\twhere <options> is zero or more of:";
 
     vector<option>::iterator iter = opt_vec.begin();
     for(iter = opt_vec.begin(); iter != opt_vec.end(); iter++){
-      (*this).use += "\n\t" + (*iter).usage();
+      (*this).use += "\n" + (*iter).usage();
     }
 
-    (*this).use += "\n\n\tand " + arg.name() + " specifies " +
-      arg.description();
+    (*this).use += "\n\n\tand " + arg.usage();
   }
 
   return (*this).use;
