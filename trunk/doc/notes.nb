@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[     20664,        629]*)
-(*NotebookOutlinePosition[     21307,        651]*)
-(*  CellTagsIndexPosition[     21263,        647]*)
+(*NotebookOptionsPosition[     25853,        791]*)
+(*NotebookOutlinePosition[     26496,        813]*)
+(*  CellTagsIndexPosition[     26452,        809]*)
 (*WindowFrame->Normal*)
 
 
@@ -348,10 +348,111 @@ Cell[BoxData[
 
 Cell[BoxData[
     \(ListPlot[
-      Table[{\(normList[\([i]\)]\)[\([1]\)], 
-          Sqrt[\(normList[\([i]\)]\)[\([2]\)]]}, \ {i, \ 1, \ 16}], \ 
+      Table[{\(normList[\([i]\)]\)[\([2]\)], \(normList[\([i]\)]\)[\([1]\)]}, \
+\ {i, \ 1, \ 5}], \ PlotJoined\  \[Rule] \ False, \ 
+      PlotStyle \[Rule] PointSize[ .02], \ 
+      PlotRange\  \[Rule] \ {Automatic, \ {0, \ 4}}]\)], "Input"],
+
+Cell[BoxData[
+    \(\((8, \ 100, \ 0, \ 3.5, \ \(-2.2\), \ 2, 
+        2)\)\ in\ the\ form\ \((\[Lambda]\^2, \ N, \ x\_0, x\_1, y\_0, 
+        y\_1)\)\)], "Text"],
+
+Cell[BoxData[
+    \(normList = {{2.91142*10^\((\(-05\))\), 
+          2.079}, \ {3.17655*10^\((\(-05\))\), 
+          2.1}, \ {4.58459*10^\((\(-05\))\), 
+          2.178}, \ {5.24152*10^\((\(-05\))\), 2.2}, \ {0.000101251, 
+          2.277}, \ {0.000136464, 2.3}, \ {0.000441967, 
+          2.3265}, \ {0.00159664, 2.35}, \ {0.00622613, 2.376}, {0.0184964, 
+          2.4}, {0.126769, 2.475}, {0.172028, 2.5}, {0.313847, 
+          2.574}, {0.36638, 2.6}, {0.521055, 2.673}, {0.580913, 
+          2.7}, {1.04046, 2.88904}, {1.10556, 2.91359}, {1.2245, 
+          2.95735}, {7.01501, 4.31978}}\)], "Input"],
+
+Cell[BoxData[
+    \(ListPlot[
+      Table[{\(normList[\([i]\)]\)[\([2]\)], \ 
+          Log[\(normList[\([i]\)]\)[\([1]\)]]}, \ {i, \ 1, 11}], \ 
       PlotJoined\  \[Rule] \ False, \ PlotStyle \[Rule] PointSize[ .02], \ 
-      PlotRange\  \[Rule] \ {Automatic, \ {0, \ 10}}]\)], "Input"]
+      PlotRange\  \[Rule] \ {Automatic, Automatic}]\)], "Input"],
+
+Cell[BoxData[
+    \(Plot[{Log[x], \ Log[x + 1], \ Log[x + 2]}, \ {x, \ 0, 6}]\)], "Input"],
+
+Cell[BoxData[
+    \(Plot[{Sqrt[x], \ Sqrt[x + 1], \ Sqrt[x + 2], \ Sqrt[x + 10]}, \ {x, \ 
+        0, 500}]\)], "Input"],
+
+Cell[BoxData[
+    \(Plot[{x\/2\ Log[x + 1] + 2}, \ {x, \ 0, \ 6}, \ 
+      PlotRange \[Rule] \ {\(-1\), \ 10}]\)], "Input"],
+
+Cell[BoxData[
+    \(testList\  = \ Table[{i, \ i*i}, \ {i, \ 1, \ 10}]\)], "Input"],
+
+Cell[BoxData[
+    \(ListPlot[
+      Table[{\(testList[\([i]\)]\)[\([1]\)]*\(testList[\([i]\)]\)[\([1]\)], \ \
+\(testList[\([i]\)]\)[\([2]\)]}, \ {i, \ 1, \ 10}]]\)], "Input"],
+
+Cell[BoxData[
+    \(\(\(\[IndentingNewLine]\)\(eig[x1_, \ y1_, \ x2_, \ 
+        y2_] = \((x1 - x2)\)\/\((y1 - y2)\) - \(\((x1 - x2)\)\/\((y1 - 
+                  y2)\)\) y2 + x2\)\)\)], "Input"],
+
+Cell[BoxData[
+    \(eig[2.475, \ Sqrt[0.126769], 2.5, \ Sqrt[0.172028]]\)], "Input"],
+
+Cell[BoxData[{
+    \(Clear[eigFunc]\), "\[IndentingNewLine]", 
+    \(eigFunc[x_, \ x1_, \ y1_, \ x2_, \ 
+        y2_] = \(\((y1 - y2)\)\/\((x1 - x2)\)\) \((x - x2)\) + y2\)}], "Input"],
+
+Cell[BoxData[
+    \(eigFunc[0, \ 2.5, \ 0.172028, \ 2.475, \ 0.126769]\)], "Input"],
+
+Cell[BoxData[
+    \(Plot[
+      eigFunc[x, \ 2.475, \ 0.126769, \ 2.5, \ 0.172028], \ {x, \ 2.5, \ 
+        3.2}]\)], "Input"],
+
+Cell[BoxData[
+    \(Plot[{1/
+          n, \ \((1/n)\)\^\(1/2\), \ \((1/n)\)\^\(1/4\), \ \
+\((1/n)\)\^\(1/8\)}, \ {n\ , \ 100, \ 5000}]\)], "Input"],
+
+Cell[BoxData[
+    \(a = 1\/2\)], "Input"],
+
+Cell[BoxData[{
+    \(a\  = \ 1\), "\[IndentingNewLine]", 
+    \(plot1\  = \ 
+      Plot3D[\((1\/n + 1\/m)\)\^a, \ {n\ , \ 100, \ 5000}, \ {m, \ 100, \ 
+          5000}]\), "\[IndentingNewLine]", 
+    \(a\  = \ 1\/2\), "\[IndentingNewLine]", 
+    \(plot2\  = \ 
+      Plot3D[\((1\/n + 1\/m)\)\^a, \ {n\ , \ 100, \ 5000}, \ {m, \ 100, \ 
+          5000}]\), "\[IndentingNewLine]", 
+    \(a\  = \ 1\/4\), "\[IndentingNewLine]", 
+    \(plot3\  = \ 
+      Plot3D[\((1\/n + 1\/m)\)\^a, \ {n\ , \ 100, \ 5000}, \ {m, \ 100, \ 
+          5000}]\)}], "Input"],
+
+Cell[BoxData[
+    \(Show[plot1, \ plot2, \ plot3]\)], "Input"],
+
+Cell[BoxData[{
+    \(a\  = \ 1\/4\), "\[IndentingNewLine]", 
+    \(plot1\  = \ 
+      Plot3D[\((1\/n + 1\/m)\)\^a, \ {n\ , \ 100, \ 5000}, \ {m, \ 100, \ 
+          5000}]\), "\[IndentingNewLine]", 
+    \(plot2\  = \ 
+      Plot3D[\((1\/n)\)\^a + \((1\/m)\)\^a, \ {n\ , \ 100, \ 5000}, \ {m, \ 
+          100, \ 5000}]\)}], "Input"],
+
+Cell[BoxData[
+    \(Show[plot1, \ plot2]\)], "Input"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -558,11 +659,19 @@ Cell[BoxData[
 
 Cell[BoxData[{
     \(Needs["\<Calculus`VectorAnalysis`\>"]\), "\[IndentingNewLine]", 
+    \(Needs["\<Graphics`PlotField`\>"]\), "\[IndentingNewLine]", 
     \(Needs["\<Graphics`PlotField3D`\>"]\), "\[IndentingNewLine]", 
     \(SetCoordinates[Cylindrical[r, t, z]]\)}], "Input"],
 
 Cell[BoxData[
+    \(Plot3D[interp3D[r, z, 0], \ {r, \ 0, 4}, {z, \ \(-2\), 2}]\)], "Input"],
+
+Cell[BoxData[
     \(gradInterp[r_, z_, t_] = Grad[interp3D[r, z, t]]\)], "Input"],
+
+Cell[BoxData[
+    \(PlotGradientField[
+      modInterp[r, z], \ {r, \ 0, 4}, {z, \ \(-2\), 2}]\)], "Input"],
 
 Cell[BoxData[
     \(normInterp[r_, z_, t_]\  = \ 
@@ -571,6 +680,36 @@ Cell[BoxData[
 Cell[BoxData[
     \(Plot3D[normInterp[r, z, t], \ {r, \ 0, \ 4}, \ {z, \ \(-2\), 2}, \ 
       PlotRange\  \[Rule] \ {0, \  .4}]\)], "Input"],
+
+Cell[BoxData[
+    \(Div[gradInterp[1, 1, 0]]\)], "Input"],
+
+Cell[BoxData[
+    \(interp3D[1, 1, 0]\)], "Input"],
+
+Cell[BoxData[
+    \(lapInterp[r_, z_, t_] = Laplacian[interp3D[r, z, t]]\)], "Input"],
+
+Cell[BoxData[
+    \(lapInterp[1, 1, 0]\)], "Input"],
+
+Cell[BoxData[
+    \(Plot3D[
+      lapInterp[r, z, 0], \ \ {r, \ 0.2, \ 4}, \ {z, \ \(-2\), 2}]\)], "Input"],
+
+Cell[BoxData[
+    \(interp3D[1, 1, 0]\)], "Input"],
+
+Cell[BoxData[
+    \(modInterp[1, 1, 0]\)], "Input"],
+
+Cell[BoxData[
+    \(NIntegrate[
+      lapInterp[r, z, 0]\/modInterp[r, z]*2*\[Pi]*r, \ {r, \ 0, 
+        4}, \ {z, \ \(-2\), 2}\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(\((\((\(-%\))\))\)\^\(1\/2\)\)], "Input"],
 
 Cell[BoxData[{
     \(aBar = 0.00433\), "\[IndentingNewLine]", 
@@ -595,7 +734,16 @@ Cell[BoxData[
     \(Plot3D[\((1\/2*\((r\^2 + z\^2)\)*\((modInterp[r, z])\)\^2 + 
           2*\[Pi]*aBar*\((nAt - 1)\)*\((modInterp[r, z])\)\^4)\), \ {r, \ 
         0, \ 4}, \ {z, \ \(-2\), \ 2}, \ 
-      PlotRange\  \[Rule] \ {0, \  .3}]\)], "Input"]
+      PlotRange\  \[Rule] \ {0, \  .3}]\)], "Input"],
+
+Cell[BoxData[{
+    \(\[Sigma]\  = \ 2\), "\[IndentingNewLine]", 
+    \(Plot[\[ExponentialE]\^\(-\(x\^2\/\(2  \[Sigma]\^2\)\)\), \ {x, \ \
+\(-5\), \ 5}]\)}], "Input"],
+
+Cell[BoxData[{
+    \(Clear[\[Sigma]]\), "\[IndentingNewLine]", 
+    \(D[\[ExponentialE]\^\(-\(x\^2\/\(2  \[Sigma]\^2\)\)\), \ x]\)}], "Input"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -624,6 +772,20 @@ Cell[BoxData[
 
 Cell[BoxData[
     \(Plot3D[x\^2 + y\^2, \ {x, \ \(-1\), 1}, \ {y, \ \(-1\), 1}]\)], "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+In Which Attempt to Improve Upon the Thomas-Fermi Approximation\
+\>", "Section"],
+
+Cell[BoxData[{
+    \(a = 1\), "\[IndentingNewLine]", 
+    \(b = 1\), "\[IndentingNewLine]", 
+    \(\[Lambda] = 2\), "\[IndentingNewLine]", 
+    \(Plot3D[\[Lambda] - \((a\ x\^2 + b\ y\^2)\), \ {x, \ \(-1\), \ 
+        1}, \ {y, \ \(-1\), 1}]\)}], "Input"]
 }, Open  ]]
 }, Open  ]]
 },
@@ -731,67 +893,104 @@ Cell[9081, 314, 118, 3, 30, "Input"]
 Cell[CellGroupData[{
 Cell[9236, 322, 64, 0, 73, "Section"],
 Cell[9303, 324, 429, 16, 52, "Text"],
-Cell[9735, 342, 305, 4, 52, "Input"],
-Cell[10043, 348, 289, 5, 50, "Input"]
+Cell[9735, 342, 305, 4, 72, "Input"],
+Cell[10043, 348, 272, 5, 50, "Input"],
+Cell[10318, 355, 162, 3, 31, "Text"],
+Cell[10483, 360, 605, 10, 110, "Input"],
+Cell[11091, 372, 286, 5, 50, "Input"],
+Cell[11380, 379, 90, 1, 30, "Input"],
+Cell[11473, 382, 120, 2, 30, "Input"],
+Cell[11596, 386, 123, 2, 40, "Input"],
+Cell[11722, 390, 83, 1, 30, "Input"],
+Cell[11808, 393, 174, 3, 30, "Input"],
+Cell[11985, 398, 195, 3, 65, "Input"],
+Cell[12183, 403, 84, 1, 30, "Input"],
+Cell[12270, 406, 184, 3, 65, "Input"],
+Cell[12457, 411, 83, 1, 30, "Input"],
+Cell[12543, 414, 126, 3, 30, "Input"],
+Cell[12672, 419, 147, 3, 31, "Input"],
+Cell[12822, 424, 41, 1, 42, "Input"],
+Cell[12866, 427, 550, 12, 199, "Input"],
+Cell[13419, 441, 62, 1, 30, "Input"],
+Cell[13484, 444, 332, 7, 110, "Input"],
+Cell[13819, 453, 53, 1, 30, "Input"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[10369, 358, 32, 0, 73, "Section"],
-Cell[10404, 360, 19, 0, 33, "Text"],
-Cell[10426, 362, 436, 7, 90, "Input"],
-Cell[10865, 371, 20, 0, 33, "Text"],
-Cell[10888, 373, 412, 6, 90, "Input"],
-Cell[11303, 381, 21, 0, 33, "Text"],
-Cell[11327, 383, 412, 6, 90, "Input"],
-Cell[11742, 391, 72, 1, 30, "Input"],
-Cell[11817, 394, 178, 3, 50, "Input"],
-Cell[11998, 399, 48, 1, 30, "Input"],
-Cell[12049, 402, 45, 1, 30, "Input"],
-Cell[12097, 405, 54, 1, 30, "Input"],
-Cell[12154, 408, 44, 1, 30, "Input"],
-Cell[12201, 411, 386, 6, 71, "Text"],
-Cell[12590, 419, 770, 14, 250, "Input"],
-Cell[13363, 435, 1806, 28, 480, "Input"],
-Cell[15172, 465, 106, 2, 30, "Input"],
-Cell[15281, 469, 245, 4, 50, "Input"]
+Cell[13909, 459, 32, 0, 73, "Section"],
+Cell[13944, 461, 19, 0, 33, "Text"],
+Cell[13966, 463, 436, 7, 90, "Input"],
+Cell[14405, 472, 20, 0, 33, "Text"],
+Cell[14428, 474, 412, 6, 90, "Input"],
+Cell[14843, 482, 21, 0, 33, "Text"],
+Cell[14867, 484, 412, 6, 90, "Input"],
+Cell[15282, 492, 72, 1, 30, "Input"],
+Cell[15357, 495, 178, 3, 50, "Input"],
+Cell[15538, 500, 48, 1, 30, "Input"],
+Cell[15589, 503, 45, 1, 30, "Input"],
+Cell[15637, 506, 54, 1, 30, "Input"],
+Cell[15694, 509, 44, 1, 30, "Input"],
+Cell[15741, 512, 386, 6, 71, "Text"],
+Cell[16130, 520, 770, 14, 250, "Input"],
+Cell[16903, 536, 1806, 28, 480, "Input"],
+Cell[18712, 566, 106, 2, 30, "Input"],
+Cell[18821, 570, 245, 4, 50, "Input"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[15563, 478, 54, 0, 73, "Section"],
-Cell[15620, 480, 134, 2, 42, "Input"],
-Cell[15757, 484, 50, 1, 40, "Input"],
-Cell[15810, 487, 47, 1, 30, "Input"],
-Cell[15860, 490, 64, 1, 42, "Input"],
+Cell[19103, 579, 54, 0, 73, "Section"],
+Cell[19160, 581, 134, 2, 42, "Input"],
+Cell[19297, 585, 50, 1, 40, "Input"],
+Cell[19350, 588, 47, 1, 30, "Input"],
+Cell[19400, 591, 64, 1, 42, "Input"],
 
 Cell[CellGroupData[{
-Cell[15949, 495, 50, 1, 40, "Input"],
-Cell[16002, 498, 121, 3, 29, "Output"]
+Cell[19489, 596, 50, 1, 40, "Input"],
+Cell[19542, 599, 121, 3, 29, "Output"]
 }, Open  ]],
-Cell[16138, 504, 200, 4, 56, "Input"],
-Cell[16341, 510, 196, 3, 43, "Input"],
-Cell[16540, 515, 74, 1, 30, "Input"],
-Cell[16617, 518, 85, 1, 30, "Input"],
-Cell[16705, 521, 238, 4, 52, "Text"],
-Cell[16946, 527, 977, 18, 309, "Input"],
-Cell[17926, 547, 111, 2, 30, "Input"],
-Cell[18040, 551, 130, 2, 30, "Input"],
-Cell[18173, 555, 71, 1, 30, "Input"],
-Cell[18247, 558, 210, 3, 70, "Input"],
-Cell[18460, 563, 81, 1, 30, "Input"],
-Cell[18544, 566, 121, 2, 30, "Input"],
-Cell[18668, 570, 140, 2, 30, "Input"],
-Cell[18811, 574, 96, 2, 50, "Input"],
-Cell[18910, 578, 332, 6, 64, "Input"],
-Cell[19245, 586, 292, 5, 64, "Input"],
-Cell[19540, 593, 250, 4, 64, "Input"]
+Cell[19678, 605, 200, 4, 56, "Input"],
+Cell[19881, 611, 196, 3, 43, "Input"],
+Cell[20080, 616, 74, 1, 30, "Input"],
+Cell[20157, 619, 85, 1, 30, "Input"],
+Cell[20245, 622, 238, 4, 52, "Text"],
+Cell[20486, 628, 977, 18, 309, "Input"],
+Cell[21466, 648, 111, 2, 30, "Input"],
+Cell[21580, 652, 130, 2, 30, "Input"],
+Cell[21713, 656, 71, 1, 30, "Input"],
+Cell[21787, 659, 276, 4, 90, "Input"],
+Cell[22066, 665, 91, 1, 30, "Input"],
+Cell[22160, 668, 81, 1, 30, "Input"],
+Cell[22244, 671, 107, 2, 30, "Input"],
+Cell[22354, 675, 121, 2, 30, "Input"],
+Cell[22478, 679, 140, 2, 30, "Input"],
+Cell[22621, 683, 57, 1, 30, "Input"],
+Cell[22681, 686, 50, 1, 30, "Input"],
+Cell[22734, 689, 85, 1, 30, "Input"],
+Cell[22822, 692, 51, 1, 30, "Input"],
+Cell[22876, 695, 107, 2, 30, "Input"],
+Cell[22986, 699, 50, 1, 30, "Input"],
+Cell[23039, 702, 51, 1, 30, "Input"],
+Cell[23093, 705, 143, 3, 44, "Input"],
+Cell[23239, 710, 61, 1, 36, "Input"],
+Cell[23303, 713, 96, 2, 50, "Input"],
+Cell[23402, 717, 332, 6, 64, "Input"],
+Cell[23737, 725, 292, 5, 64, "Input"],
+Cell[24032, 732, 250, 4, 64, "Input"],
+Cell[24285, 738, 165, 3, 65, "Input"],
+Cell[24453, 743, 142, 2, 65, "Input"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[19827, 602, 126, 3, 99, "Section"],
-Cell[19956, 607, 170, 4, 31, "Input"],
-Cell[20129, 613, 293, 5, 110, "Input"],
-Cell[20425, 620, 116, 2, 30, "Input"],
-Cell[20544, 624, 92, 1, 31, "Input"]
+Cell[24632, 750, 126, 3, 99, "Section"],
+Cell[24761, 755, 170, 4, 31, "Input"],
+Cell[24934, 761, 293, 5, 110, "Input"],
+Cell[25230, 768, 116, 2, 30, "Input"],
+Cell[25349, 772, 92, 1, 31, "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[25478, 778, 90, 2, 73, "Section"],
+Cell[25571, 782, 254, 5, 91, "Input"]
 }, Open  ]]
 }, Open  ]]
 }

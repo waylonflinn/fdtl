@@ -19,12 +19,10 @@ The solution method employed is a numerical one, as no closed form solution is
 known\footnote{at least none has been revealed to this author}. For ease of
 implementation we have chosen the method of finite differences. Since our
 Gross-Pitaevskii equation, like the standard Schr\"odinger
-equations, is an elliptic one, we have employed a multigrid-like
-\footnote{Multigrid methods are a relaxation method which use grids of varying
-`fineness' to decrease computation time. Our method begins on a coarse grid and
-interpolates to a finer one, a procedure typically referred to as
-\emph{nested iteration}. This technique alone was sufficient for our purposes
-and is the only one employed by our algorithm.} method for expeditious solution.
+equations, is an elliptic one, we have employed a multigrid-like \footnote{
+We use the portion typically refered to as \emph{nested iteration}. This
+technique alone was sufficient for our purposes and is the only one employed
+by our algorithm.} method for expeditious solution.
 
 
 Below I present the equations for describing the relavent quantities (including
@@ -53,30 +51,6 @@ E = N \int \int \left(
 \subsection{Solution Method Overview}
 Below are the operators and resulting equations employed in the solution of the above.\\
 
-Descritization relations
-\begin{equation}
-i \in \left \{ 1, 2, ... I+1 \right \}
-\end{equation}
-\begin{equation}
-j \in \left \{ 1, 2, ... J+1 \right \}
-\end{equation}
-where I and J are the number of (internal) grid points in $r$ and
-$z$, respectively.
-\begin{equation}
-r = r_{0} + i \Delta r
-\end{equation}
-\begin{equation}
-z = z_{0} + j \Delta z
-\end{equation}
-\begin{equation}
-\Delta r = \frac{r_{1}-r_{0}}{I+1}
-\end{equation}
-\begin{equation}
-\Delta z = \frac{z_{1}-z_{0}}{J+1}
-\end{equation}
-where $r_0$  and $r_1$ are, respectively, the lower and upper bounds for $r$,
-and $z_0$ and $z_1$ play the analogous role for $z$.\\
-
 The differential operators
 \begin{equation}
 \frac{\partial u}{\partial r} = \frac{u_{i+1, j} - u_{i-1, j}}{2\Delta r}
@@ -95,12 +69,174 @@ form.}
 a_{i,j} u_{i+1, j} + b_{i,j} u_{i-1, j} + c_{i,j} u_{i, j+1} d_{i,j} u_{i, j-1}
 + e_{i,j} u_{i, j} = f_{i,j}
 \end{equation}
-where the subscripts denote the grid point $(i,j)$ at which the value of the
+In both cases the subscripts denote the grid point $(i,j)$ at which the value of the
 function or coefficient is taken. Coefficents may be constant or (more likely)
 have a functional dependance on the grid point.
 
-\section{Solution Method}
+\section{The Problem at Hand}
+
+The Gross-Pitaevskii equation is the result of attempting to describe the,
+very special, behaviour of certain substances at very low temperature. This
+equation gives a reasonably good description of the phenomenon known as
+Bose-Einstein condensation.
+
+
+Bose-Einstein condensation describes a phemenon in which a collection of
+atoms are able to inhabit the same quantum state. This gives the collection
+a unique set of properties and both requires and enables a new sort of
+description. This description is, too a certain extent, provided by
+the Gross-Pitaevskii theory. This theory uses a mean-field approach to
+describe the interactions between atoms in the condensate and simplify
+the resulting equations.
+
+
+The present research is concerned with the behaviour of dilute Rubidum vapors
+in anisotropic harmonic trapping potentials. We use the Gross-Pitaevskii theory to formulate
+an equation which describes this scenario. The result, repeated below, is a
+non-linear partial differential equation requiring numerical techniques for solution.
+
+The Gross-Pitaevskii equation
+\begin{equation}
+- \frac{1}{2}  \nabla^{2} \psi +
+\frac{1}{2} \left( r^{2} + \lambda^{2} z^{2} \right) \psi +
+4 \pi a (N-1) \lvert \psi \rvert^{2} \psi = 
+\mu \psi
+\end{equation}
+
+The wave function here has been scaled to eliminate certain mathematically cumbersome
+coefficients. The coefficient $\lambda^{2}$ gives the anisotropy of the trapping potential
+and is a scaled ratio of the coefficients to each variable appearing in that
+potential. The constant $a$, often
+reffered to as the scattering length, gives a measure of the interactivity of the atoms
+in the trap and $N$ here refers to the number of atoms in the condensate. It is worthwhile
+to note here that it is the term containing these values which models the interaction
+between constituents of the condensate. It is also this, non-linear, term which makes
+solving the equation a challenge. Lastly, the eigenvalue
+$\mu$ gives the value of the chemical potential.
+\section{Tools Within Reach}
+
+The method of finite differences is a way of turning a function of a continuous
+variable, one defined over a real domain, into one of a discrete
+variable, defined over an integer domain. This
+is done by sampling the function, or restricting it's domain, and then creating
+a new function which takes on only those values.
+The first step is to choose the number of points at which to
+sample the original function. More points give more precise results but also require
+more computation. For a two dimensional function this typically
+results in the production of a grid, one set of points for each independent
+variable. After choosing the number of points at which to sample the original
+function a new function is created with an integer domain having that number of
+elements. Below are the set of equations which make these ideas a bit more
+precise. We use the variables $r$ and $z$ as our original independent
+variables and the real intervals $(r_{0}, r_{1})$ and $(z_{0}, z_{1})$,
+respectively, as our initial domains.
+
+\subsection{Descritization relations}
+
+The new domains then become:
+\begin{equation}
+i \in \left \{ 0, 1, 2, ... I+1 \right \}
+\end{equation}
+\begin{equation}
+j \in \left \{ 0, 1, 2, ... J+1 \right \}
+\end{equation}
+where I and J are the number of points at which to sample the function, in $r$
+and $z$, respectively. These are, therefore, also the number of grid points in
+each of the respective variables.
+
+The following equations then describe the way in which the function is sampled.
+
+\begin{equation}
+\Delta r = \frac{r_{1}-r_{0}}{I+1}
+\end{equation}
+\begin{equation}
+\Delta z = \frac{z_{1}-z_{0}}{J+1}
+\end{equation}
+\begin{equation}
+r_{i} = r_{0} + i \Delta r
+\end{equation}
+\begin{equation}
+z_{i} = z_{0} + j \Delta z
+\end{equation}
+where $r_0$  and $r_1$ are, respectively, the lower and upper bounds for $r$,
+and $z_0$ and $z_1$ play the analogous role for $z$.\\
+
+Our new function is, therefore, constructed in the following way.
+\begin{equation}
+u(i,j) = f(r_{i}, z_{j})
+\end{equation}
+where $u(i,j)$ is our new integer domain function, and $f(r,z)$ is our original
+real domain function. We also employ the shorthand $u_{i,j}$ to stand for $u(i,j)$.
+
+\subsection{Relaxation Techniques}
+Since our PDE is an elliptic one\footnote{The type of equation found in boundary value
+problems} we use a technique known as relaxation. This technique is an iterative one
+which updates the value of our new function at each point based on the values of that
+function at surrounding points. This is done for each point, except those on the
+boundary, until all points are updated. This process is then repeated until the solution
+is deemed to have converged. Convergence of this method takes place for a wide
+range of equations and thier descritizations\footnote{More on this can be found
+in the given references.}
+We employ this method by using the differential operators given above to put
+our second order partial
+differential equation into a general form\footnote{also given above} which
+relates the value of our function at each point to those at each of it's
+neighboring points. I repeat those equations here, with the latter solved for
+$u_{i,j}$ to highlight the relation between it and it's neighbors, for clarity.
+
+The differential operators
+\begin{equation}
+\frac{\partial u}{\partial r} = \frac{u_{i+1, j} - u_{i-1, j}}{2\Delta r}
+\end{equation}
+
+\begin{equation}
+\frac{\partial^{2} u}{\partial r^{2}} =
+\frac{u_{i+1,j} - 2 u_{i,j} +u_{i-1,j}}{\Delta r^{2}}
+\end{equation}
+
+The general form of a descritized elliptic partial differential equation.
+
+\begin{equation}
+ e_{i,j} u_{i, j} = a_{i,j} u_{i+1, j} + b_{i,j} u_{i-1, j} +
+ c_{i,j} u_{i, j+1} + d_{i,j} u_{i, j-1} +f_{i,j}
+\end{equation}
+
+We then use this equation to update each point on the grid, repeating in an
+interative fashion, until our solution has sufficiently converged. Convergence
+is usually tested by examining the extent to which the solution satisfies the
+given descritized equation at each point.
+
+It can easily be shown that each iteration is of
+order $O(I\times J)$, where I and J are the number of grid points in each
+variable, and the order of the entire calculation is then some function
+of $I\times J$, which depends on the relaxation method employed, several
+of which are available. The speed of convergence is, to a certain extent determined by how well one
+ can guess an intial solution. As you can probably infer if one can guess the
+ exact solution to the equation then the method converges immediately. It is
+ this fact which leads us to the refinement of the relaxation technique
+ presented below.
+
+\subsection{Multigrid}
+Multigrid methods are a relaxation method which use grids of varying
+`fineness' to decrease computation time. `Fineness' here refers to the number
+of points at which the function is sampled: more points giving a `finer' grid,
+fewer points giving a more `coarse' one.
+Our method begins on a coarse grid, finding a solution using traditional
+relaxation methods. It then interpolates the resulting solution
+to a finer grid. We then employ relaxation again but begin with the interpolated
+solution as our initial guess. Since this interpolated solution is a fairly good
+guess at the solution, being the solution to the problem on a slightly coarser
+grid, our algorithm converges more quickly. This is then repeated with an even
+finer grid, interpolating
+from the final result of the previous step. This process can be repeated
+indefinately on successively finer grids until the desired precision is reached
+\footnote{or you get tired of waiting}. As mentioned above, this procedure is
+typically referred to as \emph{nested iteration}. The complete multigrid method
+, which this method is based upon, claims complexity of order $O(I\times J)$,
+our method has been experimentally verified to be near this in computational
+complexity.
 
 \section{Scratch}
-
+ As with all numerical
+techniques a balance must be struck between speed and precision.
 \end{document}
