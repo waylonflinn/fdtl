@@ -1,3 +1,9 @@
+/* an object represention a command line option.
+ * construct with a letter (char) and one of:
+ *	an argument
+ *	a vector of arguments
+ *	a description (string)
+ */
 #include <string>
 #include <vector>
 #include "argument.cpp"
@@ -12,12 +18,9 @@ public:
   const static string PREFIX;	// identifies an option
   
   // constructors
-  option(const char& letter, const string& description,
-	 const vector<argument>& arg_vec);
-  option(const char& letter, const string& description, const argument& arg);
-  option(const char& letter, const string& description);
-  option(const char& letter, const vector<argument>& arg_vec);
   option(const char& letter, const argument& arg);
+  option(const char& letter, const vector<argument>& argument_vector);
+  option(const char& letter, const string& description);
   option();
 
   // methods
@@ -34,20 +37,6 @@ private:
 };
 
 const string option::PREFIX = "-";
-
-option::option(const char& letter,
-	       const string& description,
-	       const argument& arg)
-  : let(letter), desc(description), arg_vec(1, arg)
-{
-}
-
-option::option(const char& letter,
-	       const string& description,
-	       const vector<argument>& argument_vector)
-  : let(letter), desc(description), arg_vec(argument_vector)
-{
-}
 
 option::option(const char& letter,
 	       const string& description)
@@ -94,7 +83,7 @@ const string& option::usage()
       arg_list += "<" + (*iter).name() + "> ";
 
       if(iter == arg_vec.begin())
-	arg_desc += "\n\t\twhere " + (*iter).usage();
+	arg_desc += "\n\t\t" + (*iter).usage();
       else if(iter == (arg_vec.end() - 1))
 	arg_desc += "\n\t\tand " + (*iter).usage();
       else
