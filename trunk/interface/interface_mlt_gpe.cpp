@@ -4,9 +4,9 @@
 const int interface_mlt_gpe::DEF_I = 40;
 const int interface_mlt_gpe::DEF_J = 40;
 
-const double interface_mlt_gpe::DEF_A = 1;
+const double interface_mlt_gpe::DEF_A = 0.5;
 
-const double interface_mlt_gpe::DEF_B = 1;
+const double interface_mlt_gpe::DEF_B = 0.5;
 
 const pair<double,double> interface_mlt_gpe::DEF_X =
 pair<double,double>(0, 4);
