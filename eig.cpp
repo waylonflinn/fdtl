@@ -8,13 +8,14 @@
 #include "solution_norm.h"
 
 #define PRECISION	2	// decimal digits to display
-#define EPS		1.0e-3	// ratio of final residual to initial residual
+#define EPS		1.0e-4	// ratio of final residual to initial residual
 
 using std::vector;
 using std::cout;
 using std::endl;
 
 double tf(double k, double a, double b);
+double eig(double eig1, double norm1, double eig2, double norm2);
 
 main(int argc, char* argv[])
 {
@@ -33,21 +34,22 @@ main(int argc, char* argv[])
     return 1;
   }
 
-  double eig;
+  double eig1, eig2, eig3;
   double a, b, parm;
   a = inter.a();
   b = inter.b();
   parm = inter.parameter();
   if(inter.eigenvalue_present())
-    eig = inter.eigenvalue();
+    eig1 = inter.eigenvalue();
   else{
-    eig = tf(a, b, parm);
-    eig *= 3;
+    eig1 = tf(a, b, parm);
+    eig2 = eig1*3;
+    eig1 *= 3.1;
   }
 
   gross_pitaevskii gpe(inter.I(), inter.J(), inter.x(), inter.y(),
 	     inter.top(), inter.right(), inter.bottom(), inter.left(),
-	     a, b, eig, parm);
+	     a, b, eig1, parm);
   residual_norm norm(gpe, EPS);
   solution_norm s_norm(gpe, EPS);
   gauss_seidel gs(1000);
@@ -56,7 +58,7 @@ main(int argc, char* argv[])
   int I = gpe.I();
   int J = gpe.J();
   double norm0, norm1, ratio;	// initial norm, final norm, ratio
-  double s_norm0, s_norm1;
+  double s_norm0, s_norm1, s_norm2, s_norm3;
   int iter;
   ostream& out = inter.output();
 
@@ -67,20 +69,51 @@ main(int argc, char* argv[])
   ratio = norm1/norm0;
   s_norm1 = solution_norm::norm(gpe);
 
-  out.precision(6);
+  gpe = gross_pitaevskii(inter.I(), inter.J(), inter.x(), inter.y(),
+	     inter.top(), inter.right(), inter.bottom(), inter.left(),
+	     a, b, eig2, parm);
+  iter += mlt.solve(gpe, norm);
+  s_norm2 = solution_norm::norm(gpe);
 
-  out << "# initial norm:\t" << norm0 << endl;
-  out << "# final norm:\t" << norm1 << endl;
-  out << "# ratio:\t" << ratio << endl;
+
   out << "# iterations:\t" << iter << endl;
-  out << "# eigenvalue:\t" << eig << endl;
-  out << "# init s norm:\t" << s_norm0 << endl;
-  out << "# sol norm:\t" << s_norm1 << endl;
+  out << "# norm0:\t" << s_norm0 << endl;
+  out << "# norm1, eig1:\t" << s_norm1 << ", " << eig1 << endl;
+  out << "# norm2, eig2:\t" << s_norm2 << ", " << eig2 << endl;
+
+  int count = 3;
+  while(((s_norm2-1) > EPS)&&count<10){
+    eig3 = eig(eig1, s_norm1, eig2, s_norm2);
+    gpe  = gross_pitaevskii(inter.I(), inter.J(), inter.x(), inter.y(),
+			    inter.top(), inter.right(), inter.bottom(), inter.left(),
+			    a, b, eig3, parm);
+    iter += mlt.solve(gpe, norm);
+    s_norm3 = solution_norm::norm(gpe);
+    out << "# norm"<<count<<", eig"<<count<<":\t";
+    out << s_norm3 << ", " << eig3 << endl;
+    s_norm1 = s_norm2;
+    s_norm2 = s_norm3;
+    eig1 = eig2;
+    eig2 = eig3;
+    count++;
+  }
+
+  out.precision(6);
 
   out.precision(PRECISION);
 
   if(!inter.header())
     out << gpe;
+}
+
+/* fit to a parabola and find the intersection with norm(u)=1
+ */
+double eig(double eig1, double norm1, double eig2, double norm2)
+{
+  double a = (eig1-eig2)/(norm1 - norm2);
+  double b = eig2 - (a*norm2);
+
+  return a+b;
 }
 
 double tf(double k, double a, double b)

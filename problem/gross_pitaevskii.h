@@ -37,6 +37,8 @@ public:
 	      mparm*sol[i-1][j-1]*sol[i-1][j-1]);}
   double f(int i, int j) const { return 0;}
 
+  void eigenvalue(double eig);
+
   void grow(operator_prolong& op);
   void shrink(operator_restrict& op);
   gross_pitaevskii clone();

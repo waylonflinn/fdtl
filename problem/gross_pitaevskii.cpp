@@ -36,6 +36,13 @@ gross_pitaevskii::gross_pitaevskii(
   //sol.insert(sol.end(), gx/2, pos);
 }
 
+void gross_pitaevskii::eigenvalue(double eig)
+{
+  (*this).eig = eig;
+  (*this).meig = 2*ssx*eig;
+  
+}
+
 void gross_pitaevskii::grow(operator_prolong& op)
 {
   gross_pitaevskii* temp = new gross_pitaevskii(*this);
