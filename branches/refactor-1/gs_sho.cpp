@@ -6,7 +6,7 @@
 #include "residual_norm.h"
 
 #define PRECISION	3	// decimal digits to display
-#define EPS		1.0e-20	// ratio of final residual to initial residual
+#define EPS		1.0e-5	// ratio of final residual to initial residual
 
 using std::vector;
 using std::cout;
@@ -32,7 +32,7 @@ main(int argc, char* argv[])
 	     inter.top(), inter.right(), inter.bottom(), inter.left(),
 	     inter.a(), inter.b(), inter.eigenvalue());
   residual_norm norm(sho, EPS);
-  gauss_seidel gs(1000);
+  gauss_seidel gs(10000);
 
   int I = sho.I();
   int J = sho.J();
@@ -49,6 +49,7 @@ main(int argc, char* argv[])
   cout << "# final norm:\t" << norm1 << endl;
   cout << "# ratio:\t" << ratio << endl;
   cout << "# iterations:\t" << iter << endl;
+  //  cout << "# func norm:\t" << func_norm << endl;
 
   cout.precision(PRECISION);
   for(j = J; j >= 0; --j){

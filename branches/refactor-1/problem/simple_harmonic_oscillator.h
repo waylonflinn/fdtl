@@ -28,7 +28,7 @@ public:
   double c(int i, int j) const { return rss;}
   double d(int i, int j) const { return rss;}
   double e(int i, int j) const 
-    { return (p1x+(p2x*i)+(p3x*i*i))+(p1y+(p2y*j)+(p3y*j*j)) + meig + ast;}
+    { return (meig+ast+(p1x+(p2x*i)+(p3x*i*i))+(p1y+(p2y*j)+(p3y*j*j)));}
   double f(int i, int j) const { return 0;}
 
  private:

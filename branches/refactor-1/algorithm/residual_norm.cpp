@@ -1,7 +1,7 @@
 #include "residual_norm.h"
 
 residual_norm::residual_norm(const problem& prob, double epsilon) :
-  init(residual_norm::norm(prob)), target(init*epsilon), max(10*init)
+  init(residual_norm::norm(prob)), target(init*epsilon), max(100*init)
 {
 }
 
