@@ -11,7 +11,13 @@ using std::vector;
 using std::cout;
 using std::endl;
 
-main(int argc, char* argv[])
+double x_0;
+double y_0;
+double dx;
+double dy;
+double t_x(int);
+double t_y(int);
+int main(int argc, char* argv[])
 {
   interface inter;
 
@@ -38,13 +44,17 @@ main(int argc, char* argv[])
 
   I = lp.I();
   J = lp.J();
-  double x0 = lp.x0();
-  double y0 = lp.y0();
-  double dx = lp.dx();
-  double dy = lp.dy();
+  x_0 = lp.x0();
+  y_0 = lp.y0();
+  dx = lp.dx();
+  dy = lp.dy();
+  double x,y;
   for(i = 1; i < I; i++)
-    for(j = 1; j < J; j++)
-      lp.u(i,j) = (x0 + (i*dx));
+    for(j = 1; j < J; j++){
+      x = t_x(i);
+      y = t_y(j);
+      lp.u(i,j) = exp(-(x*x + y*y));
+    }
 
   norm0 = solution_norm_cyl::norm(lp);
 
@@ -56,4 +66,12 @@ main(int argc, char* argv[])
   
   if(!inter.header())
     out << lp;
+
+  return 0;
 }
+
+double t_y(int j)	// transform to y
+{ return (y_0 + (j*dy)); }
+
+double t_x(int i)	// transform to x
+{ return (x_0 + (i*dx)); }
