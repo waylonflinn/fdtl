@@ -38,45 +38,18 @@ main(int argc, char* argv[])
   int i,j;
   double norm0, norm1, ratio;	// initial norm, final norm, ratio
   int iter;
+  ostream& out = inter.output();
 
   norm0 = residual_norm::norm(lp);
   iter = gs.solve(lp, norm);
   norm1 = residual_norm::norm(lp);
   ratio = norm1/norm0;
 
-  cout << "# initial norm:\t" << norm0 << endl;
-  cout << "# final norm:\t" << norm1 << endl;
-  cout << "# ratio:\t" << ratio << endl;
-  cout << "# iterations:\t" << iter << endl;
-  cout << "# sx^2/sy^2:\t" << lp.c(1,1) << endl;
+  out << "# initial norm:\t" << norm0 << endl;
+  out << "# final norm:\t" << norm1 << endl;
+  out << "# ratio:\t" << ratio << endl;
+  out << "# iterations:\t" << iter << endl;
 
-  cout.precision(PRECISION);
-  for(j = J; j >= 0; --j){
-    for(i = 0; i <= I; ++i){
-      cout << lp.at(i, j) << " ";
-    }
-    cout << endl;
-  }
-
-
-  /// initialize
-
-  /*
-
-  /// process
-  
-  double norm_0;
-  double norm;
-  int iter;
-
-  norm_0 = gs_norm(p_solution);
-  iter = gs(EPS, p_solution);
-  norm = gs_norm(p_solution);
-
-  output << "# initial norm:\t" << norm_0 << endl;
-  output << "# finial norm:\t" << norm << endl;
-  output << "# ratio:\t" << norm/norm_0 << endl;
-  output << "# iterations:\t" << iter << endl;
-  */
-
+  out.precision(PRECISION);
+  out << lp << endl;
 }

@@ -74,9 +74,6 @@ interface::interface() :
   ry(interface::DEF_Y)
 {}
 
-vector< vector <double> > make_bound(){
-}
-
 int interface::make_grid(char let, int def){
   int val;
   char* cerrstr[100];

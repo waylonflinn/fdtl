@@ -41,6 +41,7 @@ main(int argc, char* argv[])
   double norm0, norm1, ratio;	// initial norm, final norm, ratio
   double s_norm0;
   int iter;
+  ostream& out = inter.output();
 
   norm0 = residual_norm::norm(sho);
   iter = gs.solve(sho, norm);
@@ -48,12 +49,12 @@ main(int argc, char* argv[])
   ratio = norm1/norm0;
   s_norm0 = solution_norm::norm(sho);
 
-  cout << "# initial norm:\t" << norm0 << endl;
-  cout << "# final norm:\t" << norm1 << endl;
-  cout << "# ratio:\t" << ratio << endl;
-  cout << "# iterations:\t" << iter << endl;
-  cout << "# sol norm:\t" << s_norm0 << endl;
+  out << "# initial norm:\t" << norm0 << endl;
+  out << "# final norm:\t" << norm1 << endl;
+  out << "# ratio:\t" << ratio << endl;
+  out << "# iterations:\t" << iter << endl;
+  out << "# sol norm:\t" << s_norm0 << endl;
 
-  cout.precision(PRECISION);
-  cout << sho << endl;
+  out.precision(PRECISION);
+  out << sho << endl;
 }
