@@ -21,9 +21,20 @@ class jacobian_cyl {
   double dy() const {return sol.dy();}
   double x0() const {return sol.x0();}
   double y0() const {return sol.y0();}
-  double at(int i, int j);
+  double at(int i, int j) const;
 
  private:
   StaticSolution sol;
 
 };
+
+template <class StaticSolution>
+jacobian_cyl<StaticSolution>::jacobian_cyl<StaticSolution>(const StaticSolution& solution) : sol(solution)
+{
+}
+
+template <class StaticSolution>
+double jacobian_cyl<StaticSolution>::at(int i, int j) const
+{
+  return sol.at(i,j)*2*M_PI*(sol.x0()+(sol.dx()*i));
+}
