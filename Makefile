@@ -4,7 +4,8 @@
 # $@ is the target
 # $(<D) is the directory part of the first prerequisite
 
-objects = gs_l.o gauss_seidel.o problem_basic.o laplace.o residual_norm.o boundary.o
+objects = gs_l.o gauss_seidel.o problem_basic.o laplace.o residual_norm.o \
+	boundary.o
 dir_algorithm = ./algorithm/
 dir_problem = ./problem/
 dir_interface = ./interface/
