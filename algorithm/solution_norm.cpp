@@ -57,8 +57,8 @@ double solution_norm::norm(const problem& prob)
     for(j = 3; j < J-2; ++j){
       line += pow(prob.at(i,j),2);
     }
-    line += (23.0/12.0)*pow(prob.at(i,J-2),2);
-    line += (7.0/12.0)*pow(prob.at(i,J-1),2);
+    line += (7.0/12.0)*pow(prob.at(i,J-2),2);
+    line += (23.0/12.0)*pow(prob.at(i,J-1),2);
     line *= sy;
     norm += line;
   }
@@ -67,21 +67,21 @@ double solution_norm::norm(const problem& prob)
   line = (23.0/12.0)*pow(prob.at(I-2,1),2);
   line += (7.0/12.0)*pow(prob.at(I-2,2),2);
   for(j = 3; j < J-2; ++j)
-    line += pow(prob.at(1,j),2);
+    line += pow(prob.at(I-2,j),2);
   line += (7.0/12.0)*pow(prob.at(I-2,J-2),2);
   line += (23.0/12.0)*pow(prob.at(I-2,J-1),2);
   line *= sy;
-  norm += (23.0/12.0)*line;
+  norm += (7.0/12.0)*line;
 
   // last
   line = (23.0/12.0)*pow(prob.at(I-1,1),2);
   line += (7.0/12.0)*pow(prob.at(I-1,2),2);
   for(j = 3; j < J-2; ++j)
-    line += pow(prob.at(2,j),2);
+    line += pow(prob.at(I-1,j),2);
   line += (7.0/12.0)*pow(prob.at(I-1,J-2),2);
   line += (23.0/12.0)*pow(prob.at(I-1,J-1),2);
   line *= sy;
-  norm += (7.0/12.0)*line;
+  norm += (23.0/12.0)*line;
 
   norm *= sx;
 
