@@ -1,7 +1,6 @@
 #include "bilinear_interpolation.h"
 
-/* if N+1 is the coarse dimension, fine must be 2N+1
- * uses random access iterator requirement (subscripting)
+/* if N is the coarse length, fine must be 2N
  */
 void operator()(const problem& coarse, problem& fine)
 {
