@@ -6,15 +6,23 @@
 
 #include "solver.h"
 
-class solver_basic
+class solver_basic : public solver
 {
  public:
-  // methods
+  /// methods
 
   // set/get the maximum number of iterataions
   int& cutoff() {return co;}
 
- private:
+  /// constructors
+
+  solver_basic(int cutoff);
+  /* run for the number of iterations equal to the largest 'int' representable
+   * on the target architecture.
+   */
+  solver_basic();
+
+ protected:
   int co;
 
 };

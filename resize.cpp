@@ -17,6 +17,7 @@ using std::pair;
 
 next n(1);
 double filler();
+int multi(laplace& lp);
 void bilinear_interp(problem& coarse,
 		  problem& fine);
 void half_weight(problem& fine,
@@ -40,12 +41,17 @@ int main()
   residual_norm norm_c(coarse, EPS);
   residual_norm norm_f(fine, EPS);
 
-  gauss_seidel gs(5);
+  gauss_seidel gs(1000);
   
   double norm_c0 = residual_norm::norm(fine);
+  //double norm_c0 = residual_norm::norm(coarse);
   int iter = gs.solve(coarse, norm_c);
+  //int iter = gs.solve(fine, norm_f);
   bilinear_interp(coarse, fine);
+
+  iter += gs.solve(fine, norm_f);
   double norm_c1 = residual_norm::norm(fine);
+  //double norm_c1 = residual_norm::norm(coarse);
   double ratio = norm_c1/norm_c0;
 
   cout.precision(3);
@@ -63,6 +69,64 @@ int main()
   half_weight(fine,coarse);
   */
   return 0;
+}
+
+int multi(laplace& lp)
+{
+  int iter = 0;
+  double res;		// residual
+  int I = lp.I();
+  int J = lp.J();
+  int i, j;
+  int mult;
+  int depth;
+  pair<double, double> x(-4,4);
+  pair<double, double> y(-4,4);
+  
+  if(I != J)
+    return 0;
+
+  // find depth of recursion
+  mult = I;
+  depth = 0;
+  while(mult != 5 && mult != 0){
+    mult >>= 1;
+    depth++;
+  }
+  if(mult = 0)
+    return 0;
+
+  int size = mult;
+  boundary top, right, bottom, left;
+  top = boundary(boundary::DIRICHLET, size, 0.0);
+  right = boundary(top);
+  bottom= boundary(top);
+  left= boundary(boundary::DIRICHLET, size, 1.0);
+  laplace base(size, size, x, y, top, right, bottom, left);
+  residual_norm norm(base, EPS);
+  gauss_seidel gs(1000);
+
+  iter = gs.solve(base, norm);
+
+  laplace old_lp(base), new_lp(base);
+  size *= 2;
+  while(size < I){
+    top = boundary(boundary::DIRICHLET, size, 0.0);
+    right = boundary(top);
+    bottom= boundary(top);
+    left = boundary(boundary::DIRICHLET, size, 1.0);
+    old_lp = new_lp;
+    new_lp = laplace(size, size, x, y, top, right, bottom, left);
+    bilinear_interp(old_lp, new_lp);
+    norm = residual_norm(new_lp, EPS);
+    iter += gs.solve(new_lp,norm);
+    size *= 2;
+  }
+  bilinear_interp(new_lp, lp);
+  norm = residual_norm(lp, EPS);
+  iter += gs.solve(lp, norm);
+
+  return iter;
 }
 
 double filler()

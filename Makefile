@@ -5,7 +5,8 @@
 # $(<D) is the directory part of the first prerequisite
 
 inter_obj = argument.o option.o command_line.o interface.o
-com_obj = problem_basic.o residual_norm.o boundary.o $(inter_obj)
+com_obj = problem_basic.o solver_basic.o residual_norm.o boundary.o \
+ $(inter_obj)
 sor_l_obj = successive_overrelaxation.o laplace.o interface_sor.o $(com_obj)
 gs_l_obj = gauss_seidel.o laplace.o $(com_obj)
 gs_sho_obj = gauss_seidel.o simple_harmonic_oscillator.o interface_sho.o \
@@ -90,7 +91,10 @@ gross_pitaevskii.o: gross_pitaevskii.cpp gross_pitaevskii.h \
 
 # algorithms (solvers/goals)
 
-gauss_seidel.o: gauss_seidel.cpp gauss_seidel.h goal.h problem.h solver.h
+solver_basic.o: solver_basic.cpp solver_basic.h solver.h
+	g++ -c $(CPPFLAGS) $< -o $@
+
+gauss_seidel.o: gauss_seidel.cpp gauss_seidel.h goal.h problem.h solver_basic.h
 	g++ -c $(CPPFLAGS) $< -o $@
 
 successive_overrelaxation.o : successive_overrelaxation.cpp \
