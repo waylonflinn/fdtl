@@ -5,6 +5,7 @@
 
 class half_weighting : operator_restrict
 {
+ public:
   void operator()(const problem& fine, problem& coarse);
 };
 

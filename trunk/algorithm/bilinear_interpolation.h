@@ -5,6 +5,7 @@
 
 class bilinear_interpolation : operator_prolong
 {
+ public:
   void operator()(const problem& coarse, problem& fine);
 };
 

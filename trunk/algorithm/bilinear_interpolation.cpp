@@ -2,7 +2,7 @@
 
 /* if N is the coarse length, fine must be 2N
  */
-void operator()(const problem& coarse, problem& fine)
+void bilinear_interpolation::operator()(const problem& coarse, problem& fine)
 {
   int fI,fJ;
   int cI,cJ;
