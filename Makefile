@@ -8,7 +8,8 @@ inter_obj = argument.o option.o command_line.o interface.o
 com_obj = problem_basic.o residual_norm.o boundary.o $(inter_obj)
 sor_l_obj = successive_overrelaxation.o laplace.o $(com_obj)
 gs_l_obj = gauss_seidel.o laplace.o $(com_obj)
-gs_sho_obj = gauss_seidel.o simple_harmonic_oscillator.o $(com_obj)
+gs_sho_obj = gauss_seidel.o simple_harmonic_oscillator.o interface_sho.o \
+ $(com_obj)
 dir_algorithm = ./algorithm/
 dir_problem = ./problem/
 dir_interface = ./interface/
@@ -48,6 +49,10 @@ problem_basic.o : problem_basic.cpp problem_basic.h problem.h boundary.h
 laplace.o : laplace.cpp laplace.h problem_basic.h problem.h boundary.h
 	g++ -c $(CPPFLAGS) $< -o $@
 
+simple_harmonic_oscillator.o: simple_harmonic_oscillator.cpp \
+  simple_harmonic_oscillator.h problem_basic.cpp problem_basic.h problem.h boundary.h
+	g++ -c $(CPPFLAGS) $< -o $@
+
 gauss_seidel.o: gauss_seidel.cpp gauss_seidel.h goal.h problem.h
 	g++ -c $(CPPFLAGS) $< -o $@
 
@@ -67,7 +72,11 @@ command_line.o: command_line.cpp command_line.h option.h argument.h
 	g++ -c $(CPPFLAGS) $< -o $@
 
 interface.o: interface.cpp interface.h command_line.h option.h argument.h \
-boundary.h
+ boundary.h
+	g++ -c $(CPPFLAGS) $< -o $@
+
+interface_sho.o: interface_sho.cpp interface.cpp interface.h command_line.h \
+ option.h argument.h boundary.h
 	g++ -c $(CPPFLAGS) $< -o $@
 
 clean :

@@ -43,7 +43,7 @@ double str_to_d(string str);
 
 // constructors
 interface::interface(string id, int argc, char* argv[]) :
-  cl(id, vector<option>(ARR_OPT, ARR_OPT + 4), interface::INPUT),
+  cl(id, vector<option>(ARR_OPT, ARR_OPT + ARR_OPT_S), interface::INPUT),
   gx(interface::DEF_I), gy(interface::DEF_J), rx(interface::DEF_X),
   ry(interface::DEF_Y)
 {
@@ -153,19 +153,37 @@ void interface::make_bound(){
     else
       throw invalid_argument("malformed input file.");
     if((i % 2) == 0){	// top or bottom
-      for(j = 0; j < gx; ++j){
-	begin = end + 1;
-	end = line.find(' ', begin);
-	(*iter) = str_to_d(line.substr(begin, (end-begin)));
-	iter++;
+      if(line.size() == 1 && isdigit(line.at(0))){
+	double val = str_to_d(line.substr(0, 1));
+	for(j = 0; j < gx; ++j){
+	  (*iter) = val;
+	  iter++;
+	}
+      }
+      else{
+	for(j = 0; j < gx; ++j){
+	  begin = end + 1;
+	  end = line.find(' ', begin);
+	  (*iter) = str_to_d(line.substr(begin, (end-begin)));
+	  iter++;
+	}
       }
     }
     else{		// left or right
-      for(j = 0; j < gy; ++j){
-	begin = end + 1;
-	end = line.find(' ', begin);
-	(*iter) = str_to_d(line.substr(begin, (end-begin)));
-	iter++;
+      if(line.size() == 1 && isdigit(line.at(0))){
+	double val = str_to_d(line.substr(0, 1)); 
+	for(j = 0; j < gx; ++j){
+	  (*iter) = val;
+	  iter++;
+	}
+      }
+      else{
+	for(j = 0; j < gy; ++j){
+	  begin = end + 1;
+	  end = line.find(' ', begin);
+	  (*iter) = str_to_d(line.substr(begin, (end-begin)));
+	  iter++;
+	}
       }
     }
     arr_it[i+1] = vector<double>::iterator(iter);

@@ -1,16 +1,20 @@
 #include "residual_norm.h"
 
-residual_norm::residual_norm(const problem& prob, double epsilon)
+residual_norm::residual_norm(const problem& prob, double epsilon) :
+  init(residual_norm::norm(prob)), target(init*epsilon), max(10*init)
 {
-  (*this).target = (epsilon * residual_norm::norm(prob));
 }
 
-residual_norm::residual_norm() : target(1)
+residual_norm::residual_norm() : init(1), target(1), max(1)
 {
 }
 
 bool residual_norm::operator()(const problem& prob)
-{ return (target == 0) || (residual_norm::norm(prob) < (*this).target); }
+{
+  double norm = residual_norm::norm(prob);
+
+  return (target == 0) ||  (norm > max) || (norm < target);
+}
 
 double residual_norm::norm(const problem& prob)
 {
