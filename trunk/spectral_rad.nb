@@ -438,7 +438,7 @@ Cell[BoxData[{
     \(plotData[fileName_, \ rangeX_, \ rangeY_, \ rangeZ_]\  := \ 
       Module[{dataStream, \ comment, \ pos, \ data, \ num, line1, \ gridX, \ 
           gridY, \ spaceX, \ spaceY, \ spaceZ, \ tickX, \ 
-          tickY}, \[IndentingNewLine]SetDirectory["\<D:\Development\svn\pde\>\
+          tickY}, \[IndentingNewLine]SetDirectory["\<E:\Development\svn\pde\>\
 "]; \[IndentingNewLine]dataStream\  = \ OpenRead["\<output.txt\>"]; \n
         comment\  = \ True; \[IndentingNewLine]num\  = \ 0; \n\t
         While[comment, \(num++\); pos\  = \ StreamPosition[dataStream]; 
@@ -464,7 +464,7 @@ Cell[BoxData[{
               5*spaceZ}]\[IndentingNewLine]]\)}], "Input"],
 
 Cell[BoxData[
-    \(plotData["\<output.txt\>", \ {0, 6}, \ {\(-6\), 6}, \ {0, 
+    \(plotData["\<output.txt\>", \ {0, 4}, \ {\(-4\), 4}, \ {0, 
         0.15}]\)], "Input"],
 
 Cell[BoxData[{
@@ -586,7 +586,7 @@ Cell[BoxData[
 }, Open  ]]
 },
 FrontEndVersion->"5.0 for Microsoft Windows",
-ScreenRectangle->{{0, 1024}, {0, 655}},
+ScreenRectangle->{{0, 1280}, {0, 847}},
 WindowSize->{936, 621},
 WindowMargins->{{0, Automatic}, {Automatic, 0}}
 ]

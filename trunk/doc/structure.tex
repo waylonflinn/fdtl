@@ -1,0 +1,96 @@
+\documentclass{article}
+\title{The Structure of the Finite Difference Template Library}
+\author{Earl Waylon Flinn}
+\begin{document}
+\maketitle
+\section{Introduction}
+
+
+The Finite Difference Template Library (FDTL) is created for the purposes of quickly solving
+partial differential equations (currently
+only elliptic ones) using the finite difference method. It is implemented in c++ using both the object
+oriented (OO) paradigm and generic programming techniques. The project was initially begun to solve a specific
+type of equation found in low temperature quantum mechanics (a Gross-Pitaevskii equation, a form of
+Schr\"odinger's equation), but was written
+in such a way as to allow the solution of a wide range of partial differential equations. It was written
+to enable those with only an introductory knowledge of the finite difference method
+(and not necessarily any knowledge of solution methods) to  expeditiously create efficient software
+for solving an equation. It is meant, therefore, to be fast in the sense that the time required for
+theoretical preparation, development and execution are all small.
+
+
+This document is meant to describe the structure of the project in both the OO and generic senses and the
+way in which these complementary structures relate. It is meant to do so in a way that will allow both users
+and implementors to gain an understanding adequate for thier tasks.
+
+
+Throughout this document I employ terminology which is standard in the object oriented and generic disciplines (such as object, inheritance,
+concept and refinement). In addition to these I also use the term `category' to refer a set of related
+concepts.\footnote{ See Appendix A for further discussion of my use of the term `category'.}
+
+\section{Structure Overview}
+
+Both the object structure and concept structure of this library can be seen as having
+three basic parts. These are: \emph{problem},
+\emph{solver}, and \emph{goal}. Below is a description of each and of the relations between them.
+
+\subsection{Descriptions}
+
+\begin{description}
+\item[Problem]
+A \emph{problem} represents a finite-differenced partial differential
+	equation (PDE) \emph{and} a tentative solution to it.
+\item[Solver]
+A \emph{solver} represents a method of solving a correctly and fully
+	defined \emph{problem}.
+\item[Goal]
+A \emph{goal} is a predicate, or test, which may be used to determine
+	whether the tentative solution contained in a \emph{problem} is satisfactory.
+\end{description}
+
+\subsection{Relations}
+From the above we can see that the \emph{problem} is more object-like and the \emph{solver} and
+\emph{goal} are more algorithm-like (though they are all treated like objects by c++). It follows
+then that the later two are likely to be things which are \emph{applied to} the former. The following
+descriptions cover this relationship in more detail.
+\begin{description}
+\item[Solver $\rightarrow$ Problem $\leftarrow$ Goal]
+A \emph{solver} is applied to a fully defined \emph{problem} until that \emph{problem}'s
+  solution satisfies the \emph{goal}.
+\item[Goal $\rightarrow$ Problem]
+A \emph{goal} tests a \emph{problem} (and through it, it's tentative solution).
+\item[Solver $\rightarrow$ Goal $\rightarrow$ Problem]
+  A \emph{solver} uses a \emph{goal} to determine when a \emph{problem} is solved.
+\end{description}
+
+\section{Object Stucture}
+
+\section{Concepts}
+
+\section{Appendix A. Categories}
+In addition to the standard terminology from the OO and generic schools I use the term
+\emph{category} to refer to a related set of concepts. More formally, a \emph{category}
+is any (disjoint) set of refinement hierarchies which link
+semantically related concepts. As the typical refinement hierarchy is most easily expressed
+as a graph, the category naturally contains all the concepts in the hierarchy.
+I also sometimes use the name of the category to refer to one of it's constituents. This may seem a bit
+confusing at first but is actually quite a natural (and common) linguistic device.
+
+
+As an example consider the term `Iterator' as used in the Silicon Graphics Inc.
+(SGI) documentation of the Standard Template Library (STL). `Iterator', as used there, does
+not refer to an actual concept in the STL, it instead refers to a set of six related concepts.
+It is consistent with both the usage in the SGI documentation and the usage in this document to create
+from these six concepts, and thier refinement hierarchy, a category and to then name this category
+\emph{Iterator}. This category would then include all concepts in 
+the refinement hierarchy rooted at \emph{Trivial Iterator} and \emph{Output Iterator} and extending to
+the concept \emph{Random Access Iterator}, which is not further refined in the STL. I believe that doing
+so clarifies the role of the term `Iterator' and makes it's subsequent use more natural.
+
+This example also serves to
+illustrate the two major uses of a category's name. `Iterator' might be used, on the one hand,
+to refer to the category itself, and thus to the entire set of concepts it contains, as in:
+``All the concepts in \emph{Iterator} except \emph{Output Iterator} support dereferencing.''
+It might also be used to refer to any of the individual concepts in this category, as in:
+``Despite this fact \emph{Output Iterator} is still an \emph{Iterator}.''
+\end{document}
