@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include "laplace.h"
-#include "gauss_seidel.h"
+#include "successive_overrelaxation.h"
 #include "residual_norm.h"
 
 #define PRECISION	3	// decimal digits to display
@@ -20,9 +20,9 @@ main(int argc, char* argv[])
   vector<double> nb(20, 0);
   boundary nbound(boundary::NEUMANN, nb.begin(), nb.end());
 
-  laplace lp(20, 20, 20, 20, bound, bound, nbound, nbound);
+  laplace lp(20, 20, 20, 20, bound, bound, bound, bound);
   residual_norm norm(lp, EPS);
-  gauss_seidel gs(10000);
+  successive_overrelaxation sor(10000, 5);
 
   int I = lp.I();
   int J = lp.J();
@@ -31,7 +31,7 @@ main(int argc, char* argv[])
   int iter;
 
   norm0 = residual_norm::norm(lp);
-  iter = gs.solve(lp, norm);
+  iter = sor.solve(lp, norm);
   norm1 = residual_norm::norm(lp);
   ratio = norm1/norm0;
 

@@ -34,7 +34,7 @@ int successive_overrelaxation::solve (problem& prob, goal& g)
       }
       is=3-is;		// 1 or 2
     }
-      ++count;
+    ++count;
   }
   return count;
 }

@@ -20,7 +20,7 @@ main(int argc, char* argv[])
   vector<double> nb(20, 0);
   boundary nbound(boundary::NEUMANN, nb.begin(), nb.end());
 
-  laplace lp(20, 20, 20, 20, bound, bound, nbound, nbound);
+  laplace lp(20, 20, 20, 20, bound, bound, bound, bound);
   residual_norm norm(lp, EPS);
   gauss_seidel gs(10000);
 
