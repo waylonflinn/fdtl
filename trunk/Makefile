@@ -117,7 +117,7 @@ successive_overrelaxation.o : successive_overrelaxation.cpp \
  successive_overrelaxation.h goal.h problem.h solver.h
 	g++ -c $(CPPFLAGS) $< -o $@
 
-multigrid.o :multigrid.cpp gauss_seidel.h half_weighting.h \
+multigrid.o :multigrid.cpp multigrid.h gauss_seidel.h half_weighting.h \
  bilinear_interpolation.h
 
 residual_norm.o: residual_norm.cpp residual_norm.h goal.h problem.h

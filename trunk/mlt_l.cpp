@@ -33,7 +33,7 @@ main(int argc, char* argv[])
   laplace lp(inter.I(), inter.J(), inter.x(), inter.y(),
 	     inter.top(), inter.right(), inter.bottom(), inter.left());
   residual_norm norm(lp, EPS);
-  gauss_seidel gs(5000);
+  gauss_seidel gs(500);
   multigrid mlt(10000, inter.S(), gs);
 
   int I = lp.I();

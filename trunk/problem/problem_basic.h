@@ -49,6 +49,9 @@ public:
   const boundary& left() const { return lf; }
 
   ostream& put(ostream& s) const;
+  // these two operators require the problems to be of equal size
+  problem_basic& operator+=(const problem_basic& prob);
+  problem_basic& operator-=(const problem_basic& prob);
 
 protected:
   vector< vector<double> > sol;	// the solution
