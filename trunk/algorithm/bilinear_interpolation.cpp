@@ -45,11 +45,11 @@ void bilinear_interpolation::operator()(const boundary& coarse, boundary& fine)
   if(fI != 2*cI)
     return;
 
-  for(ci=0,fi=1;ci < cI; ++ci,fi+=2)
-    fine[fi] = coarse.at(ci);
+  for(ci=0,fi=1;ci < cI-1; ++ci,fi+=2){
+    fine[fi] = (0.75*coarse.at(ci))+(0.25*coarse.at(ci+1));
+    fine[fi+1] = (0.25*coarse.at(ci))+(0.75*coarse.at(ci+1));
+  }
 
-  for(fi=2;fi < fI-1; fi+=2)
-    fine[fi] = 0.5*(fine[fi-1]+fine[fi+1]);
-
-  fine[0] = 2*fine[1]-fine[2];	// linear extrapolation
+  fine[0] = 2*fine[1]-fine[2];
+  fine[fI-1] = 2*fine[fI-2]-fine[fI-3];
 }
