@@ -4,6 +4,10 @@
  *	a vector of arguments
  *	a description string, if the option takes no arguments
  */
+
+#ifndef PDE_OPTION
+#define PDE_OPTION
+
 #include <string>
 #include <vector>
 #include "argument.h"
@@ -36,3 +40,5 @@ private:
   vector<argument> arg_vec;
   string use;
 };
+
+#endif	//PDE_OPTION
