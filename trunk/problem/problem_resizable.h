@@ -14,9 +14,9 @@ class problem_resizable : public problem
 {
 public:
   // double in size
-  virtual void grow(operator_prolong& op) const = 0;
+  virtual void grow(operator_prolong& op) = 0;
   // half
-  virtual void shrink(operator_restrict& op) const = 0;
+  virtual void shrink(operator_restrict& op) = 0;
 };
 
 #endif	// PDE_PROBLEM_RESIZABLE

@@ -10,7 +10,7 @@
 #include <ostream>
 #include <vector>
 #include <utility>
-#include "problem_resizable.h"
+#include "problem.h"
 #include "boundary.h"
 
 using std::vector;
@@ -18,7 +18,7 @@ using std::pair;
 using std::ostream;
 using std::endl;
 
-class problem_basic : public problem_resizable
+class problem_basic : public problem
 {
 public:
 
@@ -45,9 +45,6 @@ public:
   const boundary& right() const { return rt; }
   const boundary& bottom() const { return bt; }
   const boundary& left() const { return lf; }
-
-  void grow(operator_prolong& op);
-  void shrink(operator_restrict& op);
 
   ostream& put(ostream& s) const;
 
