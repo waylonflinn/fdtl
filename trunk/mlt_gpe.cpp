@@ -1,6 +1,6 @@
 #include <iostream>
 #include <vector>
-#include "interface_gpe.h"
+#include "interface_mlt_gpe.h"
 #include "gross_pitaevskii.h"
 #include "gauss_seidel.h"
 #include "multigrid.h"
@@ -18,10 +18,10 @@ double tf(double k, double a, double b);
 
 main(int argc, char* argv[])
 {
-  interface_gpe inter;
+  interface_mlt_gpe inter;
 
   try{
-  inter = interface_gpe("mlt_gpe", argc, argv);
+  inter = interface_mlt_gpe("mlt_gpe", argc, argv);
   }
   catch(invalid_argument e){
     cerr << e.what() << endl;
@@ -51,7 +51,7 @@ main(int argc, char* argv[])
   residual_norm norm(gpe, EPS);
   solution_norm s_norm(gpe, EPS);
   gauss_seidel gs(5000);
-  multigrid mlt(10000, 5, gs);
+  multigrid mlt(10000, inter.S(), gs);
 
   int I = gpe.I();
   int J = gpe.J();
