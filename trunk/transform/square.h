@@ -3,6 +3,9 @@
  * transformed.
  */ 
 
+#ifndef PDE_SQUARE
+#define PDE_SQUARE
+
 #include <cmath>
 
 template<class StaticSolution>
@@ -17,9 +20,22 @@ class square {
   double dy() const {return sol.dy();}
   double x0() const {return sol.x0();}
   double y0() const {return sol.y0();}
-  double at(int i, int j);
+  double at(int i, int j) const;
 
  private:
   StaticSolution sol;
 
 };
+
+template <class StaticSolution>
+square<StaticSolution>::square<StaticSolution>(const StaticSolution& solution) : sol(solution)
+{
+}
+
+template <class StaticSolution>
+double square<StaticSolution>::at(int i, int j) const
+{
+  return sol.at(i,j)*sol.at(i,j);
+}
+
+#endif	// PDE_SQUARE

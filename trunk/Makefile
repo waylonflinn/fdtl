@@ -24,8 +24,7 @@ gs_sho_obj = gauss_seidel.o simple_harmonic_oscillator.o interface_sho.o \
 sor_sho_obj = successive_overrelaxation.o simple_harmonic_oscillator.o \
  interface_sor_sho.o $(com_obj)
 # gauss seidel on a gross pitaevskii equation
-gs_gpe_obj = gauss_seidel.o gross_pitaevskii.o interface_gpe.o \
- solution_norm_cyl.o $(com_obj)
+gs_gpe_obj = gauss_seidel.o gross_pitaevskii.o interface_gpe.o  $(com_obj)
 # gauss seidel on a gross pitaevskii equation in cartesion coordinates
 gs_gpe_cart_obj = gauss_seidel.o gross_pitaevskii_cart.o interface_gpe.o \
  solution_norm.o $(com_obj)
@@ -42,14 +41,16 @@ dir_problem = ./problem/
 dir_solver = ./solver/
 dir_solution = ./solution/
 dir_goal = ./goal/
+dir_transform = ./transform/
+dir_integrator = ./integrator/
 dir_include = ./include/
 dir_interface = ./interface/
-VPATH = $(dir_solver):$(dir_solution):$(dir_goal):$(dir_include):$(dir_interface)
+VPATH = $(dir_solver):$(dir_solution):$(dir_goal):$(dir_include):$(dir_interface):$(dir_transform):$(dir_integrator)
 
 ifeq ($(MAKECMDGOALS),debug)
- CPPFLAGS = -g -I$(dir_solver) -I$(dir_solution) -I$(dir_goal) -I$(dir_include) -I$(dir_interface)
+ CPPFLAGS = -g -frepo -I$(dir_solver) -I$(dir_solution) -I$(dir_goal) -I$(dir_include) -I$(dir_interface) -I$(dir_transform) -I$(dir_integrator)
 else
- CPPFLAGS = -I$(dir_solver) -I$(dir_solution) -I$(dir_goal) -I$(dir_include) -I$(dir_interface)
+ CPPFLAGS = -frepo -I$(dir_solver) -I$(dir_solution) -I$(dir_goal) -I$(dir_include) -I$(dir_interface) -I$(dir_transform) -I$(dir_integrator)
 endif
 
 .PHONY : all clean debug
