@@ -8,7 +8,7 @@
 
 The Finite Difference Template Library (FDTL) is created for the purposes of quickly solving
 partial differential equations (currently
-only elliptic ones) using the finite difference method. It is implemented in c++ using both the object
+only elliptic ones on rectangular grids) using the finite difference method. It is implemented in c++ using both the object
 oriented (OO) paradigm and generic programming techniques. The project was initially begun to solve a specific
 type of equation found in low temperature quantum mechanics (a Gross-Pitaevskii equation, a form of
 Schr\"odinger's equation), but was written
@@ -66,6 +66,103 @@ A \emph{goal} tests a \emph{problem} (and through it, it's tentative solution).
 \section{Object Stucture}
 
 \section{Concepts}
+
+Assume the form of the finite differenced equation is as follows:
+
+\begin{equation}
+a_{i,j} u_{i+1, j} + b_{i,j} u_{i-1, j} + c_{i,j} u_{i, j+1} d_{i,j} u_{i, j-1} + e_{i,j} u_{i, j} = 
+f_{i,j}
+\end{equation}
+where the subscripts denote the grid point at which the value of the function or coefficient is taken.
+With the following relations
+\begin{equation}
+x = x_{0} + i \Delta x
+\end{equation}
+\begin{equation}
+y = y_{0} + j \Delta y
+\end{equation}
+where $x_0$ and $y_0$ are the lower bounds on the $x$ and $y$ boundaries, respectively, and $\Delta x$ and
+$\Delta y$ are the grid spacings in $x$ and $y$, respectively.
+\subsection{Solution}
+\subsubsection{Static Solution}
+
+\begin{tabular}[!htb]{|l|l|}
+\hline
+Member&	Description\\
+\hline
+double at(int i, int j)&	returns the value at the grid point (i,j)\\
+\hline
+\end{tabular}
+
+\subsubsection{Static Solution $\leftarrow$ Mutable Solution}
+
+\begin{tabular}[!htb]{|l|l|}
+\hline
+Member&	Description\\
+\hline
+double\& u(int i, int j)&	returns a reference to the value at the grid point (i,j)\\
+\hline
+\end{tabular}
+
+\subsubsection{Mutable Solution $\leftarrow$ Problem}
+
+\begin{tabular}[!htb]{|l|p{7cm}|}
+\hline
+Member&	Description\\
+\hline
+double a(int i, int j)&	Returns the the value of the first coefficient ($a$) at the grid point (i,j)\\
+\hline
+double b(int i, int j)&	Returns the the value of the second coefficient ($b$) at the grid point (i,j)\\
+\hline
+double c(int i, int j)&	Returns the the value of the third coefficient ($c$) at the grid point (i,j)\\
+\hline
+double d(int i, int j)&	Returns the the value of the fourth coefficient ($d$) at the grid point (i,j)\\
+\hline
+double e(int i, int j)&	Returns the the value of the fifth coefficient ($e$) at the grid point (i,j)\\
+\hline
+double f(int i, int j)&	Returns the the value of the source term ($f$) at the grid point (i,j)\\
+\hline
+\end{tabular}
+
+\subsection{Solver}
+\subsubsection{Unary Function $\leftarrow$ Solver}
+
+\begin{tabular}[!htb]{|l|p{7cm}|}
+\hline
+Member&	Description\\
+\hline
+int operator()(const Problem\& p)&	Solve the finite differenced Problem p\\
+\hline
+int solve(const Problem\& p)&	Solve the finite differenced Problem p\\
+\hline
+\end{tabular}
+\subsection{Goal}
+\subsubsection{Unary Function $\leftarrow$ Goal}
+
+\subsection{Prolongation Operator}
+\subsubsection{Binary Function $\leftarrow$ Prolongation Operator}
+
+\subsection{Restriction Operator}
+\subsubsection{Binary Function $\leftarrow$ Restriction Operator}
+
+\subsection{Integrator}
+\subsubsection{Unary Function $\leftarrow$ Integrator}
+
+\subsection{Transform}
+\subsubsection{Static Solution $\leftarrow$ Transform}
+\section{Models}
+Solver $\triangleleft$  gauss\_seidel \\
+Solver $\triangleleft$  successive\_overrelaxation \\
+Solver $\triangleleft$  multigrid \\
+\\
+Goal $\triangleleft$  residual\_norm \\
+Goal $\triangleleft$  solution\_norm \\
+\\
+Problem $\triangleleft$  laplace \\
+Problem $\triangleleft$  simple\_harmonic\_oscillator \\
+Problem $\triangleleft$  gross\_pitaevskii \\
+\\
+Transform $\triangleleft$ gross\_pitaevskii\_energy\\
 
 \section{Appendix A. Categories}
 In addition to the standard terminology from the OO and generic schools I use the term
