@@ -15,13 +15,13 @@ public:
 
 private:
   string nm;		// name
-  string desc;		// description
+  string desc;		// description (should be a standard noun phrase)
   string use;		// usage statement
 };
 
 argument::argument(string name, string description)
   : nm(name), desc(description),
-    use("where <" + name + "> is " + description)
+    use("<" + name + "> is " + description)
 {
 }
 
