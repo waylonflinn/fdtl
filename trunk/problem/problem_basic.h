@@ -2,6 +2,7 @@
  * an implementation of all virtual methods except those describing the
  * coefficients of the finite-differenced equation.
  * it allows only square boundaries and uses vectors to implement the solution.
+ * also i (and I) ranges over x, and j (J) ranges over y.
  */
 
 #ifndef PDE_PROBLEM_BASIC
@@ -39,6 +40,8 @@ public:
   int J() const { return gy; }
   double dx() const {return sx; }
   double dy() const { return sy;}
+  double x0() const { return x.first;}
+  double y0() const { return y.first;}
   double& u(int i, int j);	/* interface to interior values
 				   (returns a reference to a value) */
   double at(int i, int j) const;	// correct boundary values and checking

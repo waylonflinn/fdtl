@@ -1,4 +1,5 @@
 #include "gross_pitaevskii.h"
+#include <iostream>
 
 gross_pitaevskii::gross_pitaevskii() {}
 
@@ -16,7 +17,7 @@ gross_pitaevskii::gross_pitaevskii(
 	  double eigenvalue,
 	  double parameter)
   : problem_basic(I, J, range_x, range_y, top, right, bottom, left),
-    x0(x.first), y0(y.first), cx(coeff_x), cy(coeff_y), eig(eigenvalue),
+    xm(x.first), ym(y.first), cx(coeff_x), cy(coeff_y), eig(eigenvalue),
     parm(parameter),
     p1x(-2*cx*ssx*x.first*x.first), p2x(-2*cx*ssx*2*x.first*sx),
     p3x(-2*cx*ssx*ssx),
@@ -52,10 +53,10 @@ void gross_pitaevskii::grow(operator_prolong& op)
 
 void gross_pitaevskii::shrink(operator_restrict& op)
 {
-  boundary top(((*this).tp).type(), ((*this).gy)/2, 0.0),
-    left(((*this).lf).type(), ((*this).gx)/2, 0.0),
-    bottom(((*this).bt).type(), ((*this).gy)/2, 0.0),
-    right(((*this).rt).type(), ((*this).gx)/2, 0.0);
+  boundary top(((*this).tp).type(), ((*this).gx)/2, 0.0),
+    left(((*this).lf).type(), ((*this).gy)/2, 0.0),
+    bottom(((*this).bt).type(), ((*this).gx)/2, 0.0),
+    right(((*this).rt).type(), ((*this).gy)/2, 0.0);
 
   op((*this).tp, top);
   op((*this).rt, right);
@@ -81,8 +82,8 @@ void gross_pitaevskii::shrink(operator_restrict& op)
   (*this).rss = (*temp).rss;
   (*this).ast = (*temp).ast;
 
-  (*this).x0 = (*temp).x0;
-  (*this).y0 = (*temp).y0;
+  (*this).xm = (*temp).xm;
+  (*this).ym = (*temp).ym;
   (*this).cx = (*temp).cx;
   (*this).cy = (*temp).cy;
   (*this).eig = (*temp).eig;

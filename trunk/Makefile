@@ -16,7 +16,7 @@ gs_sho_obj = gauss_seidel.o simple_harmonic_oscillator.o interface_sho.o \
 sor_sho_obj = successive_overrelaxation.o simple_harmonic_oscillator.o \
  interface_sor_sho.o $(com_obj)
 gs_gpe_obj = gauss_seidel.o gross_pitaevskii.o interface_gpe.o \
- solution_norm.o $(com_obj)
+ solution_norm_cyl.o $(com_obj)
 gs_gpe_cart_obj = gauss_seidel.o gross_pitaevskii_cart.o interface_gpe.o \
  solution_norm.o $(com_obj)
 mlt_gpe_obj = multigrid.o bilinear_interpolation.o half_weighting.o \
@@ -152,11 +152,15 @@ residual_norm.o: residual_norm.cpp residual_norm.h goal.h problem.h
 solution_norm.o: solution_norm.cpp solution_norm.h goal.h problem.h
 	g++ -c $(CPPFLAGS) $< -o $@
 
-bilinear_interpolation.o : bilinear_interpolation.cpp \
- bilinear_interpolation.h operator_prolong.h
+solution_norm_cyl.o: solution_norm_cyl.cpp solution_norm_cyl.h goal.h problem.h
 	g++ -c $(CPPFLAGS) $< -o $@
 
-half_weighting.o : half_weighting.cpp half_weighting.h operator_restrict.h
+bilinear_interpolation.o : bilinear_interpolation.cpp \
+ bilinear_interpolation.h operator_prolong.h problem.h
+	g++ -c $(CPPFLAGS) $< -o $@
+
+half_weighting.o : half_weighting.cpp half_weighting.h operator_restrict.h \
+ problem.h
 	g++ -c $(CPPFLAGS) $< -o $@
 
 # interface

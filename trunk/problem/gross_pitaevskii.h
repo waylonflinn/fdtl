@@ -28,8 +28,8 @@ public:
 	  double parameter);
 
   // methods
-  double a(int i, int j) const { return 1.0-sx/(2*(x0+sx*i));}
-  double b(int i, int j) const { return 1.0+sx/(2*(x0+sx*i));}
+  double a(int i, int j) const { return 1.0-sx/(2*(xm+sx*i));}
+  double b(int i, int j) const { return 1.0+sx/(2*(xm+sx*i));}
   double c(int i, int j) const { return rss;}
   double d(int i, int j) const { return rss;}
   double e(int i, int j) const 
@@ -44,8 +44,7 @@ public:
   gross_pitaevskii clone();
 
  private:
-  double x0;
-  double y0;
+  double xm, ym;
   double cx;
   double cy;
   double eig;

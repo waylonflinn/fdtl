@@ -16,7 +16,7 @@ gross_pitaevskii_cart::gross_pitaevskii_cart(
 	  double eigenvalue,
 	  double parameter)
   : problem_basic(I, J, range_x, range_y, top, right, bottom, left),
-    x0(x.first), y0(y.first), cx(coeff_x), cy(coeff_y), eig(eigenvalue),
+    xm(x.first), ym(y.first), cx(coeff_x), cy(coeff_y), eig(eigenvalue),
     parm(parameter),
     p1x(-1*cx*ssx*x.first*x.first), p2x(-1*cx*ssx*2*x.first*sx),
     p3x(-1*cx*ssx*ssx),
@@ -81,8 +81,8 @@ void gross_pitaevskii_cart::shrink(operator_restrict& op)
   (*this).rss = (*temp).rss;
   (*this).ast = (*temp).ast;
 
-  (*this).x0 = (*temp).x0;
-  (*this).y0 = (*temp).y0;
+  (*this).xm = (*temp).xm;
+  (*this).ym = (*temp).ym;
   (*this).cx = (*temp).cx;
   (*this).cy = (*temp).cy;
   (*this).eig = (*temp).eig;

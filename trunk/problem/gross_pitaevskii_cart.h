@@ -44,8 +44,7 @@ public:
   gross_pitaevskii_cart clone();
 
  private:
-  double x0;
-  double y0;
+  double xm, ym;// minimum x and y
   double cx;
   double cy;
   double eig;
