@@ -23,6 +23,8 @@ class problem_basic : public problem
 public:
 
   // constructors
+  problem_basic();
+
   problem_basic(int I,
 		int J,
 		pair<double, double> range_x,

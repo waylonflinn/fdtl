@@ -1,5 +1,7 @@
 #include "problem_basic.h"
 
+problem_basic::problem_basic() {}
+
 problem_basic::problem_basic(int I,
 		 int J,
 		 pair<double,double> range_x,

@@ -8,7 +8,10 @@ class laplace : public problem_basic
 {
 public:
 
+
   // constructors
+  laplace();
+
   laplace(int I,
 	  int J,
 	  pair<double, double> range_x,
