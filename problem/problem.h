@@ -12,6 +12,8 @@ public:
   virtual int J() const = 0;	// points in the second var
   virtual double dx() const = 0;	// spacing in first var
   virtual double dy() const = 0;	// spacing in second var
+  virtual double x0() const = 0;
+  virtual double y0() const = 0;
   virtual double a(int , int) const = 0;
   virtual double b(int , int) const = 0;
   virtual double c(int , int) const = 0;

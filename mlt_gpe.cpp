@@ -5,7 +5,7 @@
 #include "gauss_seidel.h"
 #include "multigrid.h"
 #include "residual_norm.h"
-#include "solution_norm.h"
+#include "solution_norm_cyl.h"
 
 #define PRECISION	3	// decimal digits to display
 #define EPS		1.0e-4	// ratio of final residual to initial residual
@@ -49,7 +49,7 @@ main(int argc, char* argv[])
 	     inter.top(), inter.right(), inter.bottom(), inter.left(),
 	     a, b, eig, parm);
   residual_norm norm(gpe, EPS);
-  solution_norm s_norm(gpe, EPS);
+  solution_norm_cyl s_norm(gpe, EPS);
   gauss_seidel gs(1000);
   multigrid mlt(10000, inter.S(), gs);
 
@@ -60,12 +60,13 @@ main(int argc, char* argv[])
   int iter;
   ostream& out = inter.output();
 
-  s_norm0 = solution_norm::norm(gpe);
+  s_norm0 = solution_norm_cyl::norm(gpe);
   norm0 = residual_norm::norm(gpe);
   iter = mlt.solve(gpe, norm);
+  half_weighting hw;
   norm1 = residual_norm::norm(gpe);
   ratio = norm1/norm0;
-  s_norm1 = solution_norm::norm(gpe);
+  s_norm1 = solution_norm_cyl::norm(gpe);
 
   out.precision(6);
 

@@ -5,7 +5,7 @@
 #include "gauss_seidel.h"
 #include "multigrid.h"
 #include "residual_norm.h"
-#include "solution_norm.h"
+#include "solution_norm_cyl.h"
 
 #define PRECISION	3	// decimal digits to display
 #define EPS		1.0e-4	// ratio of final residual to initial residual
@@ -22,7 +22,7 @@ main(int argc, char* argv[])
   interface_mlt_gpe inter;
 
   try{
-  inter = interface_mlt_gpe("mlt_gpe", argc, argv);
+  inter = interface_mlt_gpe("eig", argc, argv);
   }
   catch(invalid_argument e){
     cerr << e.what() << endl;
@@ -39,19 +39,19 @@ main(int argc, char* argv[])
   a = inter.a();
   b = inter.b();
   parm = inter.parameter();
-  if(inter.eigenvalue_present())
+  if(inter.eigenvalue_present()){
     eig1 = inter.eigenvalue();
-  else{
-    eig1 = tf(parm, a, b);
-    eig2 = eig1*3;
-    eig1 *= 3.1;
   }
+  else{
+    eig1 = 2*tf(parm, a, b);
+  }
+  eig2 = eig1*0.99;
 
   gross_pitaevskii gpe(inter.I(), inter.J(), inter.x(), inter.y(),
 	     inter.top(), inter.right(), inter.bottom(), inter.left(),
 	     a, b, eig1, parm);
   residual_norm norm(gpe, EPS);
-  solution_norm s_norm(gpe, EPS);
+  solution_norm_cyl s_norm(gpe, EPS);
   gauss_seidel gs(1000);
   multigrid mlt(10000, inter.S(), gs);
 
@@ -62,18 +62,18 @@ main(int argc, char* argv[])
   int iter;
   ostream& out = inter.output();
 
-  s_norm0 = solution_norm::norm(gpe);
+  s_norm0 = solution_norm_cyl::norm(gpe);
   norm0 = residual_norm::norm(gpe);
   iter = mlt.solve(gpe, norm);
   norm1 = residual_norm::norm(gpe);
   ratio = norm1/norm0;
-  s_norm1 = solution_norm::norm(gpe);
+  s_norm1 = solution_norm_cyl::norm(gpe);
 
   gpe = gross_pitaevskii(inter.I(), inter.J(), inter.x(), inter.y(),
 	     inter.top(), inter.right(), inter.bottom(), inter.left(),
 	     a, b, eig2, parm);
   iter += mlt.solve(gpe, norm);
-  s_norm2 = solution_norm::norm(gpe);
+  s_norm2 = solution_norm_cyl::norm(gpe);
 
 
   out << "# iterations:\t" << iter << endl;
@@ -82,13 +82,13 @@ main(int argc, char* argv[])
   out << "# norm2, eig2:\t" << s_norm2 << ", " << eig2 << endl;
 
   int count = 3;
-  while(((s_norm2-0.5) > EPS)&&count<10){
+  while(((s_norm2-1) > EPS)&&count<10){
     eig3 = eig(eig1, s_norm1, eig2, s_norm2);
     gpe  = gross_pitaevskii(inter.I(), inter.J(), inter.x(), inter.y(),
 			    inter.top(), inter.right(), inter.bottom(), inter.left(),
 			    a, b, eig3, parm);
     iter += mlt.solve(gpe, norm);
-    s_norm3 = solution_norm::norm(gpe);
+    s_norm3 = solution_norm_cyl::norm(gpe);
     out << "# norm"<<count<<", eig"<<count<<":\t";
     out << s_norm3 << ", " << eig3 << endl;
     s_norm1 = s_norm2;
@@ -97,8 +97,6 @@ main(int argc, char* argv[])
     eig2 = eig3;
     count++;
   }
-
-  out.precision(6);
 
   out.precision(PRECISION);
 
@@ -113,7 +111,7 @@ double eig(double eig1, double norm1, double eig2, double norm2)
   double a = (eig1-eig2)/(norm1 - norm2);
   double b = eig2 - (a*norm2);
 
-  return (0.5*a)+b;
+  return a+b;
 }
 
 double tf(double k, double a, double b)
