@@ -2,7 +2,7 @@
 
 /* if N is the coarse length, fine must be 2N
  */
-void operator()(const problem& fine, problem& coarse)
+void half_weighting::operator()(const problem& fine, problem& coarse)
 {
 
   int fI,fJ;
