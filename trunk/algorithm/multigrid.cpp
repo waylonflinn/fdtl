@@ -1,18 +1,39 @@
 #include <limits>
-#include "gauss_seidel.h"
+#include "multigrid.h"
 
-gauss_seidel::gauss_seidel(int max) : cutoff(max) {}
+multigrid::multigrid(int max, solver& smoother) : 
+  cutoff(max), smooth(smoother) {}
 
-gauss_seidel::gauss_seidel() : cutoff(std::numeric_limits<int>::max()) {}
+multigrid::multigrid() :
+  cutoff(std::numeric_limits<int>::max()), def_smooth(100),
+  smooth(def_smooth) {}
 
-int gauss_seidel::solve (problem& prob, goal& g)
+template<class Problem> int multigrid::solve (Problem& prob, goal& g)
 {
   int count = 0;
   double res;		// residual
   int I = prob.I();
   int J = prob.J();
   int i, j;
+  int mult;
+  int depth;
+  Problem base(prob);
 
+  if(I != J)
+    return 0;
+
+  // find depth of recursion
+  mult = I;
+  depth = 0;
+  while(mult != 5 && mult != 0){
+    mult >>= 1;
+    depth++;
+  }
+  if(mult = 0)
+    return 0;
+  
+  while(--depth != 0)
+  
   while(!g(prob) && (count < (*this).cutoff)){
       for(i = 1; i < I; i++){
 	  for(j = 1; j < J; j++){
@@ -30,5 +51,5 @@ int gauss_seidel::solve (problem& prob, goal& g)
   return count;
 }
 
-int gauss_seidel::operator()(problem& prob, goal& g)
+template<class Problem> int multigrid::operator()(Problem& prob, goal& g)
 { return solve(prob, g); }
