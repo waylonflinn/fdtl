@@ -14,9 +14,11 @@ simple_harmonic_oscillator::simple_harmonic_oscillator(
 	  double eigenvalue)
   : problem_basic(I, J, range_x, range_y, top, right, bottom, left),
     cx(coeff_x), cy(coeff_y), eig(eigenvalue),
-    p1x(ssx*cx*x.first*x.first), p2x(2*ssx*sx*cx*x.first), p3x(ssx*ssx*cx),
-    p1y(ssx*cy*y.first*y.first), p2y(2*ssx*sy*cy*y.first), p3y(ssx*ssy*cy),
-    meig(-1*ssx*eig)
+    p1x(-1*cx*ssx*x.first*x.first), p2x(-1*cx*ssx*2*x.first*sx),
+    p3x(-1*cx*ssx*ssx),
+    p1y(-1*cy*ssx*y.first*y.first), p2y(-1*cy*ssx*2*sy*y.first),
+    p3y(-1*cy*ssx*ssy),
+    meig(ssx*eigenvalue)
         
 {
   double norm_av = 1/(2.0*(x.second-x.first)+2.0*(x.second-x.first));
