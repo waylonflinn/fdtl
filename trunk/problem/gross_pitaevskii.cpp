@@ -33,3 +33,60 @@ gross_pitaevskii::gross_pitaevskii(
   sol = vector< vector<double> >((*this).gx - 1, pos);
   //sol.insert(sol.end(), gx/2, pos);
 }
+
+void gross_pitaevskii::grow(operator_prolong& op)
+{
+  gross_pitaevskii* temp = new gross_pitaevskii(*this);
+
+  delete temp;
+}
+
+void gross_pitaevskii::shrink(operator_restrict& op)
+{
+  boundary top(((*this).tp).type(), ((*this).gy)/2, 0.0),
+    left(((*this).lf).type(), ((*this).gx)/2, 0.0), bottom(top), right(left);
+
+  op((*this).tp, top);
+  op((*this).rt, right);
+  op((*this).bt, bottom);
+  op((*this).lf, left);
+  gross_pitaevskii* temp =
+    new gross_pitaevskii(((*this).gx)/2, ((*this).gy)/2, (*this).x,
+			 (*this).y, top, right, bottom, left,
+			 (*this).cx, (*this).cy, (*this).eig, (*this).parm );
+
+  op(*this, *temp);
+  (*this).sol = (*temp).sol;
+  (*this).gx = (*temp).gx;
+  (*this).gy = (*temp).gy;
+  (*this).sx = (*temp).sx;
+  (*this).sy = (*temp).sy;
+  (*this).tp = (*temp).tp;
+  (*this).rt = (*temp).rt;
+  (*this).bt = (*temp).bt;
+  (*this).lf = (*temp).lf;
+  (*this).ssx = (*temp).ssx;
+  (*this).ssy = (*temp).ssy;
+  (*this).rss = (*temp).rss;
+  (*this).ast = (*temp).ast;
+
+  (*this).x0 = (*temp).x0;
+  (*this).y0 = (*temp).y0;
+  (*this).cx = (*temp).cx;
+  (*this).cy = (*temp).cy;
+  (*this).eig = (*temp).eig;
+  (*this).parm = (*temp).parm;
+  (*this).meig = (*temp).meig;
+  (*this).mparm = (*temp).mparm;
+  (*this).p1x = (*temp).p1x;
+  (*this).p2x = (*temp).p2x;
+  (*this).p3x = (*temp).p3x;
+  (*this).p1y = (*temp).p1y;
+  (*this).p2y = (*temp).p2y;
+  (*this).p3y = (*temp).p3y;
+
+  delete temp;
+}
+
+gross_pitaevskii gross_pitaevskii::clone()
+{ return gross_pitaevskii(*this); }
