@@ -1,76 +1,55 @@
 #include <iostream>
 #include <vector>
 #include <algorithm>
+#include <utility>
 #include <cmath>
 #include "next.cpp"
-
+#include "laplace.h"
+#include "gauss_seidel.h"
+#include "residual_norm.h"
 
 using std::cout;
 using std::endl;
 using std::vector;
+using std::pair;
 
 next n(1);
 double filler();
-void bilinear_interp(vector<vector<double> >& coarse,
-		  vector<vector<double> >& fine);
-void half_weight(vector<vector<double> >& fine,
-		 vector<vector<double> >& coarse);
+void bilinear_interp(problem& coarse,
+		  problem& fine);
+void half_weight(problem& fine,
+		 problem& coarse);
 void print(const vector<vector<double> >& V);
 int main()
 {
   int I,J;
-  I = 10;
-  J = 10;
+  I = J = 10;
+  pair<double, double> x(-4,4);
+  pair<double, double> y(-4,4);
 
-  vector<double> interior(J+1, 0);
-  generate(interior.begin()+1, interior.end()-1, filler);
-  vector<vector<double> > V =
-    vector<vector <double> >(I+1, interior);
-  vector<vector<double> > fine =
-    vector<vector <double> >(2*I+1, vector<double>(2*J+1, 0));
+  vector<double> interior_c(J, 0);
+  boundary bound_c(boundary::DIRICHLET, interior_c.begin(), interior_c.end());
+  laplace coarse(I, J, x, y, bound_c, bound_c, bound_c, bound_c);
 
-  for(int i=1; i < I;++i){
-    V[0][i]=0;
-    V[J][i]=0;
-  }
+  vector<double> interior_f(2*J, 0);
+  boundary bound_f(boundary::DIRICHLET, interior_f.begin(), interior_f.end());
+  laplace fine(2*I, 2*J, x, y, bound_f, bound_f, bound_f, bound_f);
+
+  
   cout.precision(3);
-  print(V);
-  cout << endl;
-  print(fine);
-  bilinear_interp(V,fine);
-  cout << endl;
-  print(fine);
-  cout << endl;
 
-  vector<double> fine_int(2*J+1, 0);
-  n = next(1);
-  generate(fine_int.begin()+1, fine_int.end()-1, n);
-  vector<vector<double> > fine_V =
-    vector<vector <double> >(I*2+1, fine_int);
-  vector<vector<double> > coarse =
-    vector<vector <double> >(I+1, vector<double>(J+1, 0));
-  for(int i=1; i < 2*I+1;++i){
-    fine_V[0][i]=0;
-    fine_V[2*J][i]=0;
-  }
+  cout << coarse << endl;
+
+  cout << fine << endl;
+
+  /*
+  bilinear_interp(V,fine);
+
   half_weight(fine,coarse);
-  print(fine_V);
-  cout << endl;
-  print(coarse);
+  */
   return 0;
 }
 
-void print(const vector<vector<double> >& V)
-{
-  int i,j;
-
-  for(i = 0; i < V.size(); i++){
-    for(j = 0; j < V[0].size(); j++){
-      cout << V[i][j] << " ";
-    }
-    cout << endl;
-  }
-}
 double filler()
 {
   return 2*n();
