@@ -6,33 +6,38 @@
 \section{Introduction}
 
 
-The Finite Difference Template Library (FDTL) is created for the purposes of quickly solving
-partial differential equations (currently
-only elliptic ones on rectangular grids) using the finite difference method. It is implemented in c++ using both the object
-oriented (OO) paradigm and generic programming techniques. The project was initially begun to solve a specific
-type of equation found in low temperature quantum mechanics (a Gross-Pitaevskii equation, a form of
-Schr\"odinger's equation), but was written
-in such a way as to allow the solution of a wide range of partial differential equations. It was written
-to enable those with only an introductory knowledge of the finite difference method
-(and not necessarily any knowledge of solution methods) to  expeditiously create efficient software
-for solving an equation. It is meant, therefore, to be fast in the sense that the time required for
+The Finite Difference Template Library (FDTL) is created for the purposes of
+quickly solving partial differential equations (currently only elliptic ones
+on rectangular grids) using the finite difference method. It is implemented 
+in c++ using both the object oriented (OO) paradigm and generic programming 
+techniques. The project was initially begun to solve a specific type of 
+equation found in low temperature quantum mechanics (a Gross-Pitaevskii 
+equation, a form of Schr\"odinger's equation), but was written in such a way
+as to allow the solution of a wide range of partial differential equations. 
+It was written to enable those with only an introductory knowledge of the 
+finite difference method (and not necessarily any knowledge of solution 
+methods) to  expeditiously create efficient software for solving an equation.
+It is meant, therefore, to be fast in the sense that the time required for 
 theoretical preparation, development and execution are all small.
 
 
-This document is meant to describe the structure of the project in both the OO and generic senses and the
-way in which these complementary structures relate. It is meant to do so in a way that will allow both users
-and implementors to gain an understanding adequate for thier tasks.
+This document is meant to describe the structure of the project in both the OO 
+and generic senses and the way in which these complementary structures relate. 
+It is meant to do so in a way that will allow both users and implementors to 
+gain an understanding adequate for thier tasks.
 
 
-Throughout this document I employ terminology which is standard in the object oriented and generic disciplines (such as object, inheritance,
-concept and refinement). In addition to these I also use the term `category' to refer a set of related
-concepts.\footnote{ See Appendix A for further discussion of my use of the term `category'.}
+Throughout this document I employ terminology which is standard in the object 
+oriented and generic disciplines (such as object, inheritance, concept and 
+refinement). In addition to these I also use the term `category' to refer a 
+set of related concepts.\footnote{ See Appendix A for further discussion of my
+use of the term `category'.}
 
 \section{Structure Overview}
 
-Both the object structure and concept structure of this library can be seen as having
-three basic parts. These are: \emph{problem},
-\emph{solver}, and \emph{goal}. Below is a description of each and of the relations between them.
+Both the object structure and concept structure of this library can be seen as
+having three basic parts. These are: \emph{problem}, \emph{solver}, and 
+\emph{goal}. Below is a description of each and of the relations between them.
 
 \subsection{Descriptions}
 
@@ -45,22 +50,27 @@ A \emph{solver} represents a method of solving a correctly and fully
 	defined \emph{problem}.
 \item[Goal]
 A \emph{goal} is a predicate, or test, which may be used to determine
-	whether the tentative solution contained in a \emph{problem} is satisfactory.
+	whether the tentative solution contained in a \emph{problem} is 
+	satisfactory.
 \end{description}
 
 \subsection{Relations}
-From the above we can see that the \emph{problem} is more object-like and the \emph{solver} and
-\emph{goal} are more algorithm-like (though they are all treated like objects by c++). It follows
-then that the later two are likely to be things which are \emph{applied to} the former. The following
-descriptions cover this relationship in more detail.
+From the above we can see that the \emph{problem} is more object-like and the
+\emph{solver} and \emph{goal} are more algorithm-like (though they are all 
+treated like objects by c++). It follows then that the later two are likely to 
+be things which are \emph{applied to} the former. The following descriptions 
+cover this relationship in more detail.
+
 \begin{description}
 \item[Solver $\rightarrow$ Problem $\leftarrow$ Goal]
-A \emph{solver} is applied to a fully defined \emph{problem} until that \emph{problem}'s
+A \emph{solver} is applied to a fully defined \emph{problem} until that 
+\emph{problem}'s
   solution satisfies the \emph{goal}.
 \item[Goal $\rightarrow$ Problem]
 A \emph{goal} tests a \emph{problem} (and through it, it's tentative solution).
 \item[Solver $\rightarrow$ Goal $\rightarrow$ Problem]
-  A \emph{solver} uses a \emph{goal} to determine when a \emph{problem} is solved.
+  A \emph{solver} uses a \emph{goal} to determine when a \emph{problem} is 
+  solved.
 \end{description}
 
 \section{Object Stucture}
@@ -70,8 +80,8 @@ A \emph{goal} tests a \emph{problem} (and through it, it's tentative solution).
 Assume the form of the finite differenced equation is as follows:
 
 \begin{equation}
-a_{i,j} u_{i+1, j} + b_{i,j} u_{i-1, j} + c_{i,j} u_{i, j+1} d_{i,j} u_{i, j-1} + e_{i,j} u_{i, j} = 
-f_{i,j}
+a_{i,j} u_{i+1, j} + b_{i,j} u_{i-1, j} + c_{i,j} u_{i, j+1} d_{i,j} u_{i, j-1}
++ e_{i,j} u_{i, j} = f_{i,j}
 \end{equation}
 where the subscripts denote the grid point at which the value of the function or coefficient is taken.
 With the following relations
@@ -100,6 +110,18 @@ Below are syntactic descriptions of each of the major concepts.
 \begin{tabular}[!htb]{|p{5.25 cm}|p{8 cm}|}
 \hline
 Member&	Description\\
+\hline
+int I()&	returns the number of grid points in the first coord.\\
+\hline
+int J()&	returns the number of grid points in the second coord.\\
+\hline
+double dx()&	returns the grid spacing in the first coord.\\
+\hline
+double dy()&	returns the grid spacing in the second coord.\\
+\hline
+double x0()&	returns the minimum in the range for the first coord.\\
+\hline
+double y0()&	returns the minimum in the range for the second coord.\\
 \hline
 double at(int i, int j)&	returns the value at the grid point (i,j)\\
 \hline
