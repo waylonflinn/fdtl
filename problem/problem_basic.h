@@ -43,10 +43,10 @@ public:
 				   (returns a reference to a value) */
   double at(int i, int j) const;	// correct boundary values and checking
 
-  const boundary& top() const { return tp; }
-  const boundary& right() const { return rt; }
-  const boundary& bottom() const { return bt; }
-  const boundary& left() const { return lf; }
+  boundary& top() { return tp; }
+  boundary& right() { return rt; }
+  boundary& bottom() { return bt; }
+  boundary& left() { return lf; }
 
   ostream& put(ostream& s) const;
   // these two operators require the problems to be of equal size
