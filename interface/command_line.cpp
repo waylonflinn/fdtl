@@ -77,10 +77,11 @@ const string& command_line::usage()
 
   return (*this).use;
 }
-/* throw an exception if there is not a one-to-one (but not necessarily onto)
- * mapping from the supplied command line arguments (in argv) to the expected
- * ones (this generally means an unrecognized argument was supplied
- * or a recognized one was supplied twice).
+/* throw an exception if an element in the set of supplied command line
+ * arguments (in argv) is not mapped to the set of expected ones.
+ * this generally means an
+ * unrecognized argument was supplied or not enough arguments followed an
+ * option to satisfy it's argument requirements.
  */
 void command_line::parse(int argc, char* argv[])
 {
@@ -93,7 +94,24 @@ void command_line::parse(int argc, char* argv[])
 
   vector<option>::iterator iter;
   for(iter = opt_vec.begin(); iter != opt_vec.end(); iter++){
-    
+
+    // go backwards so as not to invalidate the iterators on erasure
+    vector<int>::iterator in_iter;
+    for(in_iter = map_from.end() - 1; in_iter != map_from.begin() - 1; in_iter--){
+      if((*iter).match(string(argv[(*in_iter)]))){
+
+	map_from.erase(iter);
+	if(map_from.size() < (*iter).arg_count())
+	  throw exception_argument();
+
+	vector<string> arg_vec;
+	for(int i = 1; i < (*iter).arg_count(); i++){
+	  arg_vec.push_back(string(argv[*(in_iter + i)]))
+	  map_from.erase(in_iter + i);
+	}
+	opt_map[(*iter).letter] = pair(true, arg_vec);	  
+      }
+    }
   }
   
   if(map_from.size() > 0)

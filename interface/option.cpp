@@ -20,6 +20,7 @@ public:
   option();
 
   // methods
+  int arg_count() const { return arg_vec.size(); }
   bool match(const string& token);
   const string& usage();
 
