@@ -1,0 +1,18 @@
+This file is at the top of this test repository (copied from the top of the Subversion repository).
+
+   trunk/ ......... The latest development sources.  When people say
+                    "Get the head of trunk", they mean the latest
+                    revision of this directory tree.
+
+   branches/ ...... Various development branches.  Typically a branch
+                    contains a complete copy of trunk/, even if the
+                    changes are isolated to one subdirectory.  Note
+                    that branch copies are generally removed after
+                    they've been merged back into trunk, so what's in
+                    branches/ now does not reflect all the branches
+                    that have ever been created.
+
+   tags/ .......... Snapshots of releases.  As a general policy, we
+                    don't change these after they're created; if
+                    something needs to change, we move it to
+                    branches and work on it there.
