@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[     17460,        552]*)
-(*NotebookOutlinePosition[     18104,        574]*)
-(*  CellTagsIndexPosition[     18060,        570]*)
+(*NotebookOptionsPosition[     19156,        586]*)
+(*NotebookOutlinePosition[     19800,        608]*)
+(*  CellTagsIndexPosition[     19756,        604]*)
 (*WindowFrame->Normal*)
 
 
@@ -410,10 +410,11 @@ Cell[BoxData[
     \(corec*eList\)], "Input"],
 
 Cell["\<\
-A module for retrieving data and one combining the operation with a plot \
+A module for retrieving data and another combining the operation with a plot \
 plotting it. Arguments are a string giving a filename for both and, for the \
-latter, two lists each giving the minimum and maximum values for a \
-variable.\
+latter, three lists each giving the minimum and maximum values for a \
+variable. The second argument is used primarily to create labels for the axes \
+(tick marks) and to properly scale the resulting plot.\
 \>", "Text"],
 
 Cell[BoxData[
@@ -432,10 +433,11 @@ Cell[BoxData[
         Close[dataStream]; \[IndentingNewLine]data\[IndentingNewLine]]\)], \
 "Input"],
 
-Cell[BoxData[
-    \(plotData[fileName_, \ rangeX_, \ rangeY_]\  := \ 
+Cell[BoxData[{
+    \(Off[General::spell1]\), "\[IndentingNewLine]", 
+    \(plotData[fileName_, \ rangeX_, \ rangeY_, \ rangeZ_]\  := \ 
       Module[{dataStream, \ comment, \ pos, \ data, \ num, line1, \ gridX, \ 
-          gridY, \ spaceX, \ spaceY, \ tickX, \ 
+          gridY, \ spaceX, \ spaceY, \ spaceZ, \ tickX, \ 
           tickY}, \[IndentingNewLine]SetDirectory["\<E:\Development\svn\pde\>\
 "]; \[IndentingNewLine]dataStream\  = \ OpenRead["\<output.txt\>"]; \n
         comment\  = \ True; \[IndentingNewLine]num\  = \ 0; \n\t
@@ -449,19 +451,32 @@ Cell[BoxData[
           Length[data] - 1; \[IndentingNewLine]gridY\  = \ 
           gridX; \[IndentingNewLine]spaceX\  = \ 
           rangeX[\([2]\)] - rangeX[\([1]\)]; \[IndentingNewLine]spaceY\  = \ 
-          rangeY[\([2]\)] - rangeY[\([1]\)]; \[IndentingNewLine]tickX\  = \ 
+          rangeY[\([2]\)] - rangeY[\([1]\)]; \[IndentingNewLine]spaceZ\  = \ 
+          rangeZ[\([2]\)] - rangeZ[\([1]\)]; \[IndentingNewLine]tickX\  = \ 
           Table[{gridX\/4*i + 1, \ rangeX[\([1]\)] + spaceX\/4*i}, \ {i, 0, \ 
               4}\ ]; \[IndentingNewLine]tickY\  = \ 
           Table[{gridY\/4*i + 1, rangeY[\([1]\)] + spaceY\/4*i}, \ {i, 0, \ 
               4}\ ]; \nClose[dataStream]; \[IndentingNewLine]ListPlot3D[
-          data, \ PlotRange\  \[Rule] \ {Automatic, \ Automatic, \ 
-              Automatic}, Ticks\  \[Rule] \ {tickX, \ tickY, \ Automatic}, \ 
-          BoxRatios\  \[Rule] \ {1, 2, 2}, \ 
-          ViewPoint -> {1.746, \ \(-2.792\), \ 
-              0.779}]\[IndentingNewLine]]\)], "Input"],
+          data, \ PlotRange\  \[Rule] \ {Automatic, \ Automatic, rangeZ}, 
+          Ticks\  \[Rule] \ {tickX, \ tickY, \ Automatic}\ , 
+          ViewPoint -> {1.746, \ \(-2.792\), \ 2.0}, \ 
+          BoxRatios\  \[Rule] \ {spaceX, spaceY, 
+              2*spaceZ}]\[IndentingNewLine]]\)}], "Input"],
 
 Cell[BoxData[
-    \(plotData["\<output.txt\>", \ {0, 4}, \ {\(-4\), 4}]\)], "Input"]
+    \(plotData["\<output.txt\>", \ {0, 4}, \ {0, 4}, \ {0, 1}]\)], "Input"],
+
+Cell[BoxData[{
+    \(\(data\  = \ getData["\<output.txt\>"];\)\), "\[IndentingNewLine]", 
+    \(ListPlot3D[data, \ 
+      PlotRange\  \[Rule] \ {Automatic, \ Automatic, {0, \ 1}}, 
+      ViewPoint -> {1.746, \ \(-2.792\), \ 2.0}]\)}], "Input"],
+
+Cell[BoxData[{
+    \(\(data\  = \ getData["\<output.txt\>"];\)\), "\[IndentingNewLine]", 
+    \(ListPlot3D[data, \ 
+      PlotRange\  \[Rule] \ {Automatic, \ Automatic, {0, \ 0.3}}, 
+      ViewPoint -> {1.746, \ \(-2.792\), \ 2.0}]\)}], "Input"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -501,34 +516,50 @@ Cell[BoxData[
 Cell[BoxData[
     \(ListPlot3D[data]\)], "Input"],
 
-Cell[BoxData[""], "Input"],
-
-Cell[BoxData[{
-    \(\(modData\  = \ 
-        Table[Table[{i*2\/40, \(-2\) + \((j*4\/40)\)\ , \(data[\([j + 
-                      1]\)]\)[\([i + 1]\)]}, \ {i, \ 0, \ 40}], \ {j, \ 0, \ 
-            40}];\)\), "\[IndentingNewLine]", 
-    \(modInterp\  = 
-      Interpolation[Flatten[modData, \ 1]]\), "\[IndentingNewLine]", 
-    \(\(scaleData\  = \ 
-        Table[Table[
-            2*\[Pi]*\(data[\([j + 1]\)]\)[\([i + 1]\)]*i*4\/40, \ {i, \ 0, \ 
-              40}], \ {j, \ 0, \ 40}];\)\)}], "Input"],
+Cell["\<\
+A module which constructs an interpolating function for the data given in the \
+specified file, whose range is assumed to be given by the specified lists. \
+This function relies on the getData['filename'] function.\
+\>", "Text"],
 
 Cell[BoxData[
-    \(Plot3D[modInterp[r, z], \ {r, \ 0, 2}, \ {z, \ \(-2\), 2}]\)], "Input"],
+    \(createInterp[fileName_, \ rangeX_, \ 
+        rangeY_]\  := \[IndentingNewLine]Module[\[IndentingNewLine]{\ data, \ 
+          gridX, \ gridY, \ spaceX, \ spaceY}, \[IndentingNewLine]data\  = \ 
+          getData[fileName]; \[IndentingNewLine]gridX\  = \ 
+          Length[data] - 1; \ngridY\  = \ gridX; \n
+        spaceX\  = \ rangeX[\([\)\(2\)\(]\)] - rangeX[\([\)\(1\)\(]\)]; \n
+        spaceY\  = \ 
+          rangeY[\([\)\(2\)\(]\)] - 
+            rangeY[\([\)\(1\)\(]\)]; \[IndentingNewLine]modData\  = \ 
+          Table[Table[{rangeX[\([1]\)] + i*spaceX\/gridX, 
+                rangeY[\([1]\)] + \((j*spaceY\/gridY)\)\ , \(data[\([\)\(j + 
+                      1\)\(]\)]\)[\([\)\(i + 1\)\(]\)]}, \ {i, \ 0, \ 
+                gridX}], \ {j, \ 0, \ 
+              gridY}]; \[IndentingNewLine]modInterp\  = 
+          Interpolation[
+            Flatten[modData, \ 
+              1]]; \[IndentingNewLine]modInterp\[IndentingNewLine]]\)], \
+"Input"],
+
+Cell[BoxData[
+    \(modInterp\  = \ 
+      createInterp["\<output.txt\>", \ {0, 4}, \ {0, 4}]\)], "Input"],
+
+Cell[BoxData[
+    \(Plot3D[modInterp[r, z], \ {r, \ 0, 4}, \ {z, \ 0, 4}]\)], "Input"],
 
 Cell[BoxData[
     \(NIntegrate[
-      modInterp[r, z]\^2*r*2*\[Pi], \ {r, \ 0, 2}, \ {z, \ \(-2\), 
-        2}]\)], "Input"]
+      modInterp[r, z]\^2*r*2*\[Pi], \ {r, \ 0, 4}, \ {z, \ \(-4\), 
+        4}]\)], "Input"]
 }, Open  ]],
 
 Cell[CellGroupData[{
 
 Cell["\<\
-In Which We Demonstrate Mathematica's Inability to Handle Elliptic \
-Equations\
+In Which We Demonstrate Mathematica's Inability to Handle Elliptic Partial \
+Differential Equations\
 \>", "Section"],
 
 Cell[BoxData[
@@ -546,7 +577,10 @@ Cell[BoxData[{
 
 Cell[BoxData[
     \(NDSolve[{gpe, \ bd1, \ bd2, bd3}, 
-      u, \ {x, \ \(-4\), 4}, \ {y, \ \(-4\), 4}]\)], "Input"]
+      u, \ {x, \ \(-4\), 4}, \ {y, \ \(-4\), 4}]\)], "Input"],
+
+Cell[BoxData[
+    \(Plot3D[x\^2 + y\^2, \ {x, \ \(-1\), 1}, \ {y, \ \(-1\), 1}]\)], "Input"]
 }, Open  ]]
 }, Open  ]]
 },
@@ -672,34 +706,38 @@ Cell[11998, 399, 48, 1, 30, "Input"],
 Cell[12049, 402, 45, 1, 30, "Input"],
 Cell[12097, 405, 54, 1, 30, "Input"],
 Cell[12154, 408, 44, 1, 30, "Input"],
-Cell[12201, 411, 255, 5, 52, "Text"],
-Cell[12459, 418, 770, 14, 230, "Input"],
-Cell[13232, 434, 1645, 26, 420, "Input"],
-Cell[14880, 462, 84, 1, 30, "Input"]
+Cell[12201, 411, 386, 6, 52, "Text"],
+Cell[12590, 419, 770, 14, 230, "Input"],
+Cell[13363, 435, 1806, 28, 460, "Input"],
+Cell[15172, 465, 89, 1, 30, "Input"],
+Cell[15264, 468, 243, 4, 50, "Input"],
+Cell[15510, 474, 245, 4, 50, "Input"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[15001, 468, 54, 0, 73, "Section"],
-Cell[15058, 470, 134, 2, 42, "Input"],
-Cell[15195, 474, 50, 1, 40, "Input"],
-Cell[15248, 477, 47, 1, 30, "Input"],
-Cell[15298, 480, 64, 1, 42, "Input"],
-Cell[15365, 483, 50, 1, 40, "Input"],
-Cell[15418, 486, 200, 4, 56, "Input"],
-Cell[15621, 492, 196, 3, 43, "Input"],
-Cell[15820, 497, 74, 1, 30, "Input"],
-Cell[15897, 500, 49, 1, 30, "Input"],
-Cell[15949, 503, 26, 0, 30, "Input"],
-Cell[15978, 505, 503, 10, 96, "Input"],
-Cell[16484, 517, 91, 1, 30, "Input"],
-Cell[16578, 520, 124, 3, 31, "Input"]
+Cell[15792, 483, 54, 0, 73, "Section"],
+Cell[15849, 485, 134, 2, 42, "Input"],
+Cell[15986, 489, 50, 1, 40, "Input"],
+Cell[16039, 492, 47, 1, 30, "Input"],
+Cell[16089, 495, 64, 1, 42, "Input"],
+Cell[16156, 498, 50, 1, 40, "Input"],
+Cell[16209, 501, 200, 4, 56, "Input"],
+Cell[16412, 507, 196, 3, 43, "Input"],
+Cell[16611, 512, 74, 1, 30, "Input"],
+Cell[16688, 515, 49, 1, 30, "Input"],
+Cell[16740, 518, 238, 4, 33, "Text"],
+Cell[16981, 524, 976, 18, 268, "Input"],
+Cell[17960, 544, 106, 2, 30, "Input"],
+Cell[18069, 548, 86, 1, 30, "Input"],
+Cell[18158, 551, 124, 3, 31, "Input"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[16739, 528, 105, 3, 73, "Section"],
-Cell[16847, 533, 170, 4, 31, "Input"],
-Cell[17020, 539, 293, 5, 110, "Input"],
-Cell[17316, 546, 116, 2, 30, "Input"]
+Cell[18319, 559, 126, 3, 73, "Section"],
+Cell[18448, 564, 170, 4, 31, "Input"],
+Cell[18621, 570, 293, 5, 110, "Input"],
+Cell[18917, 577, 116, 2, 30, "Input"],
+Cell[19036, 581, 92, 1, 31, "Input"]
 }, Open  ]]
 }, Open  ]]
 }
