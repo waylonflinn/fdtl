@@ -4,9 +4,9 @@
  * this algorithm uses chebyshev acceleration and odd-even (checkerboard) 
  * ordering.
  */
-#include "goal.h"
+#include "solver.h"
 
-class successive_overrelaxation
+class successive_overrelaxation : public solver
 {
 public:
   // constants

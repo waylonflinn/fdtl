@@ -2,9 +2,9 @@
  * apply the gauss-seidel relaxation algorithm to a problem until
  * a specified goal is met or the cuttoff is reached.
  */
-#include "goal.h"
+#include "solver.h"
 
-class gauss_seidel
+class gauss_seidel : public solver
 {
 public:
   // constants
