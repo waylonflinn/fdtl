@@ -90,5 +90,31 @@ ostream& problem_basic::put(ostream& s) const
   return s;
 }
 
+problem_basic& problem_basic::operator+=(const problem_basic& prob)
+{
+  int i,j;
+
+  for(j = 1; j < (gy-1); ++j){
+    for(i = 1; i < (gx-1); ++i){
+      (*this).u(i,j) += prob.at(i,j);
+    }
+  }
+  
+  return *this;
+}
+
+problem_basic& problem_basic::operator-=(const problem_basic& prob)
+{
+  int i,j;
+
+  for(j = 1; j < (gy-1); ++j){
+    for(i = 1; i < (gx-1); ++i){
+      (*this).u(i,j) -= prob.at(i,j);
+    }
+  }
+  
+  return *this;
+}
+
 ostream& operator<<(ostream& s, const problem_basic& prob)
 { return prob.put(s); }
