@@ -26,32 +26,18 @@ void print(const vector<vector<double> >& V);
 int main()
 {
   int I,J;
-  I = J = 10;
+  I = J = 80;
   pair<double, double> x(-4,4);
   pair<double, double> y(-4,4);
 
-  boundary bound_c(boundary::DIRICHLET, J, 0.0);
-  boundary bound_c_odd(boundary::DIRICHLET, J, 1.0);
-  laplace coarse(I, J, x, y, bound_c, bound_c, bound_c, bound_c_odd);
-
-  boundary bound_f(boundary::DIRICHLET, 2*J, 0.0);
-  boundary bound_f_odd(boundary::DIRICHLET, 2*J, 1.0);
-  laplace fine(2*I, 2*J, x, y, bound_f, bound_f, bound_f, bound_f_odd);
-
-  residual_norm norm_c(coarse, EPS);
-  residual_norm norm_f(fine, EPS);
-
-  gauss_seidel gs(1000);
+  boundary bound_f(boundary::DIRICHLET, J, 0.0);
+  boundary bound_f_odd(boundary::DIRICHLET, J, 1.0);
+  laplace fine(I, J, x, y, bound_f, bound_f, bound_f, bound_f_odd);
   
   double norm_c0 = residual_norm::norm(fine);
-  //double norm_c0 = residual_norm::norm(coarse);
-  int iter = gs.solve(coarse, norm_c);
-  //int iter = gs.solve(fine, norm_f);
-  bilinear_interp(coarse, fine);
+  int iter = multi(fine);
 
-  iter += gs.solve(fine, norm_f);
   double norm_c1 = residual_norm::norm(fine);
-  //double norm_c1 = residual_norm::norm(coarse);
   double ratio = norm_c1/norm_c0;
 
   cout.precision(3);
@@ -73,6 +59,7 @@ int main()
 
 int multi(laplace& lp)
 {
+  int min_size = 5;
   int iter = 0;
   double res;		// residual
   int I = lp.I();
@@ -86,16 +73,20 @@ int multi(laplace& lp)
   if(I != J)
     return 0;
 
+  if(I < min_size)
+    return 0;
+
   // find depth of recursion
   mult = I;
   depth = 0;
-  while(mult != 5 && mult != 0){
+  while(mult != min_size && mult != 0){
     mult >>= 1;
     depth++;
   }
-  if(mult = 0)
+  if(mult == 0)
     return 0;
 
+  residual_norm norm(lp, EPS);
   int size = mult;
   boundary top, right, bottom, left;
   top = boundary(boundary::DIRICHLET, size, 0.0);
@@ -103,13 +94,13 @@ int multi(laplace& lp)
   bottom= boundary(top);
   left= boundary(boundary::DIRICHLET, size, 1.0);
   laplace base(size, size, x, y, top, right, bottom, left);
-  residual_norm norm(base, EPS);
-  gauss_seidel gs(1000);
+  gauss_seidel gs(20000);
 
   iter = gs.solve(base, norm);
-
+  cout << "# iter " << min_size << ": " << iter << endl;
   laplace old_lp(base), new_lp(base);
   size *= 2;
+  int iter_i =0;
   while(size < I){
     top = boundary(boundary::DIRICHLET, size, 0.0);
     right = boundary(top);
@@ -118,13 +109,19 @@ int multi(laplace& lp)
     old_lp = new_lp;
     new_lp = laplace(size, size, x, y, top, right, bottom, left);
     bilinear_interp(old_lp, new_lp);
-    norm = residual_norm(new_lp, EPS);
-    iter += gs.solve(new_lp,norm);
+    iter_i =gs.solve(new_lp, norm); 
+    iter += iter_i;
+    cout << "# iter " << size << ": " << iter_i << endl;
     size *= 2;
   }
-  bilinear_interp(new_lp, lp);
-  norm = residual_norm(lp, EPS);
-  iter += gs.solve(lp, norm);
+  if(min_size < I){
+    bilinear_interp(new_lp, lp);
+    iter_i= gs.solve(lp, norm);
+    cout << "# iter " << size << ": " << iter_i << endl;
+    iter += iter_i;
+  }
+  else
+    lp = base;
 
   return iter;
 }
