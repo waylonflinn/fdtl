@@ -4,7 +4,8 @@
 # $@ is the target
 # $(<D) is the directory part of the first prerequisite
 
-com_obj = problem_basic.o residual_norm.o boundary.o
+inter_obj = argument.o option.o command_line.o interface.o
+com_obj = problem_basic.o residual_norm.o boundary.o $(inter_obj)
 sor_l_obj = sor_l.o successive_overrelaxation.o laplace.o $(com_obj)
 gs_l_obj = gs_l.o gauss_seidel.o laplace.o $(com_obj)
 dir_algorithm = ./algorithm/
@@ -15,7 +16,7 @@ VPATH = $(dir_algorithm):$(dir_problem):$(dir_interface)
 ifeq ($(MAKECMDGOALS),debug)
  CPPFLAGS = -g -I $(dir_algorithm) -I $(dir_problem)
 else
- CPPFLAGS = -I $(dir_algorithm) -I $(dir_problem)
+ CPPFLAGS = -I$(dir_algorithm) -I$(dir_problem) -I$(dir_interface)
 endif
 
 .PHONY : all clean debug
@@ -47,6 +48,19 @@ residual_norm.o: residual_norm.cpp residual_norm.h goal.h problem.h
 	g++ -c $(CPPFLAGS) $< -o $@
 
 boundary.o : boundary.cpp boundary.h
+	g++ -c $(CPPFLAGS) $< -o $@
+
+argument.o : argument.cpp argument.h
+	g++ -c $(CPPFLAGS) $< -o $@
+
+option.o: option.cpp option.h argument.h
+	g++ -c $(CPPFLAGS) $< -o $@
+
+command_line.o: command_line.cpp command_line.h option.h argument.h
+	g++ -c $(CPPFLAGS) $< -o $@
+
+interface.o: interface.cpp interface.h command_line.h option.h argument.h \
+boundary.h
 	g++ -c $(CPPFLAGS) $< -o $@
 
 clean :

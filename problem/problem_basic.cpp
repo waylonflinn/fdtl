@@ -2,14 +2,16 @@
 
 problem_basic::problem_basic(int I,
 		 int J,
-		 double range_x,
-		 double range_y,
+		 pair<double,double> range_x,
+		 pair<double,double> range_y,
 		 const boundary& top,
 		 const boundary& right,
 		 const boundary& bottom,
 		 const boundary& left) 
-  : gx(I), gy(J), sx(range_x/I), sy(range_y/J), tp(top), rt(right), bt(bottom),
-    lf(left)
+  : gx(I), gy(J), x(range_x), y(range_y),
+    sx((range_x.second-range_x.first)/I),
+    sy((range_y.second-range_x.first)/J),
+    tp(top), rt(right), bt(bottom), lf(left)
 {
   int i;
   double average;

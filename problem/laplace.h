@@ -11,8 +11,8 @@ public:
   // constructors
   laplace(int I,
 	  int J,
-	  double range_x,
-	  double range_y,
+	  pair<double, double> range_x,
+	  pair<double, double> range_y,
 	  const boundary& top,		// boundary objects for each boundary
 	  const boundary& right,
 	  const boundary& bottom,

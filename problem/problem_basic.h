@@ -8,10 +8,12 @@
 #define PDE_PROBLEM_BASIC
 
 #include <vector>
+#include <utility>
 #include "problem.h"
 #include "boundary.h"
 
 using std::vector;
+using std::pair;
 
 class problem_basic : public problem
 {
@@ -20,8 +22,8 @@ public:
   // constructors
   problem_basic(int I,
 		int J,
-		double range_x,
-		double range_y,
+		pair<double, double> range_x,
+		pair<double, double> range_y,
 		const boundary& top,
 		const boundary& right,
 		const boundary& bottom,
@@ -45,6 +47,7 @@ protected:
   vector< vector<double> > sol;	// the solution
   int gx, gy;	// grid points in the first (i) and second (j) variables, resp
   double sx, sy;	// grid spacing in the first and second variables, resp
+  pair<double, double> x, y;	// ranges for first and second vars, resp
   boundary tp, rt, bt, lf;	// boundaries, resp.; top, right, bottom, left
 
 };
