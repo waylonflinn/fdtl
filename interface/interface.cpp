@@ -68,9 +68,18 @@ int main(int argc, char* argv[])
   opt_vec.push_back(opt_z);
   opt_vec.push_back(opt_k);
 
-  command_line cl = command_line(opt_vec, arg_file);
- 
-  cout << "usage: \n" << cl.usage() << endl;
+  command_line cl = command_line("interface", opt_vec, arg_file);
+  
+  try{
+    cl.parse(argc, argv);
+  }
+  catch(exception_argument){
+    cout << "unexpected argument, ";
+    cout << "usage: \n" << cl.usage() << endl;
+    return 1;
+  }
+
+
 
   return 0;
 }

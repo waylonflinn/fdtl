@@ -1,20 +1,31 @@
+/* parse a command line and print a usage statement
+ * this class uses the 'iota' SGI algorithm
+ */
+
 #include <string>
-#include <utility>
 #include <vector>
 #include <map>
+#include <utility>
+#include <algorithm>
 #include "option.cpp"
+#include "next.cpp"
 
 using std::vector;
 using std::string;
 using std::pair;
 using std::map;
 
+// exceptions
+struct exception_argument {  };
+
 class command_line {
 public:
   // constants
 
   // constructors
-  command_line(const vector<option>& option_vector, const argument& argument);
+  command_line(string name,
+	       const vector<option>& option_vector,
+	       const argument& argument);
   command_line();
 
   // methods
@@ -26,19 +37,22 @@ public:
   { return arg_pair; }
 
   const string& usage();
+  void parse(int argc, char* argv[]);
 
 private:
+
   string prog_name;
   vector<option> opt_vec;
   argument arg;
   map<char, pair<bool, vector<string> > > opt_map;
   pair<bool, string> arg_pair;
-
   string use;
 };
 
-command_line::command_line(const vector<option>& option_vector, const argument& argument)
-  : opt_vec(option_vector), arg(argument)
+command_line::command_line(string name,
+			   const vector<option>& option_vector,
+			   const argument& argument)
+  : opt_vec(option_vector), arg(argument), prog_name(name)
 {
 }
 
@@ -53,7 +67,7 @@ const string& command_line::usage()
 
     (*this).use += "\n\twhere <options> is zero or more of:";
 
-    vector<option>::iterator iter = opt_vec.begin();
+    vector<option>::iterator iter;
     for(iter = opt_vec.begin(); iter != opt_vec.end(); iter++){
       (*this).use += "\n" + (*iter).usage();
     }
@@ -63,3 +77,26 @@ const string& command_line::usage()
 
   return (*this).use;
 }
+/* throw an exception if there is not a one-to-one (but not necessarily onto)
+ * mapping from the supplied command line arguments (in argv) to the expected
+ * ones (this generally means an unrecognized argument was supplied
+ * or a recognized one was supplied twice).
+ */
+void command_line::parse(int argc, char* argv[])
+{
+  if(argc < 1)
+    return;
+
+  vector<int> map_from(argc - 1, 0);
+
+  generate(map_from.begin(), map_from.end(), next(1));
+
+  vector<option>::iterator iter;
+  for(iter = opt_vec.begin(); iter != opt_vec.end(); iter++){
+    
+  }
+  
+  if(map_from.size() > 0)
+    throw exception_argument();
+}
+
