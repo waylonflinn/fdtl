@@ -14,7 +14,7 @@ public:
   const static int NEUMANN = 1;
 
   // methods
-  int type() const { return _type; }	// type of boundary conditions
+  int type() const { return tp; }	// type of boundary conditions
   const double& value(int i);
   const double& operator[](int i);
 
@@ -24,8 +24,8 @@ public:
 	   vector<double>::iterator end);
 
 private:
-  int _type;
-  vector<double> _value;
+  int tp;
+  vector<double> val;
 
 };
 
@@ -36,16 +36,16 @@ boundary::boundary(int type,
 		   vector<double>::iterator start,
 		   vector<double>::iterator end)
 {
-  _value = vector<double>(start, end);
-  _type = type;
+  val = vector<double>(start, end);
+  tp = type;
 }
 
-/* get the value at position i (zero based)
+/* get (a reference to) the value at position i (zero based)
  */
 const double& boundary::value(int i)
-{ return _value[i]; }
+{ return val[i]; }
 
 /* subscript ([]) operator (synonym for value(int))
  */
 const double& boundary::operator[](int i) 
-{ return _value[i]; }
+{ return val[i]; }

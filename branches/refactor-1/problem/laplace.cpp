@@ -1,6 +1,6 @@
 #include <vector>
-#include "../problem.cpp"
-#include "../boundary.cpp"
+#include "problem.cpp"
+#include "boundary.cpp"
 
 /* a problem resulting from finite differencing of Laplace's equation
  *
@@ -21,54 +21,52 @@ public:
   double f(int i, int j) const { return 0;}
   double& u(int i, int j);	/* interface to the solution 
 				   (returns a reference to a value) */
-  boundary& top() const { return _top; }
-  boundary& right() const { return _right; }
-  boundary& bottom() const { return _bottom; }
-  boundary& left() const { return _left; }
+  const boundary& top() const { return tp; }
+  const boundary& right() const { return rt; }
+  const boundary& bottom() const { return bt; }
+  const boundary& left() const { return lf; }
 
   // constructors
   laplace(int I,
 	  int J,
-	  boundary top,		// boundary objects for each boundary
-	  boundary right,
-	  boundary bottom,
-	  boundary left);
+	  const boundary& top,		// boundary objects for each boundary
+	  const boundary& right,
+	  const boundary& bottom,
+	  const boundary& left);
 
 private:
-  vector< vector<double> > _solution;	// the solution
-  int _I, _J;		// grid points in the width and height, resp.
-  boundary _top, _right, _bottom, _left;	// boundaries
+  vector< vector<double> > sol;	// the solution
+  int ig, jg;		// grid points in the width (i) and height (j), resp.
+  boundary tp, rt, bt, lf;	// boundaries, resp.; top, right, bottom, left
 
 };
 
 laplace::laplace(int I,
 		 int J,
-		 boundary top,
-		 boundary right,
-		 boundary bottom,
-		 boundary left) 
-  : _top(top), _right(right), _bottom(bottom), _left(left)
+		 const boundary& top,
+		 const boundary& right,
+		 const boundary& bottom,
+		 const boundary& left) 
+  : ig(I), jg(J), tp(top), rt(right), bt(bottom), lf(left)
 {
   int i;
   double average;
 
   average = 0;
-  for(i = 0; i < _I; i++){
-    average += top.value(i);
-    average += bottom.value(i);
+  for(i = 0; i < (*this).ig; i++){
+    average += (*this).tp.value(i);
+    average += (*this).bt.value(i);
   }
-  for(i = 0; i < _J; i++){
-    average += right.value(i);
-    average += left.value(i);
+  for(i = 0; i < (*this).jg; i++){
+    average += (*this).rt.value(i);
+    average += (*this).lf.value(i);
   }
 
-  average = average / (2*I+2*J);
+  average = average / ((2*(*this).ig)+(2*(*this).jg));
 
-  _I = I;
-  _J = J;
-
-  _solution = vector< vector<double> >(I, vector<double>(J, average));
+  sol = vector< vector<double> >((*this).ig,
+				 vector<double>((*this).jg, average));
 }
 
 double& laplace::u(int i, int j)
-{ return _solution[i][j]; }
+{ return sol[i][j]; }
