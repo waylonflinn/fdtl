@@ -1,22 +1,22 @@
-/* an abstract class representing a solver for a finite differenced pde.
+/* a partial implementation of the solver interface.
  */
 
-#ifndef PDE_SOLVER
-#define PDE_SOLVER
+#ifndef PDE_SOLVER_BASIC
+#define PDE_SOLVER_BASIC
 
-#include "goal.h"
+#include "solver.h"
 
-class solver
+class solver_basic
 {
-public:
+ public:
   // methods
 
-  // solve and return number of iterations
-  virtual int solve(problem& prob, goal& g) = 0;
-  // synonym for solve
-  virtual int operator()(problem& prob, goal& g) = 0;
   // set/get the maximum number of iterataions
-  virtual int& cutoff() = 0;
+  int& cutoff() {return co;}
+
+ private:
+  int co;
+
 };
 
-#endif	// PDE_SOLVER
+#endif	// PDE_SOLVER_BASIC
