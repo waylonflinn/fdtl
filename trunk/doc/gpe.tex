@@ -1,0 +1,106 @@
+\documentclass{article}
+\usepackage{amssymb, amsmath}
+\title{The Numerical Solution of a Gross-Pitaevskii Equation}
+\author{Earl Waylon Flinn}
+\begin{document}
+\maketitle
+\section{Introduction}
+Here we present a solution of a Gross-Pitaevskii equation (GPE), a non-linear
+partial differential equation (PDE). This equation is
+used to describe the behaviour of certain substances at very low temperatures.
+It is used, specifically, when those substances experience a phenomenon known
+as Bose-Einstein condensation. Solution of this equation yields, in addition to
+the wave function, two descriptively important quantities. These are: the
+chemical potential and the energy. The chemical potential replaces the energy
+in it's traditional role as the eigenvalue in the PDE. The energy is then
+calculated seperately with an integral.
+
+The solution method employed is a numerical one, as no closed form solution is
+known\footnote{at least none has been revealed to this author}. For ease of
+implementation we have chosen the method of finite differences. Since our
+Gross-Pitaevskii equation, like the standard Schr\"odinger
+equations, is an elliptic one, we have employed a multigrid-like
+\footnote{Multigrid methods are a relaxation method which use grids of varying
+`fineness' to decrease computation time. Our method begins on a coarse grid and
+interpolates to a finer one, a procedure typically referred to as
+\emph{nested iteration}. This technique alone was sufficient for our purposes
+and is the only one employed by our algorithm.} method for expeditious solution.
+
+
+Below I present the equations for describing the relavent quantities (including
+our Gross-Pitaevskii equation) and the equations employed in thier solution.
+
+\subsection{Problem Overview}
+Below is a presentation of the equations to be solved.\\
+
+The Gross-Pitaevskii equation
+\begin{equation}
+- \frac{1}{2}  \nabla^{2} \psi +
+\frac{1}{2} \left( r^{2} + \lambda^{2} z^{2} \right) \psi +
+4 \pi a (N-1) \lvert \psi \rvert^{2} \psi = 
+\mu \psi
+\end{equation}
+
+The energy integral
+\begin{equation}
+E = N \int \int \left(
+	\frac{1}{2} \lvert \nabla \psi \rvert^{2} + 
+	\frac{1}{2} \left( r^{2} + \lambda^{2} z^{2} \right) \lvert \psi \rvert^{2} +
+	2 \pi a (N-1) \lvert \psi \rvert^{4}
+	\right) 2 \pi r \, \mathrm{d} r \, \mathrm{d}z
+\end{equation}
+
+\subsection{Solution Method Overview}
+Below are the operators and resulting equations employed in the solution of the above.\\
+
+Descritization relations
+\begin{equation}
+i \in \left \{ 1, 2, ... I+1 \right \}
+\end{equation}
+\begin{equation}
+j \in \left \{ 1, 2, ... J+1 \right \}
+\end{equation}
+where I and J are the number of (internal) grid points in $r$ and
+$z$, respectively.
+\begin{equation}
+r = r_{0} + i \Delta r
+\end{equation}
+\begin{equation}
+z = z_{0} + j \Delta z
+\end{equation}
+\begin{equation}
+\Delta r = \frac{r_{1}-r_{0}}{I+1}
+\end{equation}
+\begin{equation}
+\Delta z = \frac{z_{1}-z_{0}}{J+1}
+\end{equation}
+where $r_0$  and $r_1$ are, respectively, the lower and upper bounds for $r$,
+and $z_0$ and $z_1$ play the analogous role for $z$.\\
+
+The differential operators
+\begin{equation}
+\frac{\partial u}{\partial r} = \frac{u_{i+1, j} - u_{i-1, j}}{2\Delta r}
+\end{equation}
+
+\begin{equation}
+\frac{\partial^{2} u}{\partial r^{2}} =
+\frac{u_{i+1,j} - 2 u_{i,j} +u_{i-1,j}}{\Delta r^{2}}
+\end{equation}
+
+The general form of the descretized second order eliptic equation using the
+above differential operators\footnote{Using the supplied differential operators
+all second order elliptic partial differential equations can be put in this
+form.}
+\begin{equation}
+a_{i,j} u_{i+1, j} + b_{i,j} u_{i-1, j} + c_{i,j} u_{i, j+1} d_{i,j} u_{i, j-1}
++ e_{i,j} u_{i, j} = f_{i,j}
+\end{equation}
+where the subscripts denote the grid point $(i,j)$ at which the value of the
+function or coefficient is taken. Coefficents may be constant or (more likely)
+have a functional dependance on the grid point.
+
+\section{Solution Method}
+
+\section{Scratch}
+
+\end{document}

@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[     19173,        587]*)
-(*NotebookOutlinePosition[     19816,        609]*)
-(*  CellTagsIndexPosition[     19772,        605]*)
+(*NotebookOptionsPosition[     20664,        629]*)
+(*NotebookOutlinePosition[     21307,        651]*)
+(*  CellTagsIndexPosition[     21263,        647]*)
 (*WindowFrame->Normal*)
 
 
@@ -470,13 +470,7 @@ Cell[BoxData[
 Cell[BoxData[{
     \(\(data\  = \ getData["\<output.txt\>"];\)\), "\[IndentingNewLine]", 
     \(ListPlot3D[data, \ 
-      PlotRange\  \[Rule] \ {Automatic, \ Automatic, {0, \ 1}}, 
-      ViewPoint -> {1.746, \ \(-2.792\), \ 2.0}]\)}], "Input"],
-
-Cell[BoxData[{
-    \(\(data\  = \ getData["\<output.txt\>"];\)\), "\[IndentingNewLine]", 
-    \(ListPlot3D[data, \ 
-      PlotRange\  \[Rule] \ {Automatic, \ Automatic, {0, \ 0.3}}, 
+      PlotRange\  \[Rule] \ {Automatic, \ Automatic, {0, \ 0.5}}, 
       ViewPoint -> {1.746, \ \(-2.792\), \ 2.0}]\)}], "Input"]
 }, Open  ]],
 
@@ -497,8 +491,16 @@ Cell[BoxData[
 Cell[BoxData[
     \(Plot[1\/N\^3, \ {N, \ 1, \ 10}]\)], "Input"],
 
+Cell[CellGroupData[{
+
 Cell[BoxData[
     \(N[\[Pi]\/3, \ 15]\)], "Input"],
+
+Cell[BoxData[
+    \(1.0471975511965977461542144612`15. \)], "Output",
+  GeneratedCell->False,
+  CellAutoOverwrite->False]
+}, Open  ]],
 
 Cell[BoxData[
     \(NIntegrate[\ 
@@ -515,7 +517,7 @@ Cell[BoxData[
     \(\(data\  = \ getData["\<output.txt\>"];\)\)], "Input"],
 
 Cell[BoxData[
-    \(ListPlot3D[data]\)], "Input"],
+    \(ListPlot3D[data, \ PlotRange\  \[Rule] \ {0, \  .5}]\)], "Input"],
 
 Cell["\<\
 A module which constructs an interpolating function for the data given in the \
@@ -523,37 +525,77 @@ specified file, whose range is assumed to be given by the specified lists. \
 This function relies on the getData['filename'] function.\
 \>", "Text"],
 
-Cell[BoxData[
+Cell[BoxData[{
+    \(Off[General::spell1]\), "\[IndentingNewLine]", 
     \(createInterp[fileName_, \ rangeX_, \ 
         rangeY_]\  := \[IndentingNewLine]Module[\[IndentingNewLine]{\ data, \ 
           gridX, \ gridY, \ spaceX, \ spaceY}, \[IndentingNewLine]data\  = \ 
           getData[fileName]; \[IndentingNewLine]gridX\  = \ 
           Length[data] - 1; \ngridY\  = \ gridX; \n
-        spaceX\  = \ rangeX[\([\)\(2\)\(]\)] - rangeX[\([\)\(1\)\(]\)]; \n
+        spaceX\  = \ rangeX[\([2]\)] - rangeX[\([1]\)]; \n
         spaceY\  = \ 
-          rangeY[\([\)\(2\)\(]\)] - 
-            rangeY[\([\)\(1\)\(]\)]; \[IndentingNewLine]modData\  = \ 
+          rangeY[\([2]\)] - rangeY[\([1]\)]; \[IndentingNewLine]modData\  = \ 
           Table[Table[{rangeX[\([1]\)] + i*spaceX\/gridX, 
-                rangeY[\([1]\)] + \((j*spaceY\/gridY)\)\ , \(data[\([\)\(j + 
-                      1\)\(]\)]\)[\([\)\(i + 1\)\(]\)]}, \ {i, \ 0, \ 
-                gridX}], \ {j, \ 0, \ 
+                rangeY[\([1]\)] + \((j*
+                      spaceY\/gridY)\)\ , \(data[\([j + 1]\)]\)[\([i + 
+                      1]\)]}, \ {i, \ 0, \ gridX}], \ {j, \ 0, \ 
               gridY}]; \[IndentingNewLine]modInterp\  = 
           Interpolation[
             Flatten[modData, \ 
-              1]]; \[IndentingNewLine]modInterp\[IndentingNewLine]]\)], \
+              1]]; \[IndentingNewLine]modInterp\[IndentingNewLine]]\)}], \
 "Input"],
 
 Cell[BoxData[
     \(modInterp\  = \ 
-      createInterp["\<output.txt\>", \ {0, 4}, \ {0, 4}]\)], "Input"],
+      createInterp["\<output.txt\>", \ {0, 4}, \ {\(-2\), 2}]\)], "Input"],
 
 Cell[BoxData[
-    \(Plot3D[modInterp[r, z], \ {r, \ 0, 4}, \ {z, \ 0, 4}]\)], "Input"],
+    \(Plot3D[modInterp[r, z], \ {r, \ 0, 4}, \ {z, \(-2\), 2}, \ 
+      PlotRange\  \[Rule] \ {0, 0.7}]\)], "Input"],
 
 Cell[BoxData[
-    \(NIntegrate[
-      modInterp[r, z]\^2*r*2*\[Pi], \ {r, \ 0, 4}, \ {z, \ \(-4\), 
-        4}]\)], "Input"]
+    \(interp3D[r_, z_, t_] = modInterp[r, z]\)], "Input"],
+
+Cell[BoxData[{
+    \(Needs["\<Calculus`VectorAnalysis`\>"]\), "\[IndentingNewLine]", 
+    \(Needs["\<Graphics`PlotField3D`\>"]\), "\[IndentingNewLine]", 
+    \(SetCoordinates[Cylindrical[r, t, z]]\)}], "Input"],
+
+Cell[BoxData[
+    \(gradInterp[r_, z_, t_] = Grad[interp3D[r, z, t]]\)], "Input"],
+
+Cell[BoxData[
+    \(normInterp[r_, z_, t_]\  = \ 
+      DotProduct[gradInterp[r, z, 0], gradInterp[r, z, 0]]\)], "Input"],
+
+Cell[BoxData[
+    \(Plot3D[normInterp[r, z, t], \ {r, \ 0, \ 4}, \ {z, \ \(-2\), 2}, \ 
+      PlotRange\  \[Rule] \ {0, \  .4}]\)], "Input"],
+
+Cell[BoxData[{
+    \(aBar = 0.00433\), "\[IndentingNewLine]", 
+    \(nAt\  = \ 100\)}], "Input"],
+
+Cell[BoxData[
+    \(\((nAt)\)*
+      NIntegrate[\((\(1\/2\) normInterp[r, z, 0] + 
+              1\/2*\((r\^2 + 8*z\^2)\)*\((modInterp[r, z])\)\^2 + 
+              2*\[Pi]*aBar*\((nAt)\)*\((modInterp[r, z])\)\^4)\)*2*\[Pi]*
+          r, \ {r, \ 0, 4}, \ {z, \ \(-2\), 2}, \ 
+        Method\  \[Rule] \ MultiDimensional]\)], "Input"],
+
+Cell[BoxData[
+    \(Plot3D[\((\(1\/2\) normInterp[r, z, 0] + 
+          1\/2*\((r\^2 + z\^2)\)*\((modInterp[r, z])\)\^2 + 
+          2*\[Pi]*aBar*\((nAt - 1)\)*\((modInterp[r, z])\)\^4)\), \ {r, \ 
+        0, \ 4}, \ {z, \ \(-2\), \ 2}, \ 
+      PlotRange\  \[Rule] \ {0, \  .2}]\)], "Input"],
+
+Cell[BoxData[
+    \(Plot3D[\((1\/2*\((r\^2 + z\^2)\)*\((modInterp[r, z])\)\^2 + 
+          2*\[Pi]*aBar*\((nAt - 1)\)*\((modInterp[r, z])\)\^4)\), \ {r, \ 
+        0, \ 4}, \ {z, \ \(-2\), \ 2}, \ 
+      PlotRange\  \[Rule] \ {0, \  .3}]\)], "Input"]
 }, Open  ]],
 
 Cell[CellGroupData[{
@@ -586,7 +628,7 @@ Cell[BoxData[
 }, Open  ]]
 },
 FrontEndVersion->"5.0 for Microsoft Windows",
-ScreenRectangle->{{0, 1280}, {0, 847}},
+ScreenRectangle->{{0, 1280}, {0, 911}},
 WindowSize->{936, 621},
 WindowMargins->{{0, Automatic}, {Automatic, 0}}
 ]
@@ -711,34 +753,45 @@ Cell[12201, 411, 386, 6, 71, "Text"],
 Cell[12590, 419, 770, 14, 250, "Input"],
 Cell[13363, 435, 1806, 28, 480, "Input"],
 Cell[15172, 465, 106, 2, 30, "Input"],
-Cell[15281, 469, 243, 4, 50, "Input"],
-Cell[15527, 475, 245, 4, 50, "Input"]
+Cell[15281, 469, 245, 4, 50, "Input"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[15809, 484, 54, 0, 73, "Section"],
-Cell[15866, 486, 134, 2, 42, "Input"],
-Cell[16003, 490, 50, 1, 40, "Input"],
-Cell[16056, 493, 47, 1, 30, "Input"],
-Cell[16106, 496, 64, 1, 42, "Input"],
-Cell[16173, 499, 50, 1, 40, "Input"],
-Cell[16226, 502, 200, 4, 56, "Input"],
-Cell[16429, 508, 196, 3, 43, "Input"],
-Cell[16628, 513, 74, 1, 30, "Input"],
-Cell[16705, 516, 49, 1, 30, "Input"],
-Cell[16757, 519, 238, 4, 52, "Text"],
-Cell[16998, 525, 976, 18, 289, "Input"],
-Cell[17977, 545, 106, 2, 30, "Input"],
-Cell[18086, 549, 86, 1, 30, "Input"],
-Cell[18175, 552, 124, 3, 31, "Input"]
+Cell[15563, 478, 54, 0, 73, "Section"],
+Cell[15620, 480, 134, 2, 42, "Input"],
+Cell[15757, 484, 50, 1, 40, "Input"],
+Cell[15810, 487, 47, 1, 30, "Input"],
+Cell[15860, 490, 64, 1, 42, "Input"],
+
+Cell[CellGroupData[{
+Cell[15949, 495, 50, 1, 40, "Input"],
+Cell[16002, 498, 121, 3, 29, "Output"]
+}, Open  ]],
+Cell[16138, 504, 200, 4, 56, "Input"],
+Cell[16341, 510, 196, 3, 43, "Input"],
+Cell[16540, 515, 74, 1, 30, "Input"],
+Cell[16617, 518, 85, 1, 30, "Input"],
+Cell[16705, 521, 238, 4, 52, "Text"],
+Cell[16946, 527, 977, 18, 309, "Input"],
+Cell[17926, 547, 111, 2, 30, "Input"],
+Cell[18040, 551, 130, 2, 30, "Input"],
+Cell[18173, 555, 71, 1, 30, "Input"],
+Cell[18247, 558, 210, 3, 70, "Input"],
+Cell[18460, 563, 81, 1, 30, "Input"],
+Cell[18544, 566, 121, 2, 30, "Input"],
+Cell[18668, 570, 140, 2, 30, "Input"],
+Cell[18811, 574, 96, 2, 50, "Input"],
+Cell[18910, 578, 332, 6, 64, "Input"],
+Cell[19245, 586, 292, 5, 64, "Input"],
+Cell[19540, 593, 250, 4, 64, "Input"]
 }, Open  ]],
 
 Cell[CellGroupData[{
-Cell[18336, 560, 126, 3, 99, "Section"],
-Cell[18465, 565, 170, 4, 31, "Input"],
-Cell[18638, 571, 293, 5, 110, "Input"],
-Cell[18934, 578, 116, 2, 30, "Input"],
-Cell[19053, 582, 92, 1, 31, "Input"]
+Cell[19827, 602, 126, 3, 99, "Section"],
+Cell[19956, 607, 170, 4, 31, "Input"],
+Cell[20129, 613, 293, 5, 110, "Input"],
+Cell[20425, 620, 116, 2, 30, "Input"],
+Cell[20544, 624, 92, 1, 31, "Input"]
 }, Open  ]]
 }, Open  ]]
 }

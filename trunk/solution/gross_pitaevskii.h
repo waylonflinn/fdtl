@@ -41,6 +41,13 @@ public:
 	      mparm*sol[i-1][j-1]*sol[i-1][j-1]);}
   double f(int i, int j) const { return 0;}
 
+
+  double interaction_parameter() const {return parm;}
+  double r_coefficient() const {return cx; }
+  double z_coefficient() const {return cy; }
+  double r(int i) const {return (xm+(sx*i));}
+  double z(int j) const {return (ym+(sy*j));}
+
   void eigenvalue(double eig);
 
   void grow(operator_prolong& op);
@@ -48,11 +55,12 @@ public:
   gross_pitaevskii clone();
 
  private:
-  double xm, ym;
-  double cx;
-  double cy;
-  double eig;
-  double parm;
+  double xm, ym;	// lower bounds in x and y, resp.
+  double cx;		// coefficient to x in potential
+  double cy;		// coefficient to y in potential
+  double eig;		// eigenvalue
+  double parm;		// interaction parameter
+
   // intermediates for e(int,int)
   double meig;	// -1*ssx*eig
   double mparm;
