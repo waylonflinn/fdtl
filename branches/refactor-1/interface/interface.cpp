@@ -1,67 +1,87 @@
-#include <iostream>
-#include <vector>
-#include "command_line.h"
+#include "interface.h"
 
-using std::cout;
-using std::endl;
-using std::vector;
+// protected constants
+const string interface::NAME = "pde_prog";
+const string interface::FIRST_VAR = "the first variable (x)";
+const string interface::SEC_VAR = "the second variable (y)";
+
+const argument interface::ARR_X[] =
+ {argument("x0", "the mininum for " + interface::FIRST_VAR),
+  argument("x1", "the maximum for " + interface::FIRST_VAR)};
+
+const argument interface::ARR_Y[] =
+ {argument("y0", "the mininum for " + interface::SEC_VAR),
+  argument("y1", "the maximum for " + interface::SEC_VAR)};
+
+const option interface::ARR_OPT[] =
+  {interface::OPT_I, interface::OPT_J, interface::OPT_X, interface::OPT_Y};
+
+// public constants
+const int interface::DEF_I = 20;
+const int interface::DEF_J = 20;
+const pair<double, double> interface::DEF_X = pair<double, double>(0, 1);
+const pair<double, double> interface::DEF_Y = pair<double, double>(-1, 1);
+
+const argument interface::INPUT = 
+ argument("file", "a properly formatted file to use for the input");
+const option interface::OPT_I =
+ option('I',
+	argument("n", "the number of points for " + interface::FIRST_VAR)
+	);
+const option interface::OPT_J =
+ option('J',
+	argument("n", "the number of points for " + interface::SEC_VAR)
+	);
+const option interface::OPT_X =
+option('x', vector<argument>(interface::ARR_X, interface::ARR_X + 2));
+
+const option interface::OPT_Y =
+option('y', vector<argument>(interface::ARR_Y, interface::ARR_Y + 2));
+
+const command_line interface::CL =
+command_line(interface::NAME,
+	     vector<option>(ARR_OPT, ARR_OPT + 4), interface::INPUT);
+
+// constructors
+interface::interface(string id, int argc, char* argv[])
+{
+  try{
+    CL.parse(argc, argv);
+  }
+  catch(invalid_argument e){
+    cout << e.desc << ", ";
+    cout << "usage: \n" << cl.usage() << endl;
+    throw invalid_argument("malformed command line.");
+  }
+}
+/*
+
+int interface::I()
+{ 
+  if(!cl['I'].first)
+    return interface::DEF_I;
+
+  return cl['I'].second;
+}
+
+int interface::J()
+{ 
+  if(!cl['J'].first)
+    return interface::DEF_I;
+
+  return cl['J'].second;
+}
+
+int interface::x()
+{ 
+  if(!cl['x'].first)
+    return interface::DEF_X;
+
+  pair<double, double> min_max
+}
 
 int main(int argc, char* argv[])
 {
-  argument arg_file = argument("file", "a properly formatted file to use for the input");
-
-  string first_var("the first variable (r)");
-  string sec_var("the second variable (z)");
-
-  // help option
-  option opt_help('h', "print a usage summary");
-
-  // I
-  option opt_I('I',  argument("n", "the number of points for " + first_var));
-
-  // J
-  option opt_J('J', argument("n", "the number of points for " + sec_var));
-
-  // output
-  option opt_out('o', argument("output", "the file to use for output"));
-
-  // first coefficient option
-  option opt_fcoef('a',  argument("a", "the coefficient to " + first_var));
-
-  // second coefficient option
-  option opt_scoef('b', argument("b", "the coefficient to " + sec_var));
-
-  // eigenvalue option
-  option opt_eig = option('e', argument("lam", "the eigenvalue"));
-
-  // min and max r
-  argument r_arr[2] = {argument("r0", "the mininum for " + first_var),
-			 argument("r1", "the maximum for " + first_var)};
-  option opt_r('r', vector<argument>(r_arr, r_arr + 2));
- 
-  // min and max z
-  argument z_arr[2] = {argument("z0", "the mininum for " + sec_var),
-			 argument("z1", "the maximum for " + sec_var)};
-  option opt_z('z', vector<argument>(z_arr, z_arr + 2));
-
-  // interaction parameter
-  option opt_k('k',  argument("k", "the interaction parameter"));
-
-  option opt_arr[] = {opt_I, opt_J, opt_out, opt_eig, opt_fcoef, opt_scoef,
-		      opt_r, opt_z, opt_k};
-
-  command_line cl =
-    command_line("interface", vector<option>(opt_arr, opt_arr + 9), arg_file);
-
-  try{
-    cl.parse(argc, argv);
-  }
-  catch(exception_argument e){
-    cout << e.desc << ", ";
-    cout << "usage: \n" << cl.usage() << endl;
-    return 1;
-  }
-
   if(cl['h'].first)
     cout << "usage: \n" << cl.usage() << endl;
   if(cl['r'].first)
@@ -80,3 +100,4 @@ int main(int argc, char* argv[])
 
   return 0;
 }
+*/

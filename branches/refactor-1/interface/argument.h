@@ -23,7 +23,7 @@ public:
 private:
   string nm;		// name
   string desc;		// description (should be a standard noun phrase)
-  string use;		// usage statement
+  mutable string use;	// usage statement
 };
 
 #endif	// PDE_ARGUMENT

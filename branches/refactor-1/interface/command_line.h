@@ -9,6 +9,7 @@
 #include <vector>
 #include <map>
 #include <utility>
+#include <stdexcept>
 #include <algorithm>
 #include "option.h"
 
@@ -16,12 +17,7 @@ using std::vector;
 using std::string;
 using std::pair;
 using std::map;
-
-// exceptions
-struct exception_argument { 
-  string desc;
-  exception_argument(string description) : desc(description) {}
- };
+using std::invalid_argument;
 
 class command_line {
 public:
@@ -50,9 +46,9 @@ private:
   string prog_name;
   vector<option> opt_vec;
   argument arg;
-  map<char, pair<bool, vector<string> > > opt_map;
+  mutable map<char, pair<bool, vector<string> > > opt_map;
   string arg_string;
-  string use;
+  mutable string use;
 };
 
 #endif	//PDE_COMMAND_LINE
