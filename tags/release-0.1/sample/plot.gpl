@@ -1,0 +1,5 @@
+set terminal png small
+set output 'output.png'
+set data style linespoints
+set hidden3d
+splot 'output.txt' matrix
