@@ -24,7 +24,8 @@ gross_pitaevskii::gross_pitaevskii(
     mparm(-2*ssx*parm)
         
 {
-  double norm_av = sqrt(1/((x.second-x.first)*(y.second-y.first)));
+  double norm_av = 
+    sqrt(1/((x.second-x.first)*(y.second-y.first)));
 
   //vector<double> neg(gy-1, -norm_av);
   vector<double> pos(gy-1, norm_av);
