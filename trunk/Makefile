@@ -27,7 +27,16 @@ endif
 
 .PHONY : all clean debug
 
+# phony targets
+
 all : sor_l gs_l gs_sho sor_sho gs_gpe
+
+clean :
+	rm gs_l sor_l gs_sho *.o
+
+debug : all
+
+# executables
 
 sor_l : sor_l.o $(sor_l_obj)
 	g++ -o $@ $(CPPFLAGS) $^
@@ -59,6 +68,11 @@ gs_gpe : gs_gpe.o $(gs_gpe_obj)
 gs_gpe.o : gs_gpe.cpp $(gs_gpe_obj)
 	g++ -c $(CPPFLAGS) $<
 
+# problems
+
+boundary.o : boundary.cpp boundary.h
+	g++ -c $(CPPFLAGS) $< -o $@
+
 problem_basic.o : problem_basic.cpp problem_basic.h problem.h boundary.h
 	g++ -c $(CPPFLAGS) $< -o $@
 
@@ -70,12 +84,17 @@ simple_harmonic_oscillator.o: simple_harmonic_oscillator.cpp \
   problem.h boundary.h
 	g++ -c $(CPPFLAGS) $< -o $@
 
-
 gross_pitaevskii.o: gross_pitaevskii.cpp gross_pitaevskii.h \
   problem_basic.cpp problem_basic.h problem.h boundary.h
 	g++ -c $(CPPFLAGS) $< -o $@
 
-gauss_seidel.o: gauss_seidel.cpp gauss_seidel.h goal.h problem.h
+# algorithms (solvers/goals)
+
+gauss_seidel.o: gauss_seidel.cpp gauss_seidel.h goal.h problem.h solver.h
+	g++ -c $(CPPFLAGS) $< -o $@
+
+successive_overrelaxation.o : successive_overrelaxation.cpp \
+ successive_overrelaxation.h goal.h problem.h solver.h
 	g++ -c $(CPPFLAGS) $< -o $@
 
 residual_norm.o: residual_norm.cpp residual_norm.h goal.h problem.h
@@ -84,8 +103,7 @@ residual_norm.o: residual_norm.cpp residual_norm.h goal.h problem.h
 solution_norm.o: solution_norm.cpp solution_norm.h goal.h problem.h
 	g++ -c $(CPPFLAGS) $< -o $@
 
-boundary.o : boundary.cpp boundary.h
-	g++ -c $(CPPFLAGS) $< -o $@
+# interface
 
 argument.o : argument.cpp argument.h
 	g++ -c $(CPPFLAGS) $< -o $@
@@ -116,8 +134,3 @@ interface_sor_sho.o: interface_sor_sho.cpp interface_sor_sho.h \
 interface_gpe.o: interface_gpe.cpp interface_gpe.h interface.cpp interface.h \
  command_line.h option.h argument.h boundary.h option_set.h option_set_gpe.h
 	g++ -c $(CPPFLAGS) $< -o $@
-
-clean :
-	rm gs_l sor_l gs_sho *.o
-
-debug : all
