@@ -5,6 +5,11 @@ boundary::boundary(int type,
 		   vector<double>::iterator end) : tp(type), val(start, end)
 {}
 
+boundary::boundary(int type,
+		   int size,
+		   double val) : tp(type), val(size, val)
+{}
+
 boundary::boundary() : tp(boundary::DIRICHLET)
 {}
 
