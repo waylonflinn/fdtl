@@ -3,6 +3,9 @@
  * electrodynamic system) given in cylindrical coordinates.
  */
 
+#ifndef PDE_GROSS_PITAEVSKII
+#define PDE_GROSS_PITAEVSKII
+
 #include "problem_basic.h"
 #include "problem_resizable.h"
 #include "cmath"
@@ -63,3 +66,5 @@ public:
   double p3y;	// sx^2*sy^2*cy
   
 };
+
+#endif // PDE_GROSS_PITAEVSKII
