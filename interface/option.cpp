@@ -40,7 +40,7 @@ option::option(const char& letter,
   // interpret description
   string::size_type loc = desc.find(option::ARG_NAME);
   string::size_type len = option::ARG_NAME.size();
-  string arg_name = "<" + arg_vec[0].name() + ">";
+  string arg_name = arg_vec[0].name();
 
   (*this).desc.replace(loc, len, arg_name);
 }
@@ -64,8 +64,9 @@ bool option::match(const string& token)
 const string& option::usage()
 {
 
-  if((*this).use.size() == 0){
-    string arg_name = (arg_vec.size() == 0) ? "" : "<" + arg_vec[0].name() + ">";
+  if((*this).use.size() == 0){	// first call to function
+    string arg_name = (arg_vec.size() == 0) ? "" : arg_vec[0].name();
+
     (*this).use = option::PREFIX + (*this).letter + " " + arg_name + "\t" + 
       (*this).desc;
   }
