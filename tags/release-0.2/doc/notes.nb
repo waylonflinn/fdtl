@@ -1,0 +1,753 @@
+(************** Content-type: application/mathematica **************
+                     CreatedBy='Mathematica 5.0'
+
+                    Mathematica-Compatible Notebook
+
+This notebook can be used with any Mathematica-compatible
+application, such as Mathematica, MathReader or Publicon. The data
+for the notebook starts with the line containing stars above.
+
+To get the notebook into a Mathematica-compatible application, do
+one of the following:
+
+* Save the data starting with the line of stars above into a file
+  with a name ending in .nb, then open the file inside the
+  application;
+
+* Copy the data starting with the line of stars above to the
+  clipboard, then use the Paste menu command inside the application.
+
+Data for notebooks contains only printable 7-bit ASCII and can be
+sent directly in email or through ftp in text mode.  Newlines can be
+CR, LF or CRLF (Unix, Macintosh or MS-DOS style).
+
+NOTE: If you modify the data for this notebook not in a Mathematica-
+compatible application, you must delete the line below containing
+the word CacheID, otherwise Mathematica-compatible applications may
+try to use invalid cache data.
+
+For more information on notebooks and Mathematica-compatible 
+applications, contact Wolfram Research:
+  web: http://www.wolfram.com
+  email: info@wolfram.com
+  phone: +1-217-398-0700 (U.S.)
+
+Notebook reader applications are available free of charge from 
+Wolfram Research.
+*******************************************************************)
+
+(*CacheID: 232*)
+
+
+(*NotebookFileLineBreakTest
+NotebookFileLineBreakTest*)
+(*NotebookOptionsPosition[     19173,        587]*)
+(*NotebookOutlinePosition[     19816,        609]*)
+(*  CellTagsIndexPosition[     19772,        605]*)
+(*WindowFrame->Normal*)
+
+
+
+Notebook[{
+
+Cell[CellGroupData[{
+Cell["\<\
+
+Experimental Investigation of the Spectral Radius of the Jacobian Relaxation \
+Operator for Laplace's Equation and the Resultant Succesive Overrelaxation \
+Parameter\
+\>", "Title"],
+
+Cell["Fit of Iteration as a Function of Grid Size", "Subtitle"],
+
+Cell[BoxData[
+    \(jmax\  = \ 200\)], "Input"],
+
+Cell[BoxData[
+    \(old - 
+        iter\  = \ {{20, 163}, {30, 352}, {40, 606}, {50, 923}, {60, 
+          1301}, \ {70, \ 1739}, \ {100, \ 3401}, \ {120, \ 4789}, \ {140, \ 
+          6394}}\)], "Input"],
+
+Cell["\<\
+this was run with boundaries 0,1,0,0 on the region [0,1]*[0,1]\
+\>", "Text"],
+
+Cell[BoxData[
+    \(iter\  = {{20, 291}, {30, 581}, {40, 940}, {50, 1357}, {60, 
+          1821}, \ {70, \ 2325}, \ {100, \ 4019}, \ {120, \ 5249}, \ {140, \ 
+          6696}, {200, 12639}}\)], "Input"],
+
+Cell[CellGroupData[{
+
+Cell["Calculation of the Spectral Radius", "Subtitle"],
+
+Cell[BoxData[
+    \(\[Rho]nm[J_]\  = \ 1 - \[Pi]\^2\/J\^2\)], "Input"],
+
+Cell[BoxData[
+    \(\[Rho][p_, r_]\  = \ 1\/10\^\(p\/r\)\)], "Input"],
+
+Cell[BoxData[
+    \(experiment\  = 
+      Table[{\(iter[\([i]\)]\)[\([1]\)], 
+          N[\[Rho][5, \(iter[\([i]\)]\)[\([2]\)]]]}, \ {i, \ 1\ , 
+          Length[iter]}]\)], "Input"],
+
+Cell[BoxData[
+    \(\(\(theory\  = 
+      Table[{\(iter[\([i]\)]\)[\([1]\)], 
+          N[\[Rho]nm[\(iter[\([i]\)]\)[\([1]\)]]]}, \ {i, \ 1\ , 
+          Length[iter]}]\)\(\[IndentingNewLine]\)
+    \)\)], "Input"],
+
+Cell[BoxData[
+    \(\(\(\ \)\(expPlot := 
+      ListPlot[experiment, \ 
+        PlotJoined\  \[Rule] \ 
+          True, \ \ PlotRange\  \[Rule] \ {{0, \ jmax}, Automatic}]\n
+    theoryPlot := 
+      ListPlot[theory, \ 
+        PlotJoined\  \[Rule] \ 
+          True, \ \ PlotRange\  \[Rule] \ {{0, \ jmax}, Automatic}, \ 
+        PlotStyle\  \[Rule] \ Hue[1]]\n
+    Show[expPlot, \ theoryPlot]\)\)\)], "Input"],
+
+Cell[BoxData[
+    \(\[Rho]test[J_] = \ 1 - \(1.7\ \[Pi]\^2\)\/J\^2\)], "Input"],
+
+Cell[BoxData[
+    \(test\  = 
+      Table[{\(iter[\([i]\)]\)[\([1]\)], 
+          N[\[Rho]test[\(iter[\([i]\)]\)[\([1]\)]]]}, \ {i, \ 1\ , 
+          Length[iter]}]\)], "Input"],
+
+Cell[BoxData[{
+    \(testPlot := 
+      ListPlot[test, \ 
+        PlotJoined\  \[Rule] \ 
+          True, \ \ PlotRange\  \[Rule] \ {{0, \ jmax}, Automatic}, \ 
+        PlotStyle\  \[Rule] \ Hue[1]]\), "\n", 
+    \(Show[expPlot, \ testPlot]\)}], "Input"],
+
+Cell[BoxData[
+    \(Plot[1\/\(-Log[x]\), \ {x, \  .5, \  .98}]\)], "Input"],
+
+Cell[BoxData[
+    \(\[Rho]nml[J_]\  = \ 1 - \[Pi]\^2\/\(2*J\^2\)\)], "Input"],
+
+Cell[BoxData[
+    \(N[\[Rho]nml[20]]\)], "Input"],
+
+Cell[BoxData[
+    \(1 - \(1.7\ \[Pi]\^2\)\/\(2*20\^2\)\)], "Input"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Spectral Radius for the Simple Harmonic Oscillator", "Title"],
+
+Cell["experimentally determined spectral radii", "Subtitle"],
+
+Cell[CellGroupData[{
+
+Cell["\[Lambda] = 0.5", "Section"],
+
+Cell[BoxData[{
+    \(expShoList = {{20, \ 0.935}, \ {40, \ 0.9836}, {60, \ 0.9924}, {80, \ 
+          0.9957}, {100, \ 0.99722}}\), "\n", 
+    \(expSho = 
+      ListPlot[expShoList, \ 
+        PlotJoined\  \[Rule] \ 
+          True, \ \ PlotRange\  \[Rule] \ {{0, \ 100}, Automatic}, 
+        AxesOrigin\  \[Rule] \ {0, 1}, \ 
+        PlotStyle\  \[Rule] \ Hue[1]]\)}], "Input"],
+
+Cell[BoxData[{
+    \(\[Rho]sho[J_]\  = \ 1 - \(2.74*\[Pi]\^2\)\/\((J +  .409)\)\^2\), "\n", 
+    \(theSho = 
+      Plot[\[Rho]sho[J], \ {J, \ 20, \ 100}, 
+        AxesOrigin\  \[Rule] \ {0, 1}]\)}], "Input"],
+
+Cell[BoxData[
+    \(Show[expSho, \ theSho]\)], "Input"],
+
+Cell[BoxData[
+    \(N[\[Rho]sho[20]]\)], "Input"],
+
+Cell[BoxData[
+    \(N[\[Rho]sho[40]]\)], "Input"],
+
+Cell[BoxData[
+    \(N[\[Rho]sho[60]]\)], "Input"],
+
+Cell[BoxData[
+    \(\[Rho]sho2[J_]\  = \ 1 - \[Pi]\^2\/\((J)\)\^2\)], "Input"],
+
+Cell[BoxData[
+    \(N[\[Rho]sho2[40]]\)], "Input"],
+
+Cell[BoxData[
+    \(FindFit[expShoList, \ 1 - \(a*\[Pi]\^2\)\/\((J - b)\)\^2, \ {a, \ b}, \ 
+      J]\)], "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\[Lambda]=1", "Section"],
+
+Cell[BoxData[
+    \(Needs["\<Statistics`NonlinearFit`\>"]\)], "Input"],
+
+Cell[BoxData[{
+    \(expSho1List = {{20, \ 0.959}, \ {40, \ 0.9892}, {60, \ 0.9951}, {80, \ 
+          0.99726}, {100, \ 0.99824}}\), "\n", 
+    \(FindFit[expSho1List, \ 
+      1 - \(a*\[Pi]\^2\)\/\((J - b)\)\^2, \ {a, \ b}, \ 
+      J]\), "\[IndentingNewLine]", 
+    \(expSho1 = 
+      ListPlot[expSho1List, \ 
+        PlotJoined\  \[Rule] \ 
+          True, \ \ PlotRange\  \[Rule] \ {{0, \ 100}, Automatic}, 
+        AxesOrigin\  \[Rule] \ {0, 1}, \ 
+        PlotStyle\  \[Rule] \ Hue[1]]\)}], "Input"],
+
+Cell[BoxData[
+    \(NonlinearFit[
+      expSho1List, \ \ 1 - \(a*\[Pi]\^2\)\/\((J - c)\)\^2, {J}, {a, 
+        c}]\)], "Input"],
+
+Cell[BoxData[
+    \(18.209\/\[Pi]\^2\)], "Input"],
+
+Cell[BoxData[{
+    \(\[Rho]sho1[J_]\  = \ 
+      1 - \(1.844*\[Pi]\^2\)\/\((\ J + 1.074)\)\^2\), "\n", 
+    \(theSho1 = 
+      Plot[\[Rho]sho1[J], \ {J, \ 20, \ 100}, 
+        AxesOrigin\  \[Rule] \ {0, 1}]\)}], "Input"],
+
+Cell[BoxData[
+    \(Show[expSho1, \ theSho1]\)], "Input"],
+
+Cell[BoxData[""], "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\[Lambda]=1.5", "Section"],
+
+Cell[BoxData[{
+    \(expSho15List = {{20, \ 0.9805}, \ {40, \ 0.99495}, {60, \ 
+          0.99777}, {80, \ 0.99875}, {100, \ 
+          0.99920}, {120,  .99945}}\), "\n", 
+    \(NonlinearFit[
+      expSho15List, \ \ 1 - \(a*\[Pi]\^2\)\/\((J - c)\)\^2, {J}, {a, 
+        c}]\), "\[IndentingNewLine]", 
+    \(expSho15 = 
+      ListPlot[expSho15List, \ 
+        PlotJoined\  \[Rule] \ 
+          True, \ \ PlotRange\  \[Rule] \ {{0, \ 100}, Automatic}, 
+        AxesOrigin\  \[Rule] \ {0, 1}, \ 
+        PlotStyle\  \[Rule] \ Hue[1]]\)}], "Input"],
+
+Cell[BoxData[
+    \(8.27095\/\[Pi]\^2\)], "Input"],
+
+Cell[BoxData[{
+    \(\[Rho]sho15[J_]\  = \ 
+      1 - \(0.838*\[Pi]\^2\)\/\((\ J + 0.593)\)\^2\), "\n", 
+    \(theSho15 = 
+      Plot[\[Rho]sho15[J], \ {J, \ 20, \ 100}, 
+        AxesOrigin\  \[Rule] \ {0, 1}]\), "\n", 
+    \(Show[expSho15, \ theSho15]\)}], "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\[Lambda] = 2", "Section"],
+
+Cell[BoxData[{
+    \(expSho2List = {{50, \  .857}, {60, \ 0.936}, \ {80, \ 0.9787}, {100, \ 
+          0.9907}, {120, \ 0.9953}, {140, \ 
+          0.9974}, \ {160, \  .9984}}\), "\n", 
+    \(expSho2 = 
+      ListPlot[expSho2List, \ 
+        PlotJoined\  \[Rule] \ 
+          True, \ \ PlotRange\  \[Rule] \ {{0, \ 160}, Automatic}, 
+        AxesOrigin\  \[Rule] \ {0, 1}, \ 
+        PlotStyle\  \[Rule] \ Hue[1]]\), "\[IndentingNewLine]", 
+    \(NonlinearFit[
+      expSho2List, \ \ 1 - \(a*\[Pi]\^2\)\/\((J - c)\)\^2, {J}, {a, 
+        c}]\)}], "Input"],
+
+Cell[BoxData[
+    \(52.8607\/\[Pi]\^2\)], "Input"],
+
+Cell[BoxData[
+    \(\[Rho]sho2[J_]\  = \ 
+      1 - \(5.356*\[Pi]\^2\)\/\((J - 30.8)\)\^2\)], "Input"],
+
+Cell[BoxData[
+    \(theSho2 = 
+      Plot[\[Rho]sho2[J], \ {J, \ 50, \ 160}, 
+        AxesOrigin\  \[Rule] \ {0, 1}]\)], "Input"],
+
+Cell[BoxData[
+    \(Show[expSho2, \ theSho2]\)], "Input"],
+
+Cell[BoxData[
+    \(\[Rho]sho2[50]\)], "Input"],
+
+Cell[BoxData[
+    \(\[Rho]sho2[40]\)], "Input"],
+
+Cell[BoxData[
+    \({{0.5, {2.74,  .409}}, {1, {1.844, 1.074}}, {1.5, \ {0.838, \ 
+          0.593}}, {2, {4.174, \(-34.66\)}}}\)], "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Scratch", "Section"],
+
+Cell[BoxData[
+    \(Plot3D[
+      Sin[\[Pi]\ x]*Sin[\[Pi]\ y], \ {x, \ 0, \ 1}, \ {y, \ 0, \ 
+        1}]\)], "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["GPE solution Norm as a Function of eigenvalue", "Section"],
+
+Cell[TextData[{
+  "the following is an examination of the norm of the GPE solution as a \
+function of eigenvalue. The values where determined at (40, 0, 4, -4, 4, 1) \
+with\n(N, ",
+  Cell[BoxData[
+      \(TraditionalForm\`x\_0\)]],
+  ", ",
+  Cell[BoxData[
+      \(TraditionalForm\`x\_1\)]],
+  ", ",
+  Cell[BoxData[
+      \(TraditionalForm\`y\_0\)]],
+  ", ",
+  Cell[BoxData[
+      \(TraditionalForm\`y\_1\)]],
+  ", k)"
+}], "Text"],
+
+Cell[BoxData[
+    \(normList\  = \ {{2, 4.71*10\^\(-6\)}, {2.25, \ 0.415}, {2.4, \ 
+          0.935}, {2.42, 1.01}, \ {2.5, \ 1.3}, {2.6, 1.68}, {2.7, 
+          2.08}, \ {2.8, 2.49}, {2.9, 2.92}, {3.4, 5.31}, {3.8, 7.51}, {4.3, 
+          10.6}, {4.7, 13.4}, {7, 34.2}, {8, 45.9}, {9, 59.2}}\)], "Input"],
+
+Cell[BoxData[
+    \(ListPlot[
+      Table[{\(normList[\([i]\)]\)[\([1]\)], 
+          Sqrt[\(normList[\([i]\)]\)[\([2]\)]]}, \ {i, \ 1, \ 16}], \ 
+      PlotJoined\  \[Rule] \ False, \ PlotStyle \[Rule] PointSize[ .02], \ 
+      PlotRange\  \[Rule] \ {Automatic, \ {0, \ 10}}]\)], "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Data Plotting", "Section"],
+
+Cell["k=1", "Text"],
+
+Cell[BoxData[{
+    \(relaxdata := 
+      Import["\<output.txt\>", \ "\<Table\>"]\), "\[IndentingNewLine]", 
+    \(ListPlot3D[relaxdata, \ 
+      PlotRange\  \[Rule] \ \ {Automatic, \ Automatic, \ {0, 1}}, \ 
+      Ticks\  \[Rule] \ {{{1, \ "\<0\>"}, {15, \ "\<2\>"}, {30, \ "\<4\>"}, \
+{45, \ "\<6\>"}, {60, \ "\<8\>"}}, {{1, "\<-8\>"}, {15, \ "\<-4\>"}, {30, \ "\
+\<0\>"}, {45, \ "\<4\>"}, {60, \ "\<8\>"}}, \ Automatic}]\)}], "Input"],
+
+Cell["k=50", "Text"],
+
+Cell[BoxData[{
+    \(relaxdata := Import["\<output.txt\>", \ "\<Table\>"]\), "\n", 
+    \(ListPlot3D[relaxdata, \ 
+      PlotRange\  \[Rule] \ \ {Automatic, \ Automatic, \ {0, 1}}, \ 
+      Ticks\  \[Rule] \ {{{1, \ "\<0\>"}, {15, \ "\<2\>"}, {30, \ "\<4\>"}, \
+{45, \ "\<6\>"}, {60, \ "\<8\>"}}, {{1, "\<-8\>"}, {15, \ "\<-4\>"}, {30, \ "\
+\<0\>"}, {45, \ "\<4\>"}, {60, \ "\<8\>"}}, \ Automatic}]\)}], "Input"],
+
+Cell["k=500", "Text"],
+
+Cell[BoxData[{
+    \(relaxdata := Import["\<output.txt\>", \ "\<Table\>"]\), "\n", 
+    \(ListPlot3D[relaxdata, \ 
+      PlotRange\  \[Rule] \ \ {Automatic, \ Automatic, \ {0, 1}}, \ 
+      Ticks\  \[Rule] \ {{{1, \ "\<0\>"}, {15, \ "\<2\>"}, {30, \ "\<4\>"}, \
+{45, \ "\<6\>"}, {60, \ "\<8\>"}}, {{1, "\<-8\>"}, {15, \ "\<-4\>"}, {30, \ "\
+\<0\>"}, {45, \ "\<4\>"}, {60, \ "\<8\>"}}, \ Automatic}]\)}], "Input"],
+
+Cell[BoxData[
+    \(param[N_] = 4*\[Pi]*0.00433 \((N - 1)\)\)], "Input"],
+
+Cell[BoxData[{
+    \(nList = {20, \ 50, \ 100, \ 500, \ 1000}\), "\[IndentingNewLine]", 
+    \(eList\  = \ {1.5664, \ 1.6533, \ 1.7851, \ 2.4856, \ 
+        3.0436}\)}], "Input"],
+
+Cell[BoxData[
+    \(N[param[nList]]\)], "Input"],
+
+Cell[BoxData[
+    \(N[param[50]]\)], "Input"],
+
+Cell[BoxData[
+    \(corec\  = 2.75/1.5664\)], "Input"],
+
+Cell[BoxData[
+    \(corec*eList\)], "Input"],
+
+Cell["\<\
+A module for retrieving data and another combining the operation with a plot \
+plotting it. Arguments are a string giving a filename for both and, for the \
+latter, three lists each giving the minimum and maximum values for a \
+variable. The second argument is used primarily to create labels for the axes \
+(tick marks) and to properly scale the resulting plot.\
+\>", "Text"],
+
+Cell[BoxData[
+    \(getData[fileName_]\  := \ 
+      Module[{dataStream, \ comment, \ pos, \ data, \ num, 
+          line1}, \[IndentingNewLine]SetDirectory["\<E:\Development\svn\pde\>\
+"]; \[IndentingNewLine]dataStream\  = \ OpenRead["\<output.txt\>"]; \n
+        comment\  = \ True; \[IndentingNewLine]num\  = \ 0; \n\t
+        While[comment, \(num++\); pos\  = \ StreamPosition[dataStream]; 
+          line1\  = Read[dataStream, \ String]; 
+          comment\  = \ \((StringTake[line1, \ 1]\  \[Equal] \ "\<#\>")\)]; \n
+        SetStreamPosition[dataStream, \ pos]; \n
+        data\  = 
+          Reverse[ReadList[dataStream, \ Real, \ 
+              RecordLists \[Rule] True]]; \n
+        Close[dataStream]; \[IndentingNewLine]data\[IndentingNewLine]]\)], \
+"Input"],
+
+Cell[BoxData[{
+    \(Off[General::spell1]\), "\[IndentingNewLine]", 
+    \(plotData[fileName_, \ rangeX_, \ rangeY_, \ rangeZ_]\  := \ 
+      Module[{dataStream, \ comment, \ pos, \ data, \ num, line1, \ gridX, \ 
+          gridY, \ spaceX, \ spaceY, \ spaceZ, \ tickX, \ 
+          tickY}, \[IndentingNewLine]SetDirectory["\<E:\Development\svn\pde\>\
+"]; \[IndentingNewLine]dataStream\  = \ OpenRead["\<output.txt\>"]; \n
+        comment\  = \ True; \[IndentingNewLine]num\  = \ 0; \n\t
+        While[comment, \(num++\); pos\  = \ StreamPosition[dataStream]; 
+          line1\  = Read[dataStream, \ String]; 
+          comment\  = \ \((StringTake[line1, \ 1]\  \[Equal] \ "\<#\>")\)]; \n
+        SetStreamPosition[dataStream, \ pos]; \n
+        data\  = 
+          Reverse[ReadList[dataStream, \ Real, \ 
+              RecordLists \[Rule] True]]; \[IndentingNewLine]gridX\  = \ 
+          Length[data] - 1; \[IndentingNewLine]gridY\  = \ 
+          gridX; \[IndentingNewLine]spaceX\  = \ 
+          rangeX[\([2]\)] - rangeX[\([1]\)]; \[IndentingNewLine]spaceY\  = \ 
+          rangeY[\([2]\)] - rangeY[\([1]\)]; \[IndentingNewLine]spaceZ\  = \ 
+          rangeZ[\([2]\)] - rangeZ[\([1]\)]; \[IndentingNewLine]tickX\  = \ 
+          Table[{gridX\/4*i + 1, \ rangeX[\([1]\)] + spaceX\/4*i}, \ {i, 0, \ 
+              4}\ ]; \[IndentingNewLine]tickY\  = \ 
+          Table[{gridY\/4*i + 1, rangeY[\([1]\)] + spaceY\/4*i}, \ {i, 0, \ 
+              4}\ ]; \nClose[dataStream]; \[IndentingNewLine]ListPlot3D[
+          data, \ PlotRange\  \[Rule] \ {Automatic, \ Automatic, rangeZ}, 
+          Ticks\  \[Rule] \ {tickX, \ tickY, \ Automatic}\ , 
+          ViewPoint -> {1.746, \ \(-2.792\), \ 2.0}, \ 
+          BoxRatios\  \[Rule] \ {spaceX, spaceY, 
+              5*spaceZ}]\[IndentingNewLine]]\)}], "Input"],
+
+Cell[BoxData[
+    \(plotData["\<output.txt\>", \ {0, 4}, \ {\(-4\), 4}, \ {0, 
+        0.15}]\)], "Input"],
+
+Cell[BoxData[{
+    \(\(data\  = \ getData["\<output.txt\>"];\)\), "\[IndentingNewLine]", 
+    \(ListPlot3D[data, \ 
+      PlotRange\  \[Rule] \ {Automatic, \ Automatic, {0, \ 1}}, 
+      ViewPoint -> {1.746, \ \(-2.792\), \ 2.0}]\)}], "Input"],
+
+Cell[BoxData[{
+    \(\(data\  = \ getData["\<output.txt\>"];\)\), "\[IndentingNewLine]", 
+    \(ListPlot3D[data, \ 
+      PlotRange\  \[Rule] \ {Automatic, \ Automatic, {0, \ 0.3}}, 
+      ViewPoint -> {1.746, \ \(-2.792\), \ 2.0}]\)}], "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Testing of the Quadrature Algorithm", "Section"],
+
+Cell[BoxData[
+    \(\[Integral]\_0\%1\(\[Integral]\_0\%1 r\^2*
+          r*2\ \[Pi] \[DifferentialD]r \[DifferentialD]z\)\)], "Input"],
+
+Cell[BoxData[
+    \(N[\[Pi]\/2, \ 10]\)], "Input"],
+
+Cell[BoxData[
+    \(N[\[Pi], \ 15]\)], "Input"],
+
+Cell[BoxData[
+    \(Plot[1\/N\^3, \ {N, \ 1, \ 10}]\)], "Input"],
+
+Cell[BoxData[
+    \(N[\[Pi]\/3, \ 15]\)], "Input"],
+
+Cell[BoxData[
+    \(NIntegrate[\ 
+      2\ \[Pi]\ x\ \((\[ExponentialE]\^\(-\(\((x\^2 + y\^2)\)\/1\)\))\)\^2, \
+{x, \ 0, \ 2}, \ {y, \(-2\), \ 2}\ , 
+      PrecisionGoal\  \[Rule] \ 10\ ]\)], "Input"],
+
+Cell[BoxData[
+    \(Plot3D[\[ExponentialE]\^\(-\(\((x\^2 + y\^2)\)\/1\)\), \ {x, 0, 
+        2}, \ {y, \ \(-2\), 2}, \ 
+      PlotRange\  \[Rule] \ {Automatic, \ Automatic, \ {0, 1}}]\)], "Input"],
+
+Cell[BoxData[
+    \(\(data\  = \ getData["\<output.txt\>"];\)\)], "Input"],
+
+Cell[BoxData[
+    \(ListPlot3D[data]\)], "Input"],
+
+Cell["\<\
+A module which constructs an interpolating function for the data given in the \
+specified file, whose range is assumed to be given by the specified lists. \
+This function relies on the getData['filename'] function.\
+\>", "Text"],
+
+Cell[BoxData[
+    \(createInterp[fileName_, \ rangeX_, \ 
+        rangeY_]\  := \[IndentingNewLine]Module[\[IndentingNewLine]{\ data, \ 
+          gridX, \ gridY, \ spaceX, \ spaceY}, \[IndentingNewLine]data\  = \ 
+          getData[fileName]; \[IndentingNewLine]gridX\  = \ 
+          Length[data] - 1; \ngridY\  = \ gridX; \n
+        spaceX\  = \ rangeX[\([\)\(2\)\(]\)] - rangeX[\([\)\(1\)\(]\)]; \n
+        spaceY\  = \ 
+          rangeY[\([\)\(2\)\(]\)] - 
+            rangeY[\([\)\(1\)\(]\)]; \[IndentingNewLine]modData\  = \ 
+          Table[Table[{rangeX[\([1]\)] + i*spaceX\/gridX, 
+                rangeY[\([1]\)] + \((j*spaceY\/gridY)\)\ , \(data[\([\)\(j + 
+                      1\)\(]\)]\)[\([\)\(i + 1\)\(]\)]}, \ {i, \ 0, \ 
+                gridX}], \ {j, \ 0, \ 
+              gridY}]; \[IndentingNewLine]modInterp\  = 
+          Interpolation[
+            Flatten[modData, \ 
+              1]]; \[IndentingNewLine]modInterp\[IndentingNewLine]]\)], \
+"Input"],
+
+Cell[BoxData[
+    \(modInterp\  = \ 
+      createInterp["\<output.txt\>", \ {0, 4}, \ {0, 4}]\)], "Input"],
+
+Cell[BoxData[
+    \(Plot3D[modInterp[r, z], \ {r, \ 0, 4}, \ {z, \ 0, 4}]\)], "Input"],
+
+Cell[BoxData[
+    \(NIntegrate[
+      modInterp[r, z]\^2*r*2*\[Pi], \ {r, \ 0, 4}, \ {z, \ \(-4\), 
+        4}]\)], "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["\<\
+In Which We Demonstrate Mathematica's Inability to Handle Elliptic Partial \
+Differential Equations\
+\>", "Section"],
+
+Cell[BoxData[
+    \(gpe = 
+      D[u[x, y], {x, 2}] + 
+          D[u[x, y], {y, 2}] + \((x\^2 + y\^2 + u[x, y]\^2)\) 
+            u[x, y] \[Equal] 2\ u[x, y]\)], "Input"],
+
+Cell[BoxData[{
+    \(bd1\  = \ u[\(-4\), y] \[Equal] 0\), "\[IndentingNewLine]", 
+    \(bd2\  = \ u[4, y] \[Equal] 0\), "\[IndentingNewLine]", 
+    \(bd3\  = \ u[x, \(-4\)] \[Equal] 0\), "\[IndentingNewLine]", 
+    \(bd4\  = \ u[x, 4] \[Equal] 0\), "\[IndentingNewLine]", 
+    \(\)}], "Input"],
+
+Cell[BoxData[
+    \(NDSolve[{gpe, \ bd1, \ bd2, bd3}, 
+      u, \ {x, \ \(-4\), 4}, \ {y, \ \(-4\), 4}]\)], "Input"],
+
+Cell[BoxData[
+    \(Plot3D[x\^2 + y\^2, \ {x, \ \(-1\), 1}, \ {y, \ \(-1\), 1}]\)], "Input"]
+}, Open  ]]
+}, Open  ]]
+},
+FrontEndVersion->"5.0 for Microsoft Windows",
+ScreenRectangle->{{0, 1280}, {0, 847}},
+WindowSize->{936, 621},
+WindowMargins->{{0, Automatic}, {Automatic, 0}}
+]
+
+(*******************************************************************
+Cached data follows.  If you edit this Notebook file directly, not
+using Mathematica, you must remove the line containing CacheID at
+the top of  the file.  The cache data will then be recreated when
+you save this file from within Mathematica.
+*******************************************************************)
+
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+
+(*NotebookFileOutline
+Notebook[{
+
+Cell[CellGroupData[{
+Cell[1776, 53, 191, 5, 315, "Title"],
+Cell[1970, 60, 63, 0, 51, "Subtitle"],
+Cell[2036, 62, 47, 1, 30, "Input"],
+Cell[2086, 65, 204, 4, 30, "Input"],
+Cell[2293, 71, 86, 2, 33, "Text"],
+Cell[2382, 75, 202, 3, 50, "Input"],
+
+Cell[CellGroupData[{
+Cell[2609, 82, 54, 0, 51, "Subtitle"],
+Cell[2666, 84, 70, 1, 45, "Input"],
+Cell[2739, 87, 69, 1, 49, "Input"],
+Cell[2811, 90, 182, 4, 30, "Input"],
+Cell[2996, 96, 213, 5, 50, "Input"],
+Cell[3212, 103, 410, 10, 70, "Input"],
+Cell[3625, 115, 79, 1, 45, "Input"],
+Cell[3707, 118, 177, 4, 30, "Input"],
+Cell[3887, 124, 254, 6, 50, "Input"],
+Cell[4144, 132, 75, 1, 44, "Input"],
+Cell[4222, 135, 77, 1, 45, "Input"],
+Cell[4302, 138, 49, 1, 30, "Input"],
+Cell[4354, 141, 67, 1, 45, "Input"]
+}, Open  ]]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[4470, 148, 67, 0, 95, "Title"],
+Cell[4540, 150, 60, 0, 51, "Subtitle"],
+
+Cell[CellGroupData[{
+Cell[4625, 154, 34, 0, 73, "Section"],
+Cell[4662, 156, 378, 8, 70, "Input"],
+Cell[5043, 166, 207, 4, 69, "Input"],
+Cell[5253, 172, 55, 1, 30, "Input"],
+Cell[5311, 175, 49, 1, 30, "Input"],
+Cell[5363, 178, 49, 1, 30, "Input"],
+Cell[5415, 181, 49, 1, 30, "Input"],
+Cell[5467, 184, 78, 1, 47, "Input"],
+Cell[5548, 187, 50, 1, 30, "Input"],
+Cell[5601, 190, 114, 2, 47, "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[5752, 197, 30, 0, 73, "Section"],
+Cell[5785, 199, 70, 1, 30, "Input"],
+Cell[5858, 202, 505, 11, 110, "Input"],
+Cell[6366, 215, 127, 3, 47, "Input"],
+Cell[6496, 220, 49, 1, 42, "Input"],
+Cell[6548, 223, 220, 5, 69, "Input"],
+Cell[6771, 230, 57, 1, 30, "Input"],
+Cell[6831, 233, 26, 0, 30, "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[6894, 238, 32, 0, 73, "Section"],
+Cell[6929, 240, 544, 12, 110, "Input"],
+Cell[7476, 254, 50, 1, 42, "Input"],
+Cell[7529, 257, 266, 6, 89, "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[7832, 268, 32, 0, 73, "Section"],
+Cell[7867, 270, 555, 12, 108, "Input"],
+Cell[8425, 284, 50, 1, 42, "Input"],
+Cell[8478, 287, 102, 2, 47, "Input"],
+Cell[8583, 291, 129, 3, 30, "Input"],
+Cell[8715, 296, 57, 1, 30, "Input"],
+Cell[8775, 299, 47, 1, 30, "Input"],
+Cell[8825, 302, 47, 1, 30, "Input"],
+Cell[8875, 305, 140, 2, 30, "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[9052, 312, 26, 0, 73, "Section"],
+Cell[9081, 314, 118, 3, 30, "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[9236, 322, 64, 0, 73, "Section"],
+Cell[9303, 324, 429, 16, 52, "Text"],
+Cell[9735, 342, 305, 4, 52, "Input"],
+Cell[10043, 348, 289, 5, 50, "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[10369, 358, 32, 0, 73, "Section"],
+Cell[10404, 360, 19, 0, 33, "Text"],
+Cell[10426, 362, 436, 7, 90, "Input"],
+Cell[10865, 371, 20, 0, 33, "Text"],
+Cell[10888, 373, 412, 6, 90, "Input"],
+Cell[11303, 381, 21, 0, 33, "Text"],
+Cell[11327, 383, 412, 6, 90, "Input"],
+Cell[11742, 391, 72, 1, 30, "Input"],
+Cell[11817, 394, 178, 3, 50, "Input"],
+Cell[11998, 399, 48, 1, 30, "Input"],
+Cell[12049, 402, 45, 1, 30, "Input"],
+Cell[12097, 405, 54, 1, 30, "Input"],
+Cell[12154, 408, 44, 1, 30, "Input"],
+Cell[12201, 411, 386, 6, 71, "Text"],
+Cell[12590, 419, 770, 14, 250, "Input"],
+Cell[13363, 435, 1806, 28, 480, "Input"],
+Cell[15172, 465, 106, 2, 30, "Input"],
+Cell[15281, 469, 243, 4, 50, "Input"],
+Cell[15527, 475, 245, 4, 50, "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[15809, 484, 54, 0, 73, "Section"],
+Cell[15866, 486, 134, 2, 42, "Input"],
+Cell[16003, 490, 50, 1, 40, "Input"],
+Cell[16056, 493, 47, 1, 30, "Input"],
+Cell[16106, 496, 64, 1, 42, "Input"],
+Cell[16173, 499, 50, 1, 40, "Input"],
+Cell[16226, 502, 200, 4, 56, "Input"],
+Cell[16429, 508, 196, 3, 43, "Input"],
+Cell[16628, 513, 74, 1, 30, "Input"],
+Cell[16705, 516, 49, 1, 30, "Input"],
+Cell[16757, 519, 238, 4, 52, "Text"],
+Cell[16998, 525, 976, 18, 289, "Input"],
+Cell[17977, 545, 106, 2, 30, "Input"],
+Cell[18086, 549, 86, 1, 30, "Input"],
+Cell[18175, 552, 124, 3, 31, "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[18336, 560, 126, 3, 99, "Section"],
+Cell[18465, 565, 170, 4, 31, "Input"],
+Cell[18638, 571, 293, 5, 110, "Input"],
+Cell[18934, 578, 116, 2, 30, "Input"],
+Cell[19053, 582, 92, 1, 31, "Input"]
+}, Open  ]]
+}, Open  ]]
+}
+]
+*)
+
+
+
+(*******************************************************************
+End of Mathematica Notebook file.
+*******************************************************************)
+
