@@ -30,14 +30,14 @@ int main()
   boundary bound_f(boundary::DIRICHLET, J, 0.0);
   boundary bound_f_odd(boundary::DIRICHLET, vec_bound.begin(), vec_bound.end());
   laplace fine(I, J, x, y, bound_f, bound_f, bound_f, bound_f_odd);
-  /*
+
   double norm_c0 = residual_norm::norm(fine);
   int iter = multi(fine);
 
   double norm_c1 = residual_norm::norm(fine);
   double ratio = norm_c1/norm_c0;
-  */
-  
+
+  /*  
   boundary bound_c(boundary::DIRICHLET, J/2, 0.0);
   boundary bound_c_odd(boundary::DIRICHLET, J/2, 1.0);
   half_weighting hw;
@@ -49,11 +49,12 @@ int main()
   bilinear_interpolation bi;
   bi(bound_c_odd, bound_f_odd);
   fine = laplace(I, J, x, y, bound_f, bound_f, bound_f, bound_f_odd);
-  
+  */
+
   cout.precision(3);
 
-  //cout << "# iter: " << iter << endl;
-  //cout << "# ratio: " << ratio << endl;
+  cout << "# iter: " << iter << endl;
+  cout << "# ratio: " << ratio << endl;
 
   //cout << coarse << endl;
 
@@ -91,46 +92,58 @@ int multi(laplace& lp)
   if(mult == 0)
     return 0;
 
-  int size = mult;
+  int size = I;
   residual_norm norm(lp, EPS);
   bilinear_interpolation bi;
+  half_weighting hw;
   gauss_seidel gs(20000);
   boundary top, right, bottom, left;
+  laplace old_lp(lp), new_lp(lp);
+
   top = boundary(boundary::DIRICHLET, size, 0.0);
   right = boundary(top);
   bottom= boundary(top);
-  left= boundary(boundary::DIRICHLET, size, 1.0);
-  bi(lp.left(),left);
-  laplace base(size, size, x, y, top, right, bottom, left);
 
+  while(size != min_size){
+    size = size/2;
+    old_lp = new_lp;
+    left= boundary(boundary::DIRICHLET, size, 1.0);
+    hw(old_lp.left(),left);
+    new_lp = laplace(size, size, x, y, top, right, bottom, left);
+    hw(old_lp, new_lp);
+  }
 
-  iter = gs.solve(base, norm);
+  iter = gs.solve(new_lp, norm);
+
   cout << "# iter " << min_size << ": " << iter << endl;
-  laplace old_lp(base), new_lp(base);
+  cout << new_lp << endl;
+
   size *= 2;
   int iter_i =0;
-  while(size < I){
+  while(size <= I){
+    old_lp = new_lp;
     top = boundary(boundary::DIRICHLET, size, 0.0);
     right = boundary(top);
     bottom= boundary(top);
     left = boundary(boundary::DIRICHLET, size, 1.0);
     bi(old_lp.left(),left);
-    old_lp = new_lp;
     new_lp = laplace(size, size, x, y, top, right, bottom, left);
     bi(old_lp, new_lp);
     iter_i =gs.solve(new_lp, norm); 
     iter += iter_i;
     cout << "# iter " << size << ": " << iter_i << endl;
+    cout << new_lp << endl;
     size *= 2;
   }
-  if(min_size < I){
+  /*  if(min_size < I){
     bi(new_lp, lp);
     iter_i= gs.solve(lp, norm);
     cout << "# iter " << size << ": " << iter_i << endl;
     iter += iter_i;
   }
   else
-    lp = base;
-
+    
+  */
+  lp = new_lp;
   return iter;
 }
