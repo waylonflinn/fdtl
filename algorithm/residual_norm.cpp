@@ -10,7 +10,7 @@ residual_norm::residual_norm() : target(1)
 }
 
 bool residual_norm::operator()(const problem& prob)
-{ return residual_norm::norm(prob) < (*this).target; }
+{ return (target == 0) || (residual_norm::norm(prob) < (*this).target); }
 
 double residual_norm::norm(const problem& prob)
 {

@@ -30,9 +30,9 @@ main(int argc, char* argv[])
 
   simple_harmonic_oscillator sho(inter.I(), inter.J(), inter.x(), inter.y(),
 	     inter.top(), inter.right(), inter.bottom(), inter.left(),
-	     1, 1, 0.5);
+	     1, 1, 1 + 0.5);
   residual_norm norm(sho, EPS);
-  gauss_seidel gs(10000);
+  gauss_seidel gs(100);
 
   int I = sho.I();
   int J = sho.J();

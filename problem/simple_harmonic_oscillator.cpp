@@ -17,4 +17,6 @@ simple_harmonic_oscillator::simple_harmonic_oscillator(
     meig(ssx*eig)
         
 {
+  sol = vector< vector<double> >((*this).gx - 1,
+                                 vector<double>((*this).gy - 1, 0.5));
 }
