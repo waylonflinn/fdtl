@@ -3,7 +3,7 @@
 
 #include "operator_restrict.h"
 
-class half_weighting : operator_restrict
+class half_weighting : public operator_restrict
 {
  public:
   void operator()(const problem& fine, problem& coarse);
