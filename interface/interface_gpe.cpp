@@ -11,6 +11,8 @@ pair<double,double>(0, 2);
 const pair<double,double> interface_gpe::DEF_Y = 
  pair<double, double>(-1, 1);
 
+const double interface_gpe::DEF_PARM = 1;
+
 double str_to_d(string str);
 
 // constructors

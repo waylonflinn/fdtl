@@ -12,6 +12,8 @@ gs_sho_obj = gauss_seidel.o simple_harmonic_oscillator.o interface_sho.o \
  solution_norm.o $(com_obj)
 sor_sho_obj = successive_overrelaxation.o simple_harmonic_oscillator.o \
  interface_sor_sho.o $(com_obj)
+gs_gpe_obj = gauss_seidel.o gross_pitaevskii.o interface_gpe.o \
+ solution_norm.o $(com_obj)
 dir_algorithm = ./algorithm/
 dir_problem = ./problem/
 dir_interface = ./interface/
@@ -25,7 +27,7 @@ endif
 
 .PHONY : all clean debug
 
-all : sor_l gs_l gs_sho sor_sho
+all : sor_l gs_l gs_sho sor_sho gs_gpe
 
 sor_l : sor_l.o $(sor_l_obj)
 	g++ -o $@ $(CPPFLAGS) $^
@@ -51,6 +53,12 @@ sor_sho : sor_sho.o $(sor_sho_obj)
 sor_sho.o : sor_sho.cpp $(sor_sho_obj)
 	g++ -c $(CPPFLAGS) $<
 
+gs_gpe : gs_gpe.o $(gs_gpe_obj)
+	g++ -o $@ $(CPPFLAGS) $^
+
+gs_gpe.o : gs_gpe.cpp $(gs_gpe_obj)
+	g++ -c $(CPPFLAGS) $<
+
 problem_basic.o : problem_basic.cpp problem_basic.h problem.h boundary.h
 	g++ -c $(CPPFLAGS) $< -o $@
 
@@ -58,7 +66,13 @@ laplace.o : laplace.cpp laplace.h problem_basic.h problem.h boundary.h
 	g++ -c $(CPPFLAGS) $< -o $@
 
 simple_harmonic_oscillator.o: simple_harmonic_oscillator.cpp \
-  simple_harmonic_oscillator.h problem_basic.cpp problem_basic.h problem.h boundary.h
+  simple_harmonic_oscillator.h problem_basic.cpp problem_basic.h \
+  problem.h boundary.h
+	g++ -c $(CPPFLAGS) $< -o $@
+
+
+gross_pitaevskii.o: gross_pitaevskii.cpp gross_pitaevskii.h \
+  problem_basic.cpp problem_basic.h problem.h boundary.h
 	g++ -c $(CPPFLAGS) $< -o $@
 
 gauss_seidel.o: gauss_seidel.cpp gauss_seidel.h goal.h problem.h
@@ -92,6 +106,15 @@ interface_sho.o: interface_sho.cpp interface_sho.h interface.cpp interface.h \
 
 interface_sor.o: interface_sor.cpp interface_sor.h interface.cpp interface.h \
  command_line.h option.h argument.h boundary.h option_set.h option_set_sor.h
+	g++ -c $(CPPFLAGS) $< -o $@
+
+interface_sor_sho.o: interface_sor_sho.cpp interface_sor_sho.h \
+  interface.cpp interface.h command_line.h option.h argument.h boundary.h \
+  option_set.h option_set_sor.h option_set_sho.h
+	g++ -c $(CPPFLAGS) $< -o $@
+
+interface_gpe.o: interface_gpe.cpp interface_gpe.h interface.cpp interface.h \
+ command_line.h option.h argument.h boundary.h option_set.h option_set_gpe.h
 	g++ -c $(CPPFLAGS) $< -o $@
 
 clean :
