@@ -1,5 +1,6 @@
 #include <iostream>
 #include <vector>
+#include "interface.h"
 #include "laplace.h"
 #include "gauss_seidel.h"
 #include "residual_norm.h"
@@ -13,16 +14,22 @@ using std::endl;
 
 main(int argc, char* argv[])
 {
-  double b_arr[] =
-    {-9, -8, -7, -6, -5, -4, -3, -2, -1, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10,
-     9, 8, 7, 6, 5, 4, 3, 2, 1, 0, -1, -2, -3, -4, -5, -6, -7, -8, -9, -10,
-     9, 8, 7, 6, 5, 4, 3, 2, 1, 0, -1, -2, -3, -4, -5, -6, -7, -8, -9, -10};
-  vector<double> b(b_arr, b_arr + 60);
-  boundary bound(boundary::DIRICHLET, b.begin(), b.end());
-  vector<double> nb(60, 0);
-  boundary nbound(boundary::NEUMANN, nb.begin(), nb.end());
+  interface inter;
 
-  laplace lp(60, 60, 60, 60, bound, bound, bound, bound);
+  try{
+  inter = interface("gs_l", argc, argv);
+  }
+  catch(invalid_argument e){
+    cerr << e.what() << endl;
+    return 1;
+  }
+  catch(...){
+    cerr << "something bad happened!" << endl;
+    return 1;
+  }
+
+  laplace lp(inter.I(), inter.J(), inter.x(), inter.y(),
+	     inter.top(), inter.right(), inter.bottom(), inter.left());
   residual_norm norm(lp, EPS);
   gauss_seidel gs(10000);
 

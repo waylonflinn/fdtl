@@ -2,8 +2,8 @@
 
 laplace::laplace(int I,
 		 int J,
-		 double range_x,
-		 double range_y,
+		 pair<double, double> range_x,
+		 pair<double, double> range_y,
 		 const boundary& top,
 		 const boundary& right,
 		 const boundary& bottom,

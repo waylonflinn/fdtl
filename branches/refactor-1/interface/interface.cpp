@@ -171,9 +171,9 @@ void interface::make_bound(){
     arr_it[i+1] = vector<double>::iterator(iter);
   }
   tp = boundary(arr_type[0], arr_it[0], arr_it[1]);
-  rt = boundary(arr_type[2], arr_it[1], arr_it[2]);
-  bt = boundary(arr_type[3], arr_it[2], arr_it[3]);
-  lf = boundary(arr_type[4], arr_it[3], arr_it[4]);
+  rt = boundary(arr_type[1], arr_it[1], arr_it[2]);
+  bt = boundary(arr_type[2], arr_it[2], arr_it[3]);
+  lf = boundary(arr_type[3], arr_it[3], arr_it[4]);
 }
 /* a modern version of strtod.
  * takes a string (basic_string<char>) and interprets it as a number which may
