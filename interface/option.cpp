@@ -2,7 +2,7 @@
  * construct with a letter (char) and one of:
  *	an argument
  *	a vector of arguments
- *	a description (string)
+ *	a description string, if the option takes no arguments
  */
 #include <string>
 #include <vector>
@@ -26,7 +26,8 @@ public:
   // methods
   char letter() const { return let; }
   int arg_count() const { return arg_vec.size(); }
-  bool match(const string& token);
+  bool match(const vector<string>::iterator begin,
+	     const vector<string>::iterator end);
   const string& usage();
 
 private:
@@ -61,9 +62,15 @@ option::option()
 {
 }
 
-bool option::match(const string& token)
+bool option::match(const vector<string>::iterator begin,
+		   const vector<string>::iterator end)
 {
-  return (token.find(option::PREFIX + (*this).let) != string::npos);
+  bool match = ((*this).arg_count() + 1) == distance(begin, end);
+  if(!match)
+    return false;
+  match &= ((*begin).find(option::PREFIX + (*this).let) != string::npos);
+
+  return match;
 }
 
 const string& option::usage()
