@@ -1,9 +1,15 @@
 /* a goal that returns true when the square of the norm of the solution is
  * less than some factor, epsilon, away from 1.
- * the norm calculated is the integral of the sqaure of the solution over the
+ * the norm calculated is the integral of the square of the solution over the
  * problem's defined domain in cylindrical coordinates.
- * a multidimensional form of equation (4.1.16) from 'Numerical Recipes in C'
- * is used for the integration (quadrature).
+ * The formula used for the integration (quadrature) is gotten by 
+ * extending the trapezoidal rule (a quadrature formula involving two points)
+ * to an arbitrary number of points, then modifing it to be open (neglect of
+ * endpoints) rather  than closed (inclusion of endpoints). The result is then
+ * generalized to two dimensions.
+ * This formula is a multidimensional form of equation (4.1.16) from
+ * 'Numerical Recipes in C'. A reasonably good derivation of the single
+ * dimensional form is given there.
  */
 #include <cmath>
 #include "goal.h"

@@ -3,7 +3,7 @@
  * the problem has cylindrical (theta) symmetry and the jacobian becomes
  * r*2*PI (PI here *is* the ubiquitious constant relating the diameter of
  * a circle to it's circumference).
- * the template type for this class is the Static Solution which will be
+ * the template type for this class is the 'Static Solution' which will be
  * transformed.
  */ 
 
