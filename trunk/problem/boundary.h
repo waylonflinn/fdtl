@@ -31,6 +31,8 @@ public:
 	   vector<double>::iterator start,
 	   vector<double>::iterator end);
 
+  // create a boundary of the given type and size containing only 'val'
+  boundary(int type, int size, double val);
   boundary();
 
 private:
