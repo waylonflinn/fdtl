@@ -34,7 +34,7 @@ public:
   double d(int i, int j) const { return rss;}
   double e(int i, int j) const 
     { return (meig+ast+(p1x+(p2x*i)+(p3x*i*i))+(p1y+(p2y*j)+(p3y*j*j)) +
-	      mparm*sol[i-1][j-1]*sol[i-1][j-1]);}
+	      (mparm*sol[i-1][j-1]*sol[i-1][j-1]));}
   double f(int i, int j) const { return 0;}
 
   void eigenvalue(double eig);

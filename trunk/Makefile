@@ -101,6 +101,12 @@ mlt_gpe : mlt_gpe.o $(mlt_gpe_obj)
 mlt_gpe.o : mlt_gpe.cpp $(mlt_gpe_obj)
 	g++ -c $(CPPFLAGS) $<
 
+mlt_gpe_cart : mlt_gpe_cart.o $(mlt_gpe_cart_obj)
+	g++ -o $@ $(CPPFLAGS) $^
+
+mlt_gpe_cart.o : mlt_gpe_cart.cpp $(mlt_gpe_cart_obj)
+	g++ -c $(CPPFLAGS) $<
+
 # problems
 
 boundary.o : boundary.cpp boundary.h
