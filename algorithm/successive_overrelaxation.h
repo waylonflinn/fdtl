@@ -13,7 +13,7 @@ public:
 
   // constructors
   /* run for at most max iterations. use radius as the spectral radius of
-   * the jacobi method for the chebyshev acceleration.
+   * the jacobi method for calculating the overrelaxation parameter.
    */
   successive_overrelaxation(int max, double radius);
   /* place no limit on the number of iterations. */
