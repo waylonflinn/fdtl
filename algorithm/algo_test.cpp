@@ -8,32 +8,14 @@
 #define PRECISION	4	// decimal digits to display
 #define EPS		1.0e-5	// ratio of final residual to initial residual
 
-using std;
+using namespace std;
 
+void init_solution(istream* p_input, vector< vector<double> >* p_solution, int height, int width);
+void write_solution(ostream* p_output, vector< vector<double> >* p_solution, int height, int width);
+int check_arg(argument& arg);
+string usage();
 int gs(double epsilon, vector< vector<double> >* p_solution);
 double gs_norm(vector< vector<double> >* p_solution);
-
-class gauss_seidel
-{
-public:
-  // constants
-
-  // constructors
-  gauss_seidel(double epsilon);	// reduce initial error by epsilon
-
-  // methods
-  double solve(problem prob);	// return final error
-
-private:
-  double ep;
-}
-
-gauss_seidel::gauss_seidel(double epsilon) : ep(epsilon) {}
-
-double solve gauss_seidel(problem prob)
-{
-
-}
 
 main(int argc, char* argv[])
 {

@@ -13,6 +13,8 @@ class laplace : public problem
 public:
 
   // methods
+  int I() const { return ig; }
+  int J() const { return jg; }
   double a(int i, int j) const { return 1;}
   double b(int i, int j) const { return 1;}
   double c(int i, int j) const { return 1;}
