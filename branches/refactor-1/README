@@ -10,7 +10,8 @@ a general description of these categories is:
 	a 'problem' represents a finite-differenced partial differential
 	equation (pde) and a tentative solution to it.
 	
-	an 'algoritm' represents a method of solving a correctly defined pde.
+	an 'algoritm' represents a method of solving a correctly and fully
+	defined pde.
 	
 	a 'goal' is a predicate, or test, which may be used to determine
 	whether the tentative solution contained in a problem is satisfactory.
@@ -65,9 +66,10 @@ dirichlet (functional value) or neumann (derivative value) boundary conditions
 for a square region may be specified in a file. each side of the region should
 be given on a different line and sides should be specified in the following
 order: top, right, bottom, left. a value must be provided for each grid point
-on the parallel axis (whose numbers are specified with the -I and -J options).
+on the parallel axis (whose numbers are specified with the -I and -J options)
+and each value must be seperated from its neighbor by a space.
 if an optional 'd' or 'n' (or 'D' or 'N') begins a line then the rest of the
-line is ignored and the following line is interpreted as a (d)irichlet or
+line is ignored and the line following it is interpreted as a (d)irichlet or
 (n)eumann type condition, respectively. if no such line appears before a line
 giving values then that line is assumed to represent a dirichlet type
 condition.
