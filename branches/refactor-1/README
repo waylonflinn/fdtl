@@ -12,8 +12,8 @@ a general description of these categories is:
 	
 	an 'algoritm' represents a method of solving a correctly defined pde.
 	
-	a 'goal' is a test, or predicate, which may be used to determine the
-	tentative solution contained in a problem is satisfactory.
+	a 'goal' is a test, or predicate, which may be used to determine whether
+	the tentative solution contained in a problem is satisfactory.
 
 and one of thier relationships might be:
 
