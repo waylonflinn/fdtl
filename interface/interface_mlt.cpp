@@ -3,7 +3,7 @@
 const int interface_mlt::DEF_I = 40;
 const int interface_mlt::DEF_J = 40;
 
-const int interface_mlt::DEF_S = 5;
+const int interface_mlt::DEF_S = 10;
 
 double str_to_d(string str);
 
