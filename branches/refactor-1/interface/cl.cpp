@@ -1,60 +1,66 @@
-#include <iostream>
+#include <string>
+#include <utility>
 #include <vector>
+#include <map>
 #include "option.cpp"
 
-using std::cout;
-using std::endl;
 using std::vector;
+using std::string;
+using std::pair;
+using std::map;
 
-const string& usage();
-extern string use;
+class cl {
+public:
+  // constants
 
-int main(int argc, char* argv[])
+  // constructors
+  cl(const vector<option>& option_vector, const argument& argument);
+  cl();
+
+  // methods
+  const pair<bool, vector<string> >& operator[](const char& letter)
+  { return opt_map[letter]; }
+
+
+  const pair<bool, string>& arg_val() const 
+  { return arg_pair; }
+
+  const string& usage();
+
+private:
+  string prog_name;
+  vector<option> opt_vec;
+  argument arg;
+  map<char, pair<bool, vector<string> > > opt_map;
+  pair<bool, string> arg_pair;
+
+  string use;
+};
+
+cl::cl(const vector<option>& option_vector, const argument& argument)
+  : opt_vec(option_vector), arg(argument), use()
 {
-  /*
-  argument arg = argument("test-arg", "a test of argument");
-
-  option empty = option();
-
-  vector<option> opt_vec = vector<option>();
-
-  opt_vec.push_back(opt);
-
-  print(opt_vec[0]);
-
-  */
-  string token("  -p ");
-  char letter = 'p';
-  option opt = option('p', "a test of option");
-  argument arg_eig = argument("double", "the eigenvalue");
-  option opt_eig = option('e', "set the eigenvalue to %s", arg_eig);
-
-  cout << option::PREFIX + 'p'  << endl;
-  cout << "found: " << (token.find(option::PREFIX + 'p') != string::npos) << endl;
-  cout << "found: " << opt.match(token) << endl;
-  cout << "usage: " << endl;
-  cout << opt_eig.usage() << endl;
-  cout << arg_eig.usage() << endl;
-
-  return 0;
 }
 
-const string& usage()
+cl::cl() : opt_vec(), arg()
 {
-  
-}
-/*
-void print(const option& opt)
-{
-  cout << "option: ";
-
-  cout << opt.name() << endl;
 }
 
-void print(const argument& arg)
+const string& cl::usage()
 {
-  cout << "argument: ";
+  if((*this).use.size() == 0){
+    (*this).use = prog_name + " <options> " + arg.name();
 
-  cout << arg.name() << endl;
+    (*this).use += "\n\twhere <options> is zero or more of:\n";
+
+    vector<option>::iterator iter = opt_vec.begin();
+    for(iter = opt_vec.begin(); iter != opt_vec.end(); iter++){
+      (*this).use += "\n\t" + (*iter).usage();
+    }
+
+    (*this).use += "\n\n\tand " + arg.name() + " specifies " +
+      arg.description();
+  }
+
+  return (*this).use;
 }
-*/
