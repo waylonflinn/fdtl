@@ -4,6 +4,7 @@
 #include "simple_harmonic_oscillator.h"
 #include "gauss_seidel.h"
 #include "residual_norm.h"
+#include "solution_norm.h"
 
 #define PRECISION	3	// decimal digits to display
 #define EPS		1.0e-5	// ratio of final residual to initial residual
@@ -32,24 +33,27 @@ main(int argc, char* argv[])
 	     inter.top(), inter.right(), inter.bottom(), inter.left(),
 	     inter.a(), inter.b(), inter.eigenvalue());
   residual_norm norm(sho, EPS);
+  solution_norm s_norm(sho, EPS);
   gauss_seidel gs(10000);
 
   int I = sho.I();
   int J = sho.J();
   int i,j;
   double norm0, norm1, ratio;	// initial norm, final norm, ratio
+  double s_norm0;
   int iter;
 
   norm0 = residual_norm::norm(sho);
   iter = gs.solve(sho, norm);
   norm1 = residual_norm::norm(sho);
   ratio = norm1/norm0;
+  s_norm0 = solution_norm::norm(sho);
 
   cout << "# initial norm:\t" << norm0 << endl;
   cout << "# final norm:\t" << norm1 << endl;
   cout << "# ratio:\t" << ratio << endl;
   cout << "# iterations:\t" << iter << endl;
-  //  cout << "# func norm:\t" << func_norm << endl;
+  cout << "# sol norm:\t" << s_norm0 << endl;
 
   cout.precision(PRECISION);
   for(j = J; j >= 0; --j){
