@@ -71,7 +71,7 @@ a_{i,j} u_{i+1, j} + b_{i,j} u_{i-1, j} + c_{i,j} u_{i, j+1} d_{i,j} u_{i, j-1}
 \end{equation}
 In both cases the subscripts denote the grid point $(i,j)$ at which the value of the
 function or coefficient is taken. Coefficents may be constant or (more likely)
-have a functional dependance on the grid point.
+have a functional dependance on the grid point. \cite{3}
 
 \section{The Problem at Hand}
 
@@ -84,10 +84,10 @@ Bose-Einstein condensation.
 Bose-Einstein condensation describes a phemenon in which a collection of
 atoms are able to inhabit the same quantum state. This gives the collection
 a unique set of properties and both requires and enables a new sort of
-description. This description is, too a certain extent, provided by
+description.\cite{8} This description is, too a certain extent, provided by
 the Gross-Pitaevskii theory. This theory uses a mean-field approach to
 describe the interactions between atoms in the condensate and simplify
-the resulting equations.
+the resulting equations.\cite{6}
 
 
 The present research is concerned with the behaviour of dilute Rubidum vapors
@@ -234,9 +234,59 @@ indefinately on successively finer grids until the desired precision is reached
 typically referred to as \emph{nested iteration}. The complete multigrid method
 , which this method is based upon, claims complexity of order $O(I\times J)$,
 our method has been experimentally verified to be near this in computational
-complexity.
+complexity.\cite{3}
 
-\section{Scratch}
- As with all numerical
-techniques a balance must be struck between speed and precision.
+\section{Conclusion}
+
+In conclusion the above techniques were employed to solve the given equations,
+producing a useful qualitative description of the behaviour of the wave
+function in potentials of varying anisotropy and condensates of a varying number
+of constituents. Also, reasonably accurate quantitative results for chemical potential
+and energy were extracted. Below is a comparison of these values with those of a
+relevant published source \cite{7}. Values of relevant parameters are (in the format
+$(a, \lambda^{2})$ ):
+$(0.00433, 8)$\\
+
+\begin{tabular}[!htb]{|l|l|l|}
+\hline
+$N$&	$\mu$&	published $\mu$\\
+\hline
+100&	2.87&		2.88\\
+\hline
+200&	3.21&		3.21\\
+\hline
+500&	3.94&		3.94\\
+\hline
+1000&	4.77&		4.77\\
+\hline
+5000&	8.14&		8.14\\
+\hline
+10000&	10.5&		10.5\\
+\hline
+20000&	13.7&		13.7\\
+\hline
+\end{tabular}
+ \\
+
+
+As shown our results are in very good agreement with those already published. 
+
+\newpage
+\begin{thebibliography}{99}
+\bibitem{1} Brian Kernighan, Dennis Ritchie. \emph{The C Programming Language}.
+Prentice Hall; Saddle River, New Jersey. Second Edition, 0-13-110370-9\\ \\
+\bibitem{2} Bjarne Stroustrup. \emph{The C++ Programming Language}.
+Addison-Wesley; Reading, Massachusetts. Special Edition, 0-201-70073-5\\ \\
+\bibitem{3} William Press, et. al. \emph{Numerical Recipes in C}.
+Cambridge University Press; New York, New York. Second Edition, 0-521-43108-5\\ \\
+\bibitem{4} G. D. Smith. \emph{Numerical Solutions of Partial Differential Equations}. \\ \\
+\bibitem{5} Yung-Sze Choi, et. al. \emph{A Fast Algorithm for the Solution of the Time-independent Gross-Pitaevskii Equation}.
+Journal of Computational Physics, 190 (2003)\\ \\
+\bibitem{6} Lev Pitaevskii, et. al. \emph{Theory of Bose-Einstein Condensation in Trapped Gases}.
+Reviews of Modern Physics, 71 (April 1999)\\ \\
+\bibitem{7} F. Dalfovo, et. al. \emph{Bosons in anisotropic traps: Ground state and vortices}.
+Physical Review A, 53 (April 1996)\\ \\
+\bibitem{8} University of Colorado. \emph{BEC - What is it and where did the idea come from?}. Physics 2000. http://www.colorado.edu/physics/2000/bec/what\_is\_it.html\\
+\end{thebibliography}
+
 \end{document}
