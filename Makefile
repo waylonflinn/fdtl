@@ -9,6 +9,8 @@ com_obj = problem_basic.o solver_basic.o residual_norm.o boundary.o \
  $(inter_obj)
 sor_l_obj = successive_overrelaxation.o laplace.o interface_sor.o $(com_obj)
 gs_l_obj = gauss_seidel.o laplace.o $(com_obj)
+mlt_l_obj = multigrid.o bilinear_interpolation.o half_weighting.o \
+ gauss_seidel.o laplace.o $(com_obj)
 gs_sho_obj = gauss_seidel.o simple_harmonic_oscillator.o interface_sho.o \
  solution_norm.o $(com_obj)
 sor_sho_obj = successive_overrelaxation.o simple_harmonic_oscillator.o \
@@ -16,7 +18,7 @@ sor_sho_obj = successive_overrelaxation.o simple_harmonic_oscillator.o \
 gs_gpe_obj = gauss_seidel.o gross_pitaevskii.o interface_gpe.o \
  solution_norm.o $(com_obj)
 mlt_gpe_obj = multigrid.o bilinear_interpolation.o half_weighting.o \
- $(gs_gpe_obj)
+ interface_mlt_gpe.o $(gs_gpe_obj)
 dir_algorithm = ./algorithm/
 dir_problem = ./problem/
 dir_interface = ./interface/
@@ -32,10 +34,10 @@ endif
 
 # phony targets
 
-all : sor_l gs_l gs_sho sor_sho gs_gpe mlt_gpe
+all :  gs_l sor_l mlt_l gs_sho sor_sho gs_gpe mlt_gpe
 
 clean :
-	rm gs_l sor_l gs_sho *.o
+	rm gs_l sor_l mlt_l gs_sho sor_sho gs_gpe mlt_gpe *.o
 
 debug : all
 
@@ -69,6 +71,12 @@ gs_gpe : gs_gpe.o $(gs_gpe_obj)
 	g++ -o $@ $(CPPFLAGS) $^
 
 gs_gpe.o : gs_gpe.cpp $(gs_gpe_obj)
+	g++ -c $(CPPFLAGS) $<
+
+mlt_l : mlt_l.o $(mlt_l_obj)
+	g++ -o $@ $(CPPFLAGS) $^
+
+mlt_l.o : mlt_l.cpp $(mlt_l_obj)
 	g++ -c $(CPPFLAGS) $<
 
 mlt_gpe : mlt_gpe.o $(mlt_gpe_obj)
@@ -155,4 +163,9 @@ interface_sor_sho.o: interface_sor_sho.cpp interface_sor_sho.h \
 
 interface_gpe.o: interface_gpe.cpp interface_gpe.h interface.cpp interface.h \
  command_line.h option.h argument.h boundary.h option_set.h option_set_gpe.h
+	g++ -c $(CPPFLAGS) $< -o $@
+
+interface_mlt_gpe.o: interface_mlt_gpe.cpp interface_mlt_gpe.h interface.cpp \
+ interface.h  command_line.h option.h argument.h boundary.h option_set.h \
+ option_set_gpe.h option_set_mlt.h
 	g++ -c $(CPPFLAGS) $< -o $@
