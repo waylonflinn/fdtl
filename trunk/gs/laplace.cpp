@@ -12,6 +12,7 @@ class laplace : public problem
 {
 public:
 
+  // methods
   double a(int i, int j) const { return 1;}
   double b(int i, int j) const { return 1;}
   double c(int i, int j) const { return 1;}
@@ -19,8 +20,13 @@ public:
   double e(int i, int j) const { return 4;}
   double f(int i, int j) const { return 0;}
   double& u(int i, int j);	/* interface to the solution 
-				   (returns a reference) */
+				   (returns a reference to a value) */
+  boundary& top() const { return _top; }
+  boundary& right() const { return _right; }
+  boundary& bottom() const { return _bottom; }
+  boundary& left() const { return _left; }
 
+  // constructors
   laplace(int I,
 	  int J,
 	  boundary top,		// boundary objects for each boundary
@@ -29,9 +35,9 @@ public:
 	  boundary left);
 
 private:
-  vector< vector<double> > _solution;	// pointer to the solution
-  int _I, _J;
-  boundary _top, _right, _bottom, _left;
+  vector< vector<double> > _solution;	// the solution
+  int _I, _J;		// grid points in the width and height, resp.
+  boundary _top, _right, _bottom, _left;	// boundaries
 
 };
 
