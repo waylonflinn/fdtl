@@ -1,5 +1,5 @@
 /* class for use as a function object which increments its value every time
- * it's called (create for use with the 'generate' function).
+ * it's called (created for use with the 'generate' function).
  */
 class next{
 public:
