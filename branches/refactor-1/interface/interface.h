@@ -1,4 +1,5 @@
 #include <cerrno>
+#include <cctype>
 #include <cstdlib>
 #include <iostream>
 #include <fstream>
@@ -6,6 +7,7 @@
 #include <vector>
 #include <utility>
 #include "command_line.h"
+#include "boundary.h"
 
 using std::cout;
 using std::cerr;
@@ -42,8 +44,11 @@ class interface
   int J() const { return gy; }		// grid points in second var
   pair<double, double> x() const { return rx; }	// range of first var
   pair<double, double> y() const { return ry; }	// range of second var
-  ostream& output();	// output
-  vector< vector<double> > boundary();
+  ostream& output();			// output
+  const boundary& top() const { return tp; }
+  const boundary& right() const { return rt; }
+  const boundary& bottom() const { return bt; }
+  const boundary& left() const { return lf; }
 
  protected:
   // constants
@@ -59,9 +64,14 @@ class interface
   int gy;
   pair<double, double> rx;
   pair<double, double> ry;
+  boundary tp;
+  boundary rt;
+  boundary bt;
+  boundary lf;
 
   // methods
-  int grid_opt(char);
-  pair<double, double> range_opt(char);
+  int make_grid(char, int);
+  pair<double, double> make_range(char, pair<double, double>);
+  void make_bound();
 
 };

@@ -5,6 +5,9 @@ boundary::boundary(int type,
 		   vector<double>::iterator end) : tp(type), val(start, end)
 {}
 
+boundary::boundary() : tp(boundary::DIRICHLET)
+{}
+
 double boundary::at(int i) const
 { 
   if(i < 1)
