@@ -1,5 +1,5 @@
 set terminal png small
-set output 'gs_out.png'
+set output 'output.png'
 set data style linespoints
 set hidden3d
-splot 'gs_out.dat' matrix
+splot 'output.txt' matrix
