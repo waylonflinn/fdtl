@@ -6,6 +6,10 @@
 #include "multigrid.h"
 #include "residual_norm.h"
 #include "solution_norm_cyl.h"
+#include "gradient_norm_squared.h"
+#include "gpe_energy_density.h"
+#include "jacobian_cyl.h"
+#include "integrator_open_basic.h"
 
 #define PRECISION	3	// decimal digits to display
 #define EPS		1.0e-4	// ratio of final residual to initial residual
@@ -16,6 +20,24 @@ using std::endl;
 
 double tf(double k, double a, double b);
 double eig(double eig1, double norm1, double eig2, double norm2);
+
+template <class StaticSolution>
+ostream& print_solution(ostream& s, const StaticSolution& sol)
+{
+  int i,j;
+  int gy, gx;
+  gx = sol.I();
+  gy = sol.J();
+
+  for(j = gy; j >= 0; --j){
+    for(i = 0; i <= gx; ++i){
+      s << sol.at(i, j) << " ";
+    }
+    s << endl;
+  }
+
+  return s;
+}
 
 main(int argc, char* argv[])
 {
@@ -36,16 +58,17 @@ main(int argc, char* argv[])
 
   double eig1, eig2, eig3;
   double a, b, parm;
-  double num;
+  double num, scat, lam;
+  lam = inter.anisotropy();
   a = 0.5;
-  b = inter.anisotropy()*0.5;
+  b = lam*0.5;
   num = inter.number();
   if(num < 2){
     cerr << "invalid number of atoms entered." << endl;
     return 1;
   }
-
-  parm = 4*M_PI*(num-1)*inter.scattering_length();
+  scat = inter.scattering_length();
+  parm = 4*M_PI*(num-1)*scat;
   if(inter.eigenvalue_present()){
     eig1 = inter.eigenvalue();
   }
@@ -119,23 +142,17 @@ main(int argc, char* argv[])
     count++;
   }
 
+  gradient_norm_squared<gross_pitaevskii> trans_grad(gpe);
+  gpe_energy_density<gross_pitaevskii> trans_en(gpe);
+  jacobian_cyl<gpe_energy_density<gross_pitaevskii> > trans_cyl(trans_en);
+  integrator_open_basic integ;
+  out << "# energy:\t" << num*integ(trans_cyl) << endl;
+
   out.precision(PRECISION);
 
   if(!inter.header())
     out << gpe;
-  /*
-  int i,j;
-  int gy, gx;
-  gx = trans_s.I();
-  gy = trans_s.J();
-
-  for(j = gy; j >= 0; --j){
-    for(i = 0; i <= gx; ++i){
-      out << trans_cyl.at(i, j) << " ";
-    }
-    out << endl;
-  }
-  */
+    //print_solution(out, trans_en);
 
 }
 
