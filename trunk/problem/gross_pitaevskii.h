@@ -25,13 +25,13 @@ public:
 	  double parameter);
 
   // methods
-  double a(int i, int j) const { return 1.0-sx/(2(x0+sx*i));}
-  double b(int i, int j) const { return 1.0+sx/(2(x0+sx*i));}
+  double a(int i, int j) const { return 1.0-sx/(2*(x0+sx*i));}
+  double b(int i, int j) const { return 1.0+sx/(2*(x0+sx*i));}
   double c(int i, int j) const { return rss;}
   double d(int i, int j) const { return rss;}
   double e(int i, int j) const 
     { return (meig+ast+(p1x+(p2x*i)+(p3x*i*i))+(p1y+(p2y*j)+(p3y*j*j)) +
-	      mparm*sol[i][j]*sol[i][j]);}
+	      mparm*sol[i-1][j-1]*sol[i-1][j-1]);}
   double f(int i, int j) const { return 0;}
 
  private:
