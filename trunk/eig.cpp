@@ -61,7 +61,12 @@ main(int argc, char* argv[])
   double s_norm0, s_norm1, s_norm2, s_norm3;
   int iter;
   ostream& out = inter.output();
+  double x0, x1, y0, y1;
 
+  x0 = gpe.x0();
+  y0 = gpe.y0();
+  x1 = x0 + (gpe.dx()*gpe.I());
+  y1 = y0 + (gpe.dy()*gpe.J());
   s_norm0 = solution_norm_cyl::norm(gpe);
   norm0 = residual_norm::norm(gpe);
   iter = mlt.solve(gpe, norm);
@@ -75,7 +80,7 @@ main(int argc, char* argv[])
   iter += mlt.solve(gpe, norm);
   s_norm2 = solution_norm_cyl::norm(gpe);
 
-
+  out << "# ("<< x0 << ", " << x1 << ") (" << y0 << ", " << y1 << ") " << endl;
   out << "# iterations:\t" << iter << endl;
   out << "# norm0:\t" << s_norm0 << endl;
   out << "# norm1, eig1:\t" << s_norm1 << ", " << eig1 << endl;

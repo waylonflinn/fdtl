@@ -19,12 +19,12 @@ gross_pitaevskii::gross_pitaevskii(
   : problem_basic(I, J, range_x, range_y, top, right, bottom, left),
     xm(x.first), ym(y.first), cx(coeff_x), cy(coeff_y), eig(eigenvalue),
     parm(parameter),
-    p1x(-2*cx*ssx*x.first*x.first), p2x(-2*cx*ssx*2*x.first*sx),
-    p3x(-2*cx*ssx*ssx),
-    p1y(-2*cy*ssx*y.first*y.first), p2y(-2*cy*ssx*2*sy*y.first),
-    p3y(-2*cy*ssx*ssy),
-    meig(2*ssx*eigenvalue),
-    mparm(-2*ssx*parm)
+    p1x(-1*cx*ssx*x.first*x.first), p2x(-1*cx*ssx*2*x.first*sx),
+    p3x(-1*cx*ssx*ssx),
+    p1y(-1*cy*ssx*y.first*y.first), p2y(-1*cy*ssx*2*sy*y.first),
+    p3y(-1*cy*ssx*ssy),
+    meig(ssx*eigenvalue),
+    mparm(-1*ssx*parm)
         
 {
   double norm_av = 
