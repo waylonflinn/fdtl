@@ -4,34 +4,52 @@
 # $@ is the target
 # $(<D) is the directory part of the first prerequisite
 
+## object sets
+# interface objects
 inter_obj = argument.o option.o command_line.o interface.o
+# common objects
 com_obj = problem_basic.o solver_basic.o residual_norm.o boundary.o \
  $(inter_obj)
+# successive overrelaxation on laplace's equation
 sor_l_obj = successive_overrelaxation.o laplace.o interface_sor.o $(com_obj)
+# gauss seidel on laplace's equation
 gs_l_obj = gauss_seidel.o laplace.o $(com_obj)
+# multigrid on laplace's equation
 mlt_l_obj = multigrid.o bilinear_interpolation.o half_weighting.o \
  gauss_seidel.o laplace.o interface_mlt.o $(com_obj)
+# gauss seidel on the simple harmonic oscillator
 gs_sho_obj = gauss_seidel.o simple_harmonic_oscillator.o interface_sho.o \
  solution_norm.o $(com_obj)
+# successive overrelaxation on the simple harmonic oscillator
 sor_sho_obj = successive_overrelaxation.o simple_harmonic_oscillator.o \
  interface_sor_sho.o $(com_obj)
+# gauss seidel on a gross pitaevskii equation
 gs_gpe_obj = gauss_seidel.o gross_pitaevskii.o interface_gpe.o \
  solution_norm_cyl.o $(com_obj)
+# gauss seidel on a gross pitaevskii equation in cartesion coordinates
 gs_gpe_cart_obj = gauss_seidel.o gross_pitaevskii_cart.o interface_gpe.o \
  solution_norm.o $(com_obj)
+# multigrid on a gross pitaevskii equation
 mlt_gpe_obj = multigrid.o bilinear_interpolation.o half_weighting.o \
  interface_mlt_gpe.o $(gs_gpe_obj)
+# multigrid on a gross pitaevskii equatino in cartesian coordinates
 mlt_gpe_cart_obj= multigrid.o bilinear_interpolation.o half_weighting.o \
  interface_mlt_gpe_cart.o $(gs_gpe_cart_obj)
+
+## directories
 dir_algorithm = ./algorithm/
 dir_problem = ./problem/
+dir_solver = ./solver/
+dir_solution = ./solution/
+dir_goal = ./goal/
+dir_include = ./include/
 dir_interface = ./interface/
-VPATH = $(dir_algorithm):$(dir_problem):$(dir_interface)
+VPATH = $(dir_solver):$(dir_solution):$(dir_goal):$(dir_include):$(dir_interface)
 
 ifeq ($(MAKECMDGOALS),debug)
- CPPFLAGS = -g -I$(dir_algorithm) -I$(dir_problem) -I$(dir_interface)
+ CPPFLAGS = -g -I$(dir_solver) -I$(dir_solution) -I$(dir_goal) -I$(dir_include) -I$(dir_interface)
 else
- CPPFLAGS = -I$(dir_algorithm) -I$(dir_problem) -I$(dir_interface)
+ CPPFLAGS = -I$(dir_solver) -I$(dir_solution) -I$(dir_goal) -I$(dir_include) -I$(dir_interface)
 endif
 
 .PHONY : all clean debug

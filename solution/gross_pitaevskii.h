@@ -5,6 +5,7 @@
 
 #include "problem_basic.h"
 #include "problem_resizable.h"
+#include "cmath"
 
 class gross_pitaevskii : public problem_basic
 {
