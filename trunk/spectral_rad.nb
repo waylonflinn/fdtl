@@ -41,9 +41,9 @@ Wolfram Research.
 
 (*NotebookFileLineBreakTest
 NotebookFileLineBreakTest*)
-(*NotebookOptionsPosition[      9043,        311]*)
-(*NotebookOutlinePosition[      9686,        333]*)
-(*  CellTagsIndexPosition[      9642,        329]*)
+(*NotebookOptionsPosition[      9227,        321]*)
+(*NotebookOutlinePosition[      9870,        343]*)
+(*  CellTagsIndexPosition[      9826,        339]*)
 (*WindowFrame->Normal*)
 
 
@@ -306,6 +306,16 @@ Cell[BoxData[
 Cell[BoxData[
     \({{0.5, {2.74,  .409}}, {1, {1.844, 1.074}}, {1.5, \ {0.838, \ 
           0.593}}, {2, {4.174, \(-34.66\)}}}\)], "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell["Scratch", "Section"],
+
+Cell[BoxData[
+    \(Plot3D[
+      Sin[\[Pi]\ x]*Sin[\[Pi]\ y], \ {x, \ 0, \ 1}, \ {y, \ 0, \ 
+        1}]\)], "Input"]
 }, Open  ]]
 }, Open  ]]
 },
@@ -403,6 +413,11 @@ Cell[8715, 296, 57, 1, 30, "Input"],
 Cell[8775, 299, 47, 1, 30, "Input"],
 Cell[8825, 302, 47, 1, 30, "Input"],
 Cell[8875, 305, 140, 2, 30, "Input"]
+}, Open  ]],
+
+Cell[CellGroupData[{
+Cell[9052, 312, 26, 0, 73, "Section"],
+Cell[9081, 314, 118, 3, 30, "Input"]
 }, Open  ]]
 }, Open  ]]
 }
