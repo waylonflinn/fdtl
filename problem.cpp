@@ -11,4 +11,5 @@ public:
   virtual double d(int , int) = 0;
   virtual double e(int , int) = 0;
   virtual double f(int , int) = 0;
-}
+  virtual double& u(int, int) = 0;
+};
