@@ -1,0 +1,35 @@
+1. Directory Structure
+
+the basic layout of this project is as follows:
+
+	algorithm
+		classes implementing the algoritms used to solve the
+		finite-differenced pdes (gauss-seidel, sor, etc)
+
+	problem
+		classes defining various finite-differenced pdes.
+		These include Laplace's equation and the simple harmonic
+		oscillator
+
+	interface
+		classes handling interaction with the user.
+
+	include
+		miscellaneous files used by the project
+
+	tools
+		source for supporting programs (thomas-fermi, etc)
+
+	sample
+		sample input and output files
+
+2. How-To
+
+to create a new problem you can derive from the base problem class and
+implement its virtual methods.
+
+to change the user interface (command line options) derive a new class from
+the interface base class or change the existing derived file.
+
+for further explanation of class usage check for comments in the header files
+(files ending in '.h') in the various directories.
