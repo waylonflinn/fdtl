@@ -2,10 +2,10 @@
 
 1.1 Overview
 
-the key classes in this project can be divided into three abstract categories:
-	'problem', 'algorithm' and 'goal'.
+the key classes in this project fall into one of three categories:
+	'problem', 'algorithm' or 'goal'.
 	
-a general description of these categories is:
+general descriptions of each of these categories are:
 
 	a 'problem' represents a finite-differenced partial differential
 	equation (pde) and a tentative solution to it.
@@ -26,7 +26,8 @@ and some of their relationships might be:
 	an 'algorithm' uses a 'goal' to determine when a 'problem' is solved.
 	
 
-the class hierarchies are intended to mirror this structure.
+the class hierarchies and physical layout of this project are intended to
+mirror this categorization and set of relationships.
 
 in addition to classes of these three types there are several classes which
 serve other, supporting roles. these include classes for user interaction

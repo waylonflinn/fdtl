@@ -10,6 +10,8 @@ sor_l_obj = successive_overrelaxation.o laplace.o interface_sor.o $(com_obj)
 gs_l_obj = gauss_seidel.o laplace.o $(com_obj)
 gs_sho_obj = gauss_seidel.o simple_harmonic_oscillator.o interface_sho.o \
  solution_norm.o $(com_obj)
+sor_sho_obj = successive_overrelaxation.o simple_harmonic_oscillator.o \
+ interface_sor_sho.o $(com_obj)
 dir_algorithm = ./algorithm/
 dir_problem = ./problem/
 dir_interface = ./interface/
@@ -23,7 +25,7 @@ endif
 
 .PHONY : all clean debug
 
-all : sor_l gs_l gs_sho
+all : sor_l gs_l gs_sho sor_sho
 
 sor_l : sor_l.o $(sor_l_obj)
 	g++ -o $@ $(CPPFLAGS) $^
@@ -41,6 +43,12 @@ gs_sho : gs_sho.o $(gs_sho_obj)
 	g++ -o $@ $(CPPFLAGS) $^
 
 gs_sho.o : gs_sho.cpp $(gs_sho_obj)
+	g++ -c $(CPPFLAGS) $<
+
+sor_sho : sor_sho.o $(sor_sho_obj)
+	g++ -o $@ $(CPPFLAGS) $^
+
+sor_sho.o : sor_sho.cpp $(sor_sho_obj)
 	g++ -c $(CPPFLAGS) $<
 
 problem_basic.o : problem_basic.cpp problem_basic.h problem.h boundary.h
