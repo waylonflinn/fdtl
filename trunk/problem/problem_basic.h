@@ -60,7 +60,7 @@ protected:
   pair<double, double> x, y;	// ranges for first and second vars, resp
   boundary tp, rt, bt, lf;	// boundaries, resp.; top, right, bottom, left
   // intermediate calc terms
-  double ssx, ssy;	// spacings squared; sx*sx, sy*sy
+  double ssx, ssy;	// squared spacings; sx*sx, sy*sy
   double rss;		// ratio of the squared spacings ssx/ssy
   double ast;		// assymetric term -2*(1+rss)
 

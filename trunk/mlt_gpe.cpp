@@ -7,8 +7,8 @@
 #include "residual_norm.h"
 #include "solution_norm.h"
 
-#define PRECISION	2	// decimal digits to display
-#define EPS		1.0e-3	// ratio of final residual to initial residual
+#define PRECISION	3	// decimal digits to display
+#define EPS		1.0e-4	// ratio of final residual to initial residual
 
 using std::vector;
 using std::cout;
@@ -41,8 +41,8 @@ main(int argc, char* argv[])
   if(inter.eigenvalue_present())
     eig = inter.eigenvalue();
   else{
-    eig = tf(a, b, parm);
-    eig *= 3;
+    eig = tf(parm, a, b);
+    eig *= 2;
   }
 
   gross_pitaevskii gpe(inter.I(), inter.J(), inter.x(), inter.y(),
