@@ -1,9 +1,9 @@
 #include <limits>
 #include "gauss_seidel.h"
 
-gauss_seidel::gauss_seidel(int max) : cutoff(max) {}
+gauss_seidel::gauss_seidel(int max) : solver_basic(max) {}
 
-gauss_seidel::gauss_seidel() : cutoff(std::numeric_limits<int>::max()) {}
+gauss_seidel::gauss_seidel() : solver_basic() {}
 
 int gauss_seidel::solve (problem& prob, goal& g)
 {
@@ -13,7 +13,7 @@ int gauss_seidel::solve (problem& prob, goal& g)
   int J = prob.J();
   int i, j;
 
-  while(!g(prob) && (count < (*this).cutoff)){
+  while(!g(prob) && (count < (*this).co)){
       for(i = 1; i < I; i++){
 	  for(j = 1; j < J; j++){
 	      res = (prob.e(i,j)*prob.at(i,j) +

@@ -5,9 +5,9 @@
 #ifndef PDE_GAUSS_SEIDEL
 #define PDE_GAUSS_SEIDEL
 
-#include "solver.h"
+#include "solver_basic.h"
 
-class gauss_seidel : public solver
+class gauss_seidel : public solver_basic
 {
 public:
   // constants
@@ -22,9 +22,6 @@ public:
   int solve(problem& prob, goal& g);
   // synonym for solve
   int operator()(problem& prob, goal& g);
-
-private:
-  int cutoff;	// max iterations
 };
 
 #endif	// PDE_GAUSS_SEIDEL
