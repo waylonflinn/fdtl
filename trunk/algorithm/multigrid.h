@@ -8,8 +8,12 @@
  * is reached.
  */
 #include "gauss_seidel.h"
+#include "solver_basic.h"
+#include <utility>
 
-class multigrid
+using std::pair;
+
+class multigrid : solver_basic
 {
 public:
   // constants
@@ -21,16 +25,14 @@ public:
   // methods
 
   // solve and return number of iters.
-  template<class Problem> int solve(Problem& prob, goal& g);
+  int solve(problem_resizable& prob, goal& g);
   // synonym for solve
-  template<class Problem> int operator()(Problem& prob, goal& g);
+  int operator()(problem_resizable& prob, goal& g);
 
 private:
-  int cutoff;	// max iterations
   gauss_seidel def_smooth;
   solver& smooth;	// smoother
 
-  template<class Problem> void mg(Problem& prob);
-  template<class Problem> void pro(Problem& coarse, Problem& fine);
-  template<class Problem> void rest(Problem& fine, Problem& coarse);
+  void prolong(problem& coarse, problem& fine);
+  void restrict(problem& fine, problem& coarse);
 };
