@@ -4,7 +4,7 @@
 #include "laplace.h"
 #include "solution_norm_cyl.h"
 
-#define PRECISION	6	// decimal digits to display
+#define PRECISION	5	// decimal digits to display
 #define EPS		1.0e-5	// ratio of final residual to initial residual
 
 using std::vector;
@@ -48,9 +48,11 @@ main(int argc, char* argv[])
 
   norm0 = solution_norm_cyl::norm(lp);
 
-  out.precision(PRECISION);
+  out.precision(15);
 
   out << "# norm:\t" << norm0 << endl;
+
+  out.precision(PRECISION);
   
   if(!inter.header())
     out << lp;
