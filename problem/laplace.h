@@ -3,6 +3,7 @@
  */
 
 #include "problem_basic.h"
+#include "problem_resizable.h"
 
 class laplace : public problem_basic
 {
@@ -28,5 +29,9 @@ public:
   double d(int i, int j) const { return rss;}
   double e(int i, int j) const { return ast;}
   double f(int i, int j) const { return 0;}
+
+  void grow(operator_prolong& op);
+  void shrink(operator_restrict& op);
+  laplace clone();
 
 };

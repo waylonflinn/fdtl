@@ -3,7 +3,7 @@
 
 #include "operator_prolong.h"
 
-class bilinear_interpolation : operator_prolong
+class bilinear_interpolation : public operator_prolong
 {
  public:
   void operator()(const problem& coarse, problem& fine);

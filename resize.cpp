@@ -98,50 +98,33 @@ int multi(laplace& lp)
   bilinear_interpolation bi;
   half_weighting hw;
   gauss_seidel gs(20000);
-  boundary top, right, bottom, left;
-  laplace old_lp(lp), new_lp(lp);
 
+
+  // generate set of problems
   int count = 0;
-  size_set[count++]=new_lp;
+  size_set[count++]=lp.clone();
   while(size != min_size){
     size = size/2;
-    old_lp = new_lp;
-    top = boundary(boundary::DIRICHLET, size, 0.0);
-    right = boundary(top);
-    bottom= boundary(top);
-    left= boundary(boundary::DIRICHLET, size, 1.0);
-    hw(old_lp.left(),left);
-    new_lp = laplace(size, size, x, y, top, right, bottom, left);
-    hw(old_lp, new_lp);
-    size_set[count++]=new_lp;
+    lp.shrink(hw);
+    size_set[count++]=lp.clone();
   }
 
-  iter = gs.solve(new_lp, norm);
+  iter = gs.solve(size_set[depth], norm);
 
   cout << "# iter " << min_size << ": " << iter << endl;
-  cout << new_lp << endl;
+  cout << lp << endl;
 
   size *= 2;
   int iter_i =0;
   while(size <= I){
-    old_lp = new_lp;
-    new_lp = size_set[--depth];
-    bi(old_lp, new_lp);
-    iter_i =gs.solve(new_lp, norm); 
+    bi(size_set[depth], size_set[depth-1]);
+    iter_i =gs.solve(size_set[--depth], norm); 
     iter += iter_i;
     cout << "# iter " << size << ": " << iter_i << endl;
-    cout << new_lp << endl;
+    cout << size_set[depth] << endl;
     size *= 2;
   }
-  /*  if(min_size < I){
-    bi(new_lp, lp);
-    iter_i= gs.solve(lp, norm);
-    cout << "# iter " << size << ": " << iter_i << endl;
-    iter += iter_i;
-  }
-  else
-    
-  */
-  lp = new_lp;
+
+  lp = size_set[0];
   return iter;
 }
