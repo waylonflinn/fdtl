@@ -2,6 +2,9 @@
  * automatically supply a help option with '-h'
  */
 
+#ifndef PDE_COMMAND_LINE
+#define PDE_COMMAND_LINE
+
 #include <string>
 #include <vector>
 #include <map>
@@ -51,3 +54,5 @@ private:
   string arg_string;
   string use;
 };
+
+#endif	//PDE_COMMAND_LINE

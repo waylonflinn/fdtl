@@ -1,3 +1,10 @@
+/* a command line argument. may be an argument to the main executable or
+ * to an option to the executable.
+ */
+
+#ifndef PDE_ARGUMENT
+#define PDE_ARGUMENT
+
 #include <string>
 
 using std::string;
@@ -18,3 +25,5 @@ private:
   string desc;		// description (should be a standard noun phrase)
   string use;		// usage statement
 };
+
+#endif	// PDE_ARGUMENT
