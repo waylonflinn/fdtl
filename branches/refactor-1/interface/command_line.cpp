@@ -1,5 +1,4 @@
 /* parse a command line and print a usage statement
- * this class uses the 'iota' SGI algorithm
  */
 
 #include <string>
@@ -8,7 +7,6 @@
 #include <utility>
 #include <algorithm>
 #include "option.cpp"
-#include "next.cpp"
 
 using std::vector;
 using std::string;
@@ -79,42 +77,46 @@ const string& command_line::usage()
 }
 /* throw an exception if an element in the set of supplied command line
  * arguments (in argv) is not mapped to the set of expected ones.
- * this generally means an
- * unrecognized argument was supplied or not enough arguments followed an
- * option to satisfy it's argument requirements.
+ * this generally means an  unrecognized argument was supplied or not
+ * enough arguments followed an  option to satisfy it's argument requirements.
  */
 void command_line::parse(int argc, char* argv[])
 {
   if(argc < 1)
     return;
 
-  vector<int> map_from(argc - 1, 0);
+  bool found;
+  vector<string> user_arg(argv + 1, argv + argc);// user supplied arguments
 
-  generate(map_from.begin(), map_from.end(), next(1));
+  vector<option>::iterator opt_iter = opt_vec.begin();
+  for( ; opt_iter != opt_vec.end(); opt_iter++){
 
-  vector<option>::iterator iter;
-  for(iter = opt_vec.begin(); iter != opt_vec.end(); iter++){
+    found = false;
 
     // go backwards so as not to invalidate the iterators on erasure
-    vector<int>::iterator in_iter;
-    for(in_iter = map_from.end() - 1; in_iter != map_from.begin() - 1; in_iter--){
-      if((*iter).match(string(argv[(*in_iter)]))){
-
-	map_from.erase(iter);
-	if(map_from.size() < (*iter).arg_count())
+    vector<string>::iterator user_iter = user_arg.end() - 1;
+    while(!found && (user_iter != user_arg.begin() - 1)){
+      if((*opt_iter).match(*user_iter)) {
+      
+	found = true;
+	int count = ((*opt_iter).arg_count() + 1);
+        
+	if(user_arg.size() < count) 
 	  throw exception_argument();
-
-	vector<string> arg_vec;
-	for(int i = 1; i < (*iter).arg_count(); i++){
-	  arg_vec.push_back(string(argv[*(in_iter + i)]))
-	  map_from.erase(in_iter + i);
-	}
-	opt_map[(*iter).letter] = pair(true, arg_vec);	  
+      
+	vector<string>::iterator end_iter = user_iter + count;
+	opt_map[(*opt_iter).letter()] =
+	  pair<bool, vector<string> >(true,
+				      vector<string>(user_iter, end_iter));
+	user_arg.erase(user_iter, end_iter);
       }
+      user_iter--;
     }
+    if(!found)
+      opt_map[(*opt_iter).letter()] =
+	pair<bool, vector<string> >(false, vector<string>());
   }
   
-  if(map_from.size() > 0)
+  if(user_arg.size() > 0)	// leftovers
     throw exception_argument();
 }
-

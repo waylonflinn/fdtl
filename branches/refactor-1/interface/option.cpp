@@ -10,22 +10,24 @@ class option
 public:
   // constants
   const static string PREFIX;	// identifies an option
-  const static string ARG_NAME;	// placeholder for an argument name
   
   // constructors
   option(const char& letter, const string& description,
 	 const vector<argument>& arg_vec);
   option(const char& letter, const string& description, const argument& arg);
   option(const char& letter, const string& description);
+  option(const char& letter, const vector<argument>& arg_vec);
+  option(const char& letter, const argument& arg);
   option();
 
   // methods
+  char letter() const { return let; }
   int arg_count() const { return arg_vec.size(); }
   bool match(const string& token);
   const string& usage();
 
 private:
-  char letter;
+  char let;
   string desc;
   vector<argument> arg_vec;
   string use;
@@ -33,44 +35,58 @@ private:
 
 const string option::PREFIX = "-";
 
-const string option::ARG_NAME = "%np";	// noun phrase
-
 option::option(const char& letter,
 	       const string& description,
 	       const argument& arg)
-  : letter(letter), desc(description), arg_vec(1, arg)
+  : let(letter), desc(description), arg_vec(1, arg)
 {
 }
 
 option::option(const char& letter,
 	       const string& description,
 	       const vector<argument>& argument_vector)
-  : letter(letter), desc(description), arg_vec(argument_vector)
+  : let(letter), desc(description), arg_vec(argument_vector)
 {
 }
 
 option::option(const char& letter,
 	       const string& description)
-  : letter(letter), desc(description), arg_vec()
+  : let(letter), desc(description), arg_vec()
+{
+}
+
+option::option(const char& letter,
+	       const vector<argument>& argument_vector)
+  : let(letter), arg_vec(argument_vector)
+{
+}
+
+option::option(const char& letter,
+	       const argument& arg)
+  : let(letter), arg_vec(1, arg)
 {
 }
 
 option::option()
-  : letter(0), desc(), arg_vec()
+  : let(0), desc(), arg_vec()
 {
 }
 
 bool option::match(const string& token)
 {
-  return (token.find(option::PREFIX + (*this).letter) != string::npos);
+  return (token.find(option::PREFIX + (*this).let) != string::npos);
 }
 
 const string& option::usage()
 {
   string arg_list;
   string arg_desc;
+  string opt_desc;
 
   if((*this).use.size() == 0){	// first call to function
+
+    if((*this).desc.size() > 0)
+      opt_desc = "\t" + (*this).desc;
 
     vector<argument>::iterator iter = arg_vec.begin();
     vector<argument>::iterator end = arg_vec.end();
@@ -85,8 +101,8 @@ const string& option::usage()
 	arg_desc += ",\n\t\t" + (*iter).usage();
     }
 
-    (*this).use = "\n\t" + option::PREFIX + (*this).letter + " " +
-      arg_list + "\n\t" + (*this).desc + arg_desc;
+    (*this).use = "\n\t" + option::PREFIX + (*this).let + " " +
+      arg_list + opt_desc + arg_desc;
   }
 
   return (*this).use;
