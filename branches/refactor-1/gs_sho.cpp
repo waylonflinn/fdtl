@@ -56,5 +56,5 @@ main(int argc, char* argv[])
   out << "# sol norm:\t" << s_norm0 << endl;
 
   out.precision(PRECISION);
-  out << sho << endl;
+  out << sho;
 }

@@ -30,6 +30,9 @@ const option interface::OPT_I =
 const option interface::OPT_J =
  option('J', argument("n", "the number of points for "+interface::SEC_VAR));
 
+const option interface::OPT_N =
+ option('N', argument("n", "the number of points for both variables"));
+
 const option interface::OPT_X =
 option('x', vector<argument>(interface::ARR_X, interface::ARR_X + 2));
 
@@ -37,7 +40,8 @@ const option interface::OPT_Y =
 option('y', vector<argument>(interface::ARR_Y, interface::ARR_Y + 2));
 
 const option interface::ARR_OPT[] =
-  {interface::OPT_I, interface::OPT_J, interface::OPT_X, interface::OPT_Y};
+  {interface::OPT_I, interface::OPT_J, interface::OPT_N, interface::OPT_X,
+   interface::OPT_Y};
 
 double str_to_d(string str);
 
@@ -56,9 +60,17 @@ interface::interface(string id, int argc, char* argv[]) :
     throw invalid_argument("malformed command line.");
   }
 
+  if(cl['h'].first)
+    cerr << "usage: \n" << cl.usage() << endl;
 
-  gx = make_grid('I', interface::DEF_I);
-  gy = make_grid('J', interface::DEF_J);
+  if(cl['N'].first){
+    gx = make_grid('N', interface::DEF_I);
+    gy = make_grid('N', interface::DEF_I);
+  }
+  else{
+    gx = make_grid('I', interface::DEF_I);
+    gy = make_grid('J', interface::DEF_J);
+  }
 
   rx = make_range('x', interface::DEF_X);
   ry = make_range('y', interface::DEF_Y);
