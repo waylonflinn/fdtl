@@ -1,7 +1,7 @@
 #include <iostream>
 #include <vector>
 #include <cmath>
-#include "interface.h"
+#include "interface_sor.h"
 #include "laplace.h"
 #include "successive_overrelaxation.h"
 #include "residual_norm.h"
@@ -15,15 +15,16 @@ using std::endl;
 
 main(int argc, char* argv[])
 {
-  interface inter;
+  interface_sor inter;
 
   try{
-  inter = interface("gs_l", argc, argv);
+  inter = interface_sor("sor_l", argc, argv);
   }
   catch(invalid_argument e){
     cerr << e.what() << endl;
     return 1;
   }
+  catch(help_exception){ return 0; }
   catch(...){
     cerr << "something bad happened!" << endl;
     return 1;
@@ -33,7 +34,7 @@ main(int argc, char* argv[])
 	     inter.top(), inter.right(), inter.bottom(), inter.left());
  
   residual_norm norm(lp, EPS);
-  successive_overrelaxation sor(10000, 1-M_PI*M_PI/(2*60*60));
+  successive_overrelaxation sor(10000, inter.spectral_radius());
 
   int I = lp.I();
   int J = lp.J();
@@ -47,12 +48,13 @@ main(int argc, char* argv[])
   ratio = norm1/norm0;
   ostream& out = inter.output();
 
+  out.precision(PRECISION);
   out << "# initial norm:\t" << norm0 << endl;
   out << "# final norm:\t" << norm1 << endl;
   out << "# ratio:\t" << ratio << endl;
   out << "# iterations:\t" << iter << endl;
 
-  out.precision(PRECISION);
-  out << lp;
+  if(!inter.header())
+    out << lp;
 
 }

@@ -145,13 +145,13 @@ void interface::make_bound(){
     if((i % 2) == 0){	// top or bottom
       if(line.size() == 1 && isdigit(line.at(0))){
 	double val = str_to_d(line.substr(0, 1));
-	for(j = 0; j < gx; ++j){
+	for(j = 0; j < gy; ++j){
 	  (*iter) = val;
 	  iter++;
 	}
       }
       else{
-	for(j = 0; j < gx; ++j){
+	for(j = 0; j < gy; ++j){
 	  begin = end + 1;
 	  end = line.find(' ', begin);
 	  (*iter) = str_to_d(line.substr(begin, (end-begin)));
@@ -168,7 +168,7 @@ void interface::make_bound(){
 	}
       }
       else{
-	for(j = 0; j < gy; ++j){
+	for(j = 0; j < gx; ++j){
 	  begin = end + 1;
 	  end = line.find(' ', begin);
 	  (*iter) = str_to_d(line.substr(begin, (end-begin)));
