@@ -2,6 +2,9 @@
  * apply the gauss-seidel relaxation algorithm to a problem until
  * a specified goal is met or the cuttoff is reached.
  */
+#ifndef PDE_GAUSS_SEIDEL
+#define PDE_GAUSS_SEIDEL
+
 #include "solver.h"
 
 class gauss_seidel : public solver
@@ -23,3 +26,5 @@ public:
 private:
   int cutoff;	// max iterations
 };
+
+#endif	// PDE_GAUSS_SEIDEL
