@@ -16,7 +16,7 @@ const pair<double,double> interface_mlt_gpe::DEF_Y =
 
 const double interface_mlt_gpe::DEF_PARM = 1;
 
-const int interface_mlt_gpe::DEF_S = 5;
+const int interface_mlt_gpe::DEF_S = 10;
 
 double str_to_d(string str);
 
