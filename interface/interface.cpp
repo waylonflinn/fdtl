@@ -58,7 +58,7 @@ interface::interface() :
 		    option_set::ARR_OPT + option_set::SIZE),
      option_set::INPUT),
   gx(interface::DEF_I), gy(interface::DEF_J), rx(interface::DEF_X),
-  ry(interface::DEF_Y)
+  ry(interface::DEF_Y), hdr(false)
 {}
 
 int interface::make_grid(char let, int def){
