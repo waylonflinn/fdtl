@@ -9,6 +9,8 @@ class interface_gpe : public interface
  public:
 
   // constants
+  static const int DEF_I;
+  static const int DEF_J;
   static const double DEF_A;
   static const double DEF_B;
   static const double DEF_PARM;

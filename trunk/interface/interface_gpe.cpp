@@ -1,15 +1,18 @@
 #include "interface_gpe.h"
 
 
+const int interface_gpe::DEF_I = 40;
+const int interface_gpe::DEF_J = 40;
+
 const double interface_gpe::DEF_A = 1;
 
 const double interface_gpe::DEF_B = 1;
 
 const pair<double,double> interface_gpe::DEF_X =
-pair<double,double>(0, 2);
+pair<double,double>(0, 4);
 
 const pair<double,double> interface_gpe::DEF_Y = 
- pair<double, double>(-1, 1);
+ pair<double, double>(-4, 4);
 
 const double interface_gpe::DEF_PARM = 1;
 
@@ -46,12 +49,12 @@ interface_gpe::interface_gpe(string id, int argc, char* argv[]) :
     hdr = true;
 
   if(cl['N'].first){
-    gx = make_grid('N', interface::DEF_I);
-    gy = make_grid('N', interface::DEF_I);
+    gx = make_grid('N', interface_gpe::DEF_I);
+    gy = make_grid('N', interface_gpe::DEF_I);
   }
   else{
-    gx = make_grid('I', interface::DEF_I);
-    gy = make_grid('J', interface::DEF_J);
+    gx = make_grid('I', interface_gpe::DEF_I);
+    gy = make_grid('J', interface_gpe::DEF_J);
   }
 
   rx = make_range('x', interface_gpe::DEF_X);
