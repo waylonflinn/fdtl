@@ -23,6 +23,7 @@ main(int argc, char* argv[])
     cerr << e.what() << endl;
     return 1;
   }
+  catch(help_exception){ return 0; }
   catch(...){
     cerr << "something bad happened!" << endl;
     return 1;
@@ -31,7 +32,7 @@ main(int argc, char* argv[])
   laplace lp(inter.I(), inter.J(), inter.x(), inter.y(),
 	     inter.top(), inter.right(), inter.bottom(), inter.left());
   residual_norm norm(lp, EPS);
-  gauss_seidel gs(10000);
+  gauss_seidel gs;
 
   int I = lp.I();
   int J = lp.J();
@@ -45,11 +46,13 @@ main(int argc, char* argv[])
   norm1 = residual_norm::norm(lp);
   ratio = norm1/norm0;
 
+  out.precision(PRECISION);
+
   out << "# initial norm:\t" << norm0 << endl;
   out << "# final norm:\t" << norm1 << endl;
   out << "# ratio:\t" << ratio << endl;
   out << "# iterations:\t" << iter << endl;
-
-  out.precision(PRECISION);
-  out << lp;
+  
+  if(!inter.header())
+    out << lp;
 }

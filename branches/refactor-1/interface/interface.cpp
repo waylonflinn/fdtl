@@ -18,7 +18,7 @@ const argument interface::ARR_Y[] =
 const int interface::DEF_I = 20;
 const int interface::DEF_J = 20;
 const pair<double, double> interface::DEF_X = pair<double, double>(0.0, 1.0);
-const pair<double, double> interface::DEF_Y = pair<double, double>(-1.0, 1.0);
+const pair<double, double> interface::DEF_Y = pair<double, double>(0.0, 1.0);
 
 // command line options
 const argument interface::INPUT = 
@@ -39,17 +39,20 @@ option('x', vector<argument>(interface::ARR_X, interface::ARR_X + 2));
 const option interface::OPT_Y =
 option('y', vector<argument>(interface::ARR_Y, interface::ARR_Y + 2));
 
+const option interface::OPT_D =
+ option('d', "print only the hea(d)er information for the solution");
+
 const option interface::ARR_OPT[] =
-  {interface::OPT_I, interface::OPT_J, interface::OPT_N, interface::OPT_X,
-   interface::OPT_Y};
+  {interface::OPT_D, interface::OPT_I, interface::OPT_J, interface::OPT_N,
+   interface::OPT_X, interface::OPT_Y};
 
 double str_to_d(string str);
 
 // constructors
 interface::interface(string id, int argc, char* argv[]) :
-  cl(id, vector<option>(ARR_OPT, ARR_OPT + ARR_OPT_S), interface::INPUT),
+  cl(id, vector<option>(ARR_OPT, ARR_OPT + 6), interface::INPUT),
   gx(interface::DEF_I), gy(interface::DEF_J), rx(interface::DEF_X),
-  ry(interface::DEF_Y)
+  ry(interface::DEF_Y), hdr(false)
 {
   try{
     cl.parse(argc, argv);
@@ -60,8 +63,12 @@ interface::interface(string id, int argc, char* argv[]) :
     throw invalid_argument("malformed command line.");
   }
 
-  if(cl['h'].first)
-    cerr << "usage: \n" << cl.usage() << endl;
+  if(cl['h'].first){
+    cout << "usage: \n" << cl.usage() << endl;
+    throw help_exception();
+  }
+  if(cl['d'].first)
+    hdr = true;
 
   if(cl['N'].first){
     gx = make_grid('N', interface::DEF_I);
@@ -77,7 +84,7 @@ interface::interface(string id, int argc, char* argv[]) :
 
   make_bound();
 
-  // add output file and boundary code
+  // add output file code
 }
 
 interface::interface() :
