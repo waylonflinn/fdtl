@@ -1,17 +1,23 @@
 /*
- * apply the gauss-seidel relaxation algorithm to a problem until
- * a specified goal is met or the cuttoff is reached.
+ * apply the successive overrelaxation algorithm to a problem until a
+ * specified goal is met or the  cuttoff is reached.
+ * this algorithm uses chebyshev acceleration and odd-even (checkerboard) 
+ * ordering.
  */
 #include "goal.h"
 
-class gauss_seidel
+class successive_overrelaxation
 {
 public:
   // constants
 
   // constructors
-  gauss_seidel(int max);	// run for at most max iterations
-  gauss_seidel();		// place no limits on the number of iterations
+  /* run for at most max iterations. use radius as the spectral radius of
+   * the jacobi method for the chebyshev acceleration.
+   */
+  successive_overrelaxation(int max, double radius);
+  /* place no limit on the number of iterations. */
+  successive_overrelaxation(double radius);
 
   // methods
 
@@ -22,4 +28,5 @@ public:
 
 private:
   int cutoff;	// max iterations
+  double rad;	// overrelaxation parameter
 };
