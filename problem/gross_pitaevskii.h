@@ -25,22 +25,25 @@ public:
 	  double parameter);
 
   // methods
-  double a(int i, int j) const { return 1;}
-  double b(int i, int j) const { return 1;}
+  double a(int i, int j) const { return 1.0-sx/(2(x0+sx*i));}
+  double b(int i, int j) const { return 1.0+sx/(2(x0+sx*i));}
   double c(int i, int j) const { return rss;}
   double d(int i, int j) const { return rss;}
   double e(int i, int j) const 
-    { return (meig+ast+(p1x+(p2x*i)+(p3x*i*i))+(p1y+(p2y*j)+(p3y*j*j)));}
+    { return (meig+ast+(p1x+(p2x*i)+(p3x*i*i))+(p1y+(p2y*j)+(p3y*j*j)) +
+	      mparm*sol[i][j]*sol[i][j]);}
   double f(int i, int j) const { return 0;}
 
  private:
+  double x0;
+  double y0;
   double cx;
   double cy;
   double eig;
-  double param;
+  double parm;
   // intermediates for e(int,int)
   double meig;	// -1*ssx*eig
-  double mparam;
+  double mparm;
   /* the following terms represent intermediate values in the computation
      of the potential term in the two variable */
   double p1x;	// sx^2*cx*x.first^2
