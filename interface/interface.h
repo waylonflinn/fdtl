@@ -44,11 +44,15 @@ class interface
   int J() const { return gy; }		// grid points in second var
   pair<double, double> x() const { return rx; }	// range of first var
   pair<double, double> y() const { return ry; }	// range of second var
-  ostream& output();			// output
   const boundary& top() const { return tp; }
   const boundary& right() const { return rt; }
   const boundary& bottom() const { return bt; }
   const boundary& left() const { return lf; }
+
+  ostream& output() const { return cout; }
+
+  // operators
+  //interface& operator=(const interface& inter);
 
  protected:
   // constants
