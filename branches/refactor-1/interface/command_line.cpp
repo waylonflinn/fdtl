@@ -63,11 +63,11 @@ const string& command_line::usage()
   if((*this).use.size() == 0){
     (*this).use = prog_name + " <options> " + "<" + arg.name() + ">";
 
-    (*this).use += "\n\twhere <options> is zero or more of:";
+    (*this).use += "\n\twhere <options> is zero or more of:\n";
 
     vector<option>::iterator iter;
     for(iter = opt_vec.begin(); iter != opt_vec.end(); iter++){
-      (*this).use += "\n" + (*iter).usage();
+      (*this).use += (*iter).usage();
     }
 
     (*this).use += "\n\n\tand " + arg.usage();
@@ -89,26 +89,25 @@ void command_line::parse(int argc, char* argv[])
   vector<string> user_arg(argv + 1, argv + argc);// user supplied arguments
 
   vector<option>::iterator opt_iter = opt_vec.begin();
-  for( ; opt_iter != opt_vec.end(); opt_iter++){
-
+  vector<option>::iterator opt_end_iter = opt_vec.end();
+  for( ; opt_iter != opt_end_iter; opt_iter++){
     found = false;
 
     // go backwards so as not to invalidate the iterators on erasure
     vector<string>::iterator user_iter = user_arg.end() - 1;
     while(!found && (user_iter != user_arg.begin() - 1)){
       if((*opt_iter).match(*user_iter)) {
-      
 	found = true;
 	int count = ((*opt_iter).arg_count() + 1);
-        
-	if(user_arg.size() < count) 
+
+	if((user_iter - user_arg.end()) <= count) 
 	  throw exception_argument();
-      
-	vector<string>::iterator end_iter = user_iter + count;
+
+	vector<string>::iterator arg_end_iter = user_iter + count;
 	opt_map[(*opt_iter).letter()] =
 	  pair<bool, vector<string> >(true,
-				      vector<string>(user_iter, end_iter));
-	user_arg.erase(user_iter, end_iter);
+				      vector<string>(user_iter, arg_end_iter));
+	user_arg.erase(user_iter, arg_end_iter);
       }
       user_iter--;
     }
