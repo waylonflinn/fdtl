@@ -33,6 +33,28 @@ refinement). In addition to these I also use the term `category' to refer a
 set of related concepts.\footnote{ See Appendix A for further discussion of my
 use of the term `category'.}
 
+\subsection{Descritization}
+
+We use the following conventions throughout this document regarding application of
+the finite difference method. 
+We assume the form of the finite differenced equation is as follows: \footnote{Assuming
+standard difference operators, most 2D second order equations can be written in this form.}
+\begin{equation}
+a_{i,j} u_{i+1, j} + b_{i,j} u_{i-1, j} + c_{i,j} u_{i, j+1} d_{i,j} u_{i, j-1}
++ e_{i,j} u_{i, j} = f_{i,j}
+\end{equation}
+where the subscripts denote the grid point at which the value of the function or coefficient is taken.
+Coefficents may be constant or (more likely) have a functional dependance on the grid point.
+
+Descritization of variables is done using the following relations
+\begin{equation}
+x = x_{0} + i \Delta x
+\end{equation}
+\begin{equation}
+y = y_{0} + j \Delta y
+\end{equation}
+where $x_0$ and $y_0$ are the lower bounds on the $x$ and $y$ boundaries, respectively, and $\Delta x$ and
+$\Delta y$ are the grid spacings in $x$ and $y$, respectively.
 \section{Structure Overview}
 
 Both the object structure and concept structure of this library can be seen as
@@ -77,22 +99,6 @@ A \emph{goal} tests a \emph{problem} (and through it, it's tentative solution).
 
 \section{Concepts}
 
-Assume the form of the finite differenced equation is as follows:
-
-\begin{equation}
-a_{i,j} u_{i+1, j} + b_{i,j} u_{i-1, j} + c_{i,j} u_{i, j+1} d_{i,j} u_{i, j-1}
-+ e_{i,j} u_{i, j} = f_{i,j}
-\end{equation}
-where the subscripts denote the grid point at which the value of the function or coefficient is taken.
-With the following relations
-\begin{equation}
-x = x_{0} + i \Delta x
-\end{equation}
-\begin{equation}
-y = y_{0} + j \Delta y
-\end{equation}
-where $x_0$ and $y_0$ are the lower bounds on the $x$ and $y$ boundaries, respectively, and $\Delta x$ and
-$\Delta y$ are the grid spacings in $x$ and $y$, respectively.
 
 Throughout this section (and the next) I use the $\leftarrow$ symbol to show refinement,
 and the $\triangleleft$ symbol to show that a type is a model of a concept.
