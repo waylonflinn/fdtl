@@ -1,11 +1,14 @@
+#include <limits>
 #include "gauss_seidel.h"
 
 gauss_seidel::gauss_seidel(int max) : cutoff(max) {}
 
+gauss_seidel::gauss_seidel() : cutoff(std::numeric_limits<int>::max()) {}
+
 int gauss_seidel::solve (problem& prob, goal& g)
 {
   int count = 0;
-  double res;
+  double res;		// residual
   int I = prob.I();
   int J = prob.J();
   int i, j;
