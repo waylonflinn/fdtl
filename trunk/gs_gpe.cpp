@@ -65,7 +65,7 @@ main(int argc, char* argv[])
   ratio = norm1/norm0;
   s_norm1 = solution_norm::norm(gpe);
 
-  out.precision(PRECISION);
+  out.precision(6);
 
   out << "# initial norm:\t" << norm0 << endl;
   out << "# final norm:\t" << norm1 << endl;
@@ -74,6 +74,8 @@ main(int argc, char* argv[])
   out << "# eigenvalue:\t" << eig << endl;
   out << "# init s norm:\t" << s_norm0 << endl;
   out << "# sol norm:\t" << s_norm1 << endl;
+
+  out.precision(PRECISION);
 
   if(!inter.header())
     out << gpe;

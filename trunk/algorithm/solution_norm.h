@@ -2,8 +2,8 @@
  * less than some factor, epsilon, away from 1.
  * the norm calculated is the integral of the sqaure of the solution over the
  * problem's defined domain.
- * a multidimensional form of the extended trapezoidal rule is used for the
- * integration (quadrature).
+ * a multidimensional form of equation (4.1.16) from 'Numerical Recipes in C'
+ * is used for the integration (quadrature).
  */
 #include <cmath>
 #include "goal.h"

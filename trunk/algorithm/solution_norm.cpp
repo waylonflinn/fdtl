@@ -1,6 +1,6 @@
 #include "solution_norm.h"
 
-const double solution_norm::DEF_EPS = 1.0e-6;
+const double solution_norm::DEF_EPS = 1.0e-4;
 
 solution_norm::solution_norm(const problem& prob, double epsilon) 
   : eps(epsilon)
@@ -30,31 +30,58 @@ double solution_norm::norm(const problem& prob)
   sx = prob.dx();
   sy = prob.dy();
   norm = 0;
-  // calc first line
-  line = 0.5*pow(prob.at(0,0),2);
-  for(j = 1; j < J; ++j)
-    line += pow(prob.at(0,j),2);
-  line += 0.5*pow(prob.at(0,J),2);
-  line *= sy;
-  norm += 0.5*line;
 
-  for(i = 1; i <= I; ++i){
-    line = 0.5*pow(prob.at(i,0),2);
-    for(j = 1; j < J; ++j){
+  // calc first (interior) line
+  line = (23.0/12.0)*pow(prob.at(1,1),2);
+  line += (7.0/12.0)*pow(prob.at(1,2),2);
+  for(j = 3; j < J-2; ++j)
+    line += pow(prob.at(1,j),2);
+  line += (7.0/12.0)*pow(prob.at(1,J-2),2);
+  line += (23.0/12.0)*pow(prob.at(1,J-1),2);
+  line *= sy;
+  norm += (23.0/12.0)*line;
+
+  // second
+  line = (23.0/12.0)*pow(prob.at(2,1),2);
+  line += (7.0/12.0)*pow(prob.at(2,2),2);
+  for(j = 3; j < J-2; ++j)
+    line += pow(prob.at(2,j),2);
+  line += (7.0/12.0)*pow(prob.at(2,J-2),2);
+  line += (23.0/12.0)*pow(prob.at(2,J-1),2);
+  line *= sy;
+  norm += (7.0/12.0)*line;
+
+  for(i = 3; i < I-2; ++i){
+    line = (23.0/12.0)*pow(prob.at(i,1),2);
+    line += (7.0/12.0)*pow(prob.at(i,2),2);
+    for(j = 3; j < J-2; ++j){
       line += pow(prob.at(i,j),2);
     }
-    line += 0.5*pow(prob.at(i,J),2);
+    line += (23.0/12.0)*pow(prob.at(i,J-2),2);
+    line += (7.0/12.0)*pow(prob.at(i,J-1),2);
     line *= sy;
     norm += line;
   }
 
-  // calc last line
-  line = 0.5*pow(prob.at(I,0),2);
-  for(j = 1; j < J; ++j)
-    line += pow(prob.at(I,j),2);
-  line += 0.5*pow(prob.at(I,J),2);
+  // next to last
+  line = (23.0/12.0)*pow(prob.at(I-2,1),2);
+  line += (7.0/12.0)*pow(prob.at(I-2,2),2);
+  for(j = 3; j < J-2; ++j)
+    line += pow(prob.at(1,j),2);
+  line += (7.0/12.0)*pow(prob.at(I-2,J-2),2);
+  line += (23.0/12.0)*pow(prob.at(I-2,J-1),2);
   line *= sy;
-  norm += 0.5*line;
+  norm += (23.0/12.0)*line;
+
+  // last
+  line = (23.0/12.0)*pow(prob.at(I-1,1),2);
+  line += (7.0/12.0)*pow(prob.at(I-1,2),2);
+  for(j = 3; j < J-2; ++j)
+    line += pow(prob.at(2,j),2);
+  line += (7.0/12.0)*pow(prob.at(I-1,J-2),2);
+  line += (23.0/12.0)*pow(prob.at(I-1,J-1),2);
+  line *= sy;
+  norm += (7.0/12.0)*line;
 
   norm *= sx;
 
