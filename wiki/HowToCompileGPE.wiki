@@ -3,10 +3,12 @@
 
 = Introduction =
 
-This page describes how to compile the executable for solving the Gross-Pitaevskii equation using gcc 4.1.2 on linux.
+This page describes how to compile the executable for solving the Gross-Pitaevskii equation on various platforms. The following platforms are known to be compatible.
+
+  * GCC 4.1.2 on Linux
 
 
-= Details =
+= GCC 4.1.2 on Linux =
 
   # download the source using subversion as described on the  [http://code.google.com/p/fdtl/source/checkout Source Page]
   # change to the directory created in the step above
