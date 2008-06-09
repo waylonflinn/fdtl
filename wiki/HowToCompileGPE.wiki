@@ -9,4 +9,6 @@ This page describes how to compile the executable for solving the Gross-Pitaevsk
 = Details =
 
   # download the source using subversion as described on the  [http://code.google.com/p/fdtl/source/checkout Source Page]
+  # change to the directory created in the step above
+    * `cd fdtl` (`cd fdtl-read-only`, if downloading anonymously)
   # type `make mlt_gpe`
