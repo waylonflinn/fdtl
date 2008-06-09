@@ -1,0 +1,12 @@
+#summary How to compile the Gross-Pitaevskii solving module.
+#labels Phase-Deploy
+
+= Introduction =
+
+This page describes how to compile the executable for solving the Gross-Pitaevskii equation using gcc 4.1.2 on linux.
+
+
+= Details =
+
+  # download the source
+  # type `make mlt_gpe`
