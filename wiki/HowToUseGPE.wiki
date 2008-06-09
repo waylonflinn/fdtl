@@ -1,0 +1,11 @@
+#summary How to use the Gross-Pitaevskii solving module.
+#labels Phase-Deploy
+
+= Introduction =
+
+This page describes the basics of how to employ the executable for solving the Gross-Pitaevskii equation.
+
+
+= Details =
+
+_TODO: add some instructions_
