@@ -66,7 +66,7 @@ interface::interface() :
 
 int interface::make_grid(char let, int def)
 {
-	intva l;
+	int val;
 	char*cerrstr [100];
 	string errstr;
 	bool error = false;
@@ -91,7 +91,7 @@ int interface::make_grid(char let, int def)
 
 pair<double, double> interface::make_range(char let, pair<double, double> def)
 {
-	pa ir<double,double> val;
+	pair<double,double> val;
 	char* cerrstr[100];
 	string errstr;
 	bool error = false;
@@ -221,7 +221,7 @@ double str_to_d(string str)
 	string errstr;
 	bool error = false;
 
-	val = st rtod(str.c_str(), cerrstr);
+	val = strtod(str.c_str(), cerrstr);
 	error |= (errstr.assign(*cerrstr).size() > 0);
 	if (error || errno == ERANGE)
 	{

@@ -32,7 +32,7 @@ class jacobian_cyl {
 };
 
 template <class StaticSolution>
-jacobian_cyl<StaticSolution>::jacobian_cyl<StaticSolution>(const StaticSolution& solution) : sol(solution)
+jacobian_cyl<StaticSolution>::jacobian_cyl(const StaticSolution& solution) : sol(solution)
 {
 }
 
