@@ -5,7 +5,24 @@
 
 This page describes the basics of how to employ the executable for solving the Gross-Pitaevskii equation.
 
+_TODO: add more instructions_
 
 = Details =
 
-_TODO: add some instructions_
+== Input File ==
+
+The input file describes the boundary conditions. All boundaries are rectangular. Each side may be assigned either Dirichlet (value) or Neumann (value of derivative) conditions. Both may occur in the same file.
+
+Each line in the file...
+
+  * specifies the condition along an edge of the bounding rectangle.
+  * may be preceded by the words 'Dirichlet' or 'Neumann' to indicate that the line following specifies a boundary condition of that type.
+  * maps to a boundary based on order. The mapping is as follows:
+    * _add this_
+
+Each character in a line...
+
+  * gives the value at a particular point along the boundary
+  * must be numeric.
+
+== Command Line Arguments ==
