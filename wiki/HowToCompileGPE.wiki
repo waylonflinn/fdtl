@@ -1,4 +1,4 @@
-#summary How to compile the Gross-Pitaevskii solving module.
+#summary How to compile the Gross-Pitaevskii Equation solving module.
 #labels Phase-Deploy
 
 = Introduction =
