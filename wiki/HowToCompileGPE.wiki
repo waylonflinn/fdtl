@@ -5,7 +5,9 @@
 
 This page describes how to compile the executable for solving the Gross-Pitaevskii equation on various platforms. The following platforms are known to be compatible.
 
-  * GCC 4.1.2 on Linux
+  * GCC 4.1.2
+    * Fedora Core 8
+    * Red Hat Enterprise Linux 5
 
 
 = GCC 4.1.2 on Linux =
