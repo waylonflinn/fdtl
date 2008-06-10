@@ -18,7 +18,7 @@ public:
   // half
   virtual void shrink(operator_restrict& op) = 0;
   // copy
-  virtual problem_resizable clone() = 0;
+  //virtual problem_resizable clone() = 0;
 };
 
 #endif	// PDE_PROBLEM_RESIZABLE

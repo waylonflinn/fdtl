@@ -28,7 +28,7 @@ class square {
 };
 
 template <class StaticSolution>
-square<StaticSolution>::square<StaticSolution>(const StaticSolution& solution) : sol(solution)
+square<StaticSolution>::square(const StaticSolution& solution) : sol(solution)
 {
 }
 
