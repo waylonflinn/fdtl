@@ -9,10 +9,11 @@ This page describes how to compile the executable for solving the Gross-Pitaevsk
     * Fedora Core 8
     * Red Hat Enterprise Linux 5
 
+Explanation of use and applicability can be found on the [HowToUseGPE] page.
 
 = GCC 4.1.2 =
 
   # download the source using subversion as described on the  [http://code.google.com/p/fdtl/source/checkout Source Page]
   # change to the directory created in the step above
-    * `cd fdtl` (`cd fdtl-read-only`, if downloading anonymously)
+    * `cd fdtl` (if downloading anonymously, `cd fdtl-read-only`)
   # type `make mlt_gpe`
