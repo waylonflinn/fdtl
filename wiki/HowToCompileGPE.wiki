@@ -9,7 +9,7 @@ This page describes how to compile the executable for solving the Gross-Pitaevsk
     * Fedora Core 8
     * Red Hat Enterprise Linux 5
 
-Explanation of use and applicability can be found on the [HowToUseGPE] page.
+The following steps will produce an executable named `mlt_gpe`. An explanation of it's use and applicability can be found on the [HowToUseGPE] page.
 
 = GCC 4.1.2 =
 
