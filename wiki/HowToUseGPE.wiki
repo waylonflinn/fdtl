@@ -5,6 +5,10 @@
 
 This page describes the basics of how to employ the executable for solving the Gross-Pitaevskii equation.
 
+These instructions refer to use of the executable which solves the standard GPE in cylindrical coordinates assuming axial symmetry. It was created to model [http://en.wikipedia.org/wiki/Bose-Einstein_condensate BEC] behaviour in an anisotropic cylindrical potential. The version which solves the modified GPE functions identically.
+
+Before the executable may be employed it (most likely) must be compiled from source. Instructions for this can be found on the [HowToCompileGPE] page.
+
 _TODO: add more instructions_
 
 = Details =
