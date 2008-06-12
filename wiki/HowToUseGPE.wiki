@@ -16,14 +16,15 @@ The input file describes the boundary conditions. All boundaries are rectangular
 Each line in the file...
 
   * specifies the condition along an edge of the bounding rectangle.
-  * may be preceded by the words 'Dirichlet' or 'Neumann' to indicate that the line following specifies a boundary condition of that type.
+  * may be preceded by a line containing one of the words 'Dirichlet' or 'Neumann' to indicate that the line following specifies a boundary condition of that type.
   * maps to a boundary based on order. The mapping is as follows:
     * _TODO: add this_
 
 Each character in a line...
 
-  * gives the value at a particular point along the boundary
-  * must be numeric.
+  * must be numeric or whitespace which, respectively,
+    * specifies the value at a particular point along the boundary
+    * separates two of those values
 
 The following is an example which specifies mixed (Neumann and Dirichlet) conditions.
 
