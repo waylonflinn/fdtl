@@ -25,10 +25,20 @@ Each character in a line...
   * gives the value at a particular point along the boundary
   * must be numeric.
 
-An example may be found under version control [http://code.google.com/p/fdtl/source/browse/trunk/sample/input_detail.txt here]
+The following is an example which specifies mixed (Neumann and Dirichlet) conditions.
 
-_TODO: inline an example_
+{{{
+Dirichlet
+0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1
+Dirichlet
+0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1
+Neumann
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+Neumann
+0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+}}}
 
+This example may be found under version control [http://code.google.com/p/fdtl/source/browse/trunk/sample/input_detail.txt here]
 == Command Line Arguments ==
 
 _TODO: add this_
