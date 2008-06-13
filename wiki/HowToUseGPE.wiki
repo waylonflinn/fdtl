@@ -43,7 +43,7 @@ Neumann
 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
 }}}
 
-This example may be found under version control [http://code.google.com/p/fdtl/source/browse/trunk/sample/input_detail.txt here]
+This example may be found under version control, along with other samples, [http://code.google.com/p/fdtl/source/browse/trunk/sample/ here].
 == Command Line Arguments ==
 
 _TODO: add this_
