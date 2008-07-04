@@ -22,10 +22,10 @@ Each line in the file...
   * specifies the condition along an edge of the bounding rectangle.
   * may be preceded by a line containing one of the words 'Dirichlet' or 'Neumann' to indicate that the line following specifies a boundary condition of that type.
   * maps to a boundary based on order. Boundaries are specified clockwise starting at the top; thus, the mapping is as follows:
-    * top (upper bound for x)
-    * right (upper bound for y)
-    * bottom (lower bound for x)
-    * left (lower bound for y)
+    * top (y = ymax)
+    * right (x = xmax)
+    * bottom (y = ymin)
+    * left (x = xmin)
 
 Each character in a line...
 
