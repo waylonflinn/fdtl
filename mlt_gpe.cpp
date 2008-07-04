@@ -18,8 +18,10 @@ double tf(double k, double a, double b);
 
 main(int argc, char* argv[])
 {
+  // create the interface object for this executable
   interface_mlt_gpe inter;
 
+  // process the command line arguments using the interface object
   try{
   inter = interface_mlt_gpe("mlt_gpe", argc, argv);
   }
@@ -38,19 +40,31 @@ main(int argc, char* argv[])
   a = inter.a();
   b = inter.b();
   parm = inter.parameter();
+
+  // if an eigenvalue was supplied use it
   if(inter.eigenvalue_present())
     eig = inter.eigenvalue();
-  else{
+  else // otherwise use the thomas-fermi approximation
+  {
     eig = tf(parm, a, b);
     eig *= 2;
   }
 
+  // create the problem definition
   gross_pitaevskii gpe(inter.I(), inter.J(), inter.x(), inter.y(),
 	     inter.top(), inter.right(), inter.bottom(), inter.left(),
 	     a, b, eig, parm);
+
+  // create the goal (based on residual: a measure of error)
   residual_norm norm(gpe, EPS);
-  solution_norm_cyl<gross_pitaevskii> s_norm(gpe, EPS);
+
+  // create a second goal (not used)
+  //solution_norm_cyl<gross_pitaevskii> s_norm(gpe, EPS);
+
+  // create the smoother (a simple solver)
   gauss_seidel gs(1000);
+
+  // create the multigrid solver using the simple solver
   multigrid mlt(10000, inter.S(), gs);
 
   int I = gpe.I();
@@ -60,16 +74,23 @@ main(int argc, char* argv[])
   int iter;
   ostream& out = inter.output();
 
+  // calculate initial norm and residual for later display
   s_norm0 = solution_norm_cyl<gross_pitaevskii>::norm(gpe);
   norm0 = residual_norm::norm(gpe);
+
+  // solve the problem
   iter = mlt.solve(gpe, norm);
-  half_weighting hw;
+
+  //half_weighting hw;
+
+  // calculate final norm, residual and ratio of norms for later display
   norm1 = residual_norm::norm(gpe);
   ratio = norm1/norm0;
   s_norm1 = solution_norm_cyl<gross_pitaevskii>::norm(gpe);
 
   out.precision(6);
 
+  // print header information
   out << "# initial norm:\t" << norm0 << endl;
   out << "# final norm:\t" << norm1 << endl;
   out << "# ratio:\t" << ratio << endl;
@@ -80,10 +101,14 @@ main(int argc, char* argv[])
 
   out.precision(PRECISION);
 
+  // print solution
   if(!inter.header())
     out << gpe;
 }
 
+/* calculate the thomas-fermi approximation for the equation with the given
+ * interaction parameter and coefficients. 
+ */
 double tf(double k, double a, double b)
 {
   return pow((2 * k)/( M_PI), 1.0/2.0) * pow((a * b), 1.0/4.0);
