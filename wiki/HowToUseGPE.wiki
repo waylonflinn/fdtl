@@ -47,6 +47,13 @@ Neumann
 }}}
 
 This example may be found under version control, along with other samples, [http://code.google.com/p/fdtl/source/browse/trunk/sample/ here].
+
+=== Extras ===
+Several facilities exist as part of the input file system to allow more abbreviated input
+  * if boundary condition type is ommitted 'Dirichlet', is assumed.
+  * boundary condition type may be abbreviated to the first letter of the word and is case insensitive
+  * if a boundary has a constant value it may be abbreviated to a single entry
+ 
 == Command Line Arguments ==
 
 _TODO: add this_
