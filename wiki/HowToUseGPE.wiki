@@ -9,7 +9,14 @@ These instructions refer to use of the executable which solves the standard GPE 
 
 Before the executable may be employed it (most likely) must be compiled from source. Instructions for this can be found on the [HowToCompileGPE] page.
 
-_TODO: add more instructions_
+= Instructions =
+_TODO: expand instructions_
+  # Verify that the input file contains the correct boundary conditions
+  # Determine the options to pass
+   * (how is k determined from lambda?)
+   * (rule-of-thumb or example for number of points to use?)
+  # Evaluate the output to determine if the answer is sufficiently converged given the number of points used and the size of the bounding box specified.
+
 
 = Details =
 
@@ -17,43 +24,48 @@ _TODO: add more instructions_
 
 The input file describes the boundary conditions. All boundaries are rectangular. Each side may be assigned either Dirichlet (value) or Neumann (value of derivative) conditions. Both may occur in the same file.
 
-Each line in the file...
-
-  * specifies the condition along an edge of the bounding rectangle.
-  * may be preceded by a line containing one of the words 'Dirichlet' or 'Neumann' to indicate that the line following specifies a boundary condition of that type.
-  * maps to a boundary based on order. Boundaries are specified clockwise starting at the top; thus, the mapping is as follows:
-    * top (y = ymax)
-    * right (x = xmax)
-    * bottom (y = ymin)
-    * left (x = xmin)
-
-Each character in a line...
-
-  * must be numeric or whitespace which, respectively,
-    * specifies the value at a particular point along the boundary
-    * separates two of those values
-
-The following is an example which specifies mixed (Neumann and Dirichlet) conditions.
-
+For a BEC with axial symmetry, the boundary conditions are that the wave function go to zero at large r or large (positive or negative) z, and that it be continuous when r=0. Thus the rectangular boundary conditions are specified on (0,rmax)x(-zmax,zmax). Boundaries are specified clockwise starting at the top; thus, the mapping is as follows:
+    * top (`z = zmax`)
+    * right (`r = rmax`)
+    * bottom (`z = -zmax`)
+    * left (`r = 0`)
+The input file specifying boundary conditions for an axially-symmetric BEC should be
+(Waylon, please verify that this input file is correct for a BEC)
 {{{
 Dirichlet
-0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1
+0
 Dirichlet
-0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1 0 0 0 0 0 0 0 0 0 0 1 1 1 1 1 1 1 1 1 1
+0
+Dirichlet
+0
 Neumann
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
-Neumann
-0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0
+0
 }}}
 
-This example may be found under version control, along with other samples, [http://code.google.com/p/fdtl/source/browse/trunk/sample/ here].
-
-=== Extras ===
-Several facilities exist as part of the input file system to allow more abbreviated input. These are described below.
-  * if boundary condition type is ommitted 'Dirichlet', is assumed.
-  * boundary condition type may be abbreviated to the first letter of the word and is case insensitive
-  * if a boundary has a constant value it may be abbreviated to a single entry
- 
 == Command Line Arguments ==
+
+To print a usage summary of the command line options to mlt_gpe
+
+{{{mlt_gpe -h}}}
+
+The output of this command yields
+
+mlt_gpe <options> <file> where <options> is zero or more of:
+  * -h      print a usage summary
+  * -d      print only the hea(d)er information for the solution
+  * -I <n>  <n> is the number of points for the first variable (x)
+  * -J <n>  <n> is the number of points for the second variable (y)
+  * -N <n>  <n> is the number of points for both variables
+  * -x <x0> <x1> <x0> is the mininum for the first variable (x) and <x1> is the maximum for the first variable (x)
+  * -y <y0> <y1> <y0> is the mininum for the second variable (y)
+                and <y1> is the maximum for the second variable (y)
+  * -S <n>  <n> is the size of the smallest grid
+  * -a <w>  <w> is the coefficient to the first variable (x)
+  * -b <w>  <w> is the coefficient to the second variable (y)
+  * -e <w>  <w> is the eigenvalue
+  * -k <w>  <w> is the interaction parameter and <file> is a properly formatted file to use for the input (or '-').
+
+
+== Output file ==
 
 _TODO: add this_
