@@ -10,7 +10,7 @@ general descriptions of each of these categories are:
 	a 'problem' represents a finite-differenced partial differential
 	equation (pde) and a tentative solution to it.
 	
-	an 'algoritm' represents a method of solving a correctly and fully
+	an 'algorithm' represents a method of solving a correctly and fully
 	defined pde.
 	
 	a 'goal' is a predicate, or test, which may be used to determine
